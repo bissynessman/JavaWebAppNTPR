@@ -28,8 +28,9 @@ public class RefreshController {
     public String generateRefreshToken(@RequestBody LoginRequest loginRequest) {
         User user = userService.getByUsername(loginRequest.getUsername());
         String password = user.getPassword();
+        String salt = user.getPasswordSalt();
         String username = user.getUsername();
-        if (PasswordUtils.verifyPassword(password, loginRequest.getPassword(), username)) {
+        if (PasswordUtils.verifyPassword(password, loginRequest.getPassword(), salt, username)) {
             JwToken refreshToken = JwtGenerator.makeToken(user.getUsername(), ONE_WEEK);
             refreshTokenService.deleteByUsername(user.getUsername());
             return refreshTokenService.create(refreshToken).getToken();

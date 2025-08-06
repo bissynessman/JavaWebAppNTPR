@@ -27,8 +27,8 @@ class UserServiceTest {
     @BeforeEach
     void setUp() {
         userService = new UserService(userRepository);
-        user = new User("testuuid", "testusername", "testpassword", Role.STUDENT, "testuseruuid");
-        user2 = new User("testuuid2", "testusername2", "testpassword", Role.PROFESSOR, "testuseruuid2");
+        user = new User("testuuid", "testusername", "testpassword", "testsalt", Role.STUDENT, "testuseruuid");
+        user2 = new User("testuuid2", "testusername2", "testpassword", "testsalt2", Role.PROFESSOR, "testuseruuid2");
     }
 
     @Test

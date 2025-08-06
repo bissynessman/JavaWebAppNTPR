@@ -21,8 +21,8 @@ class UserRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        mockUser = new User("testuuid", "testusername", "testpassword", Role.STUDENT, "testuseruuid");
-        mockUser2 = new User("testuuid2", "testusername2", "testpassword2", Role.PROFESSOR, "testuseruuid2");
+        mockUser = new User("testuuid", "testusername", "testpassword", "testsalt", Role.STUDENT, "testuseruuid");
+        mockUser2 = new User("testuuid2", "testusername2", "testpassword2", "testsalt2", Role.PROFESSOR, "testuseruuid2");
         userRepository.create(mockUser);
         userRepository.create(mockUser2);
     }
