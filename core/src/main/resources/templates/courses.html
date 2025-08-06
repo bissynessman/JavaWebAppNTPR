@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Courses</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" th:href="@{/styles.css}">
+        <script th:src="@{/refreshTime.js}" defer></script>
+    </head>
+
+    <body>
+        <div th:replace="~{fragments::dateTime}"></div>
+        <div th:replace="~{fragments::languageSwitch}"></div>
+        <div class="container mt-5">
+            <div th:replace="~{fragments::success}"></div>
+            <div th:replace="~{fragments::error}"></div>
+
+            <h1 class="mb-4" th:text="#{courses.new}"></h1>
+            <form method="POST" th:action="@{/courses}" th:object="${newCourse}">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <td><label for="name" th:text="#{courses.name}"></label></td>
+                            <td><input type="text" id="name" th:field="*{course.name}" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="ects">ECTS:</label></td>
+                            <td><input type="number" min="1" max="7" id="ects" th:field="*{course.ects}" required></td>
+                        </tr>
+                        <tr>
+                            <td><label for="professor" th:text="#{courses.professor} + ': '"></label></td>
+                            <td>
+                                <select id="professor" th:field="*{professorId}" required>
+                                    <option selected style="display: none;" value=""
+                                            th:text="#{courses.select-professor}"></option>
+                                    <option th:each="professor : ${professorList}" th:value="${professor.getId().toString()}"
+                                            th:text="${professor.displayProfessor()}"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><button type="submit" class="btn btnB" th:text="#{courses.add}"></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+
+            <h1 class="mb-4" th:text="#{courses.delete}"></h1>
+            <form method="POST" th:action="@{/courses/delete}" th:object="${courseBuffer}">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">#</th>
+                            <th style="text-align: center;" th:text="#{delete}"></th>
+                            <th th:text="#{courses.name}"></th>
+                            <th>UUID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="course, iterStat : ${coursesList}">
+                            <td style="text-align: center;" th:text="${iterStat.index + 1}"></td>
+                            <td style="text-align: center;"><input type="checkbox" th:field="*{items[__${course.id}__].value}"></td>
+                            <td th:text="${course.name}"></td>
+                            <td>
+                                <input type="hidden" th:value="${course.id}" name="courseIds">
+                                <span th:text="${course.id}"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="submit" class="btn btn-danger" th:text="#{delete-selected}"></button>
+            </form>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

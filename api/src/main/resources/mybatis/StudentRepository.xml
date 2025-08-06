@@ -1,0 +1,61 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tvz.ntpr.ntprdbrestapi.repo.StudentRepository">
+    <resultMap id="base" type="tvz.ntpr.ntprdbrestapi.entity.Student">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="first_name" jdbcType="VARCHAR" property="firstName"/>
+        <result column="last_name" jdbcType="VARCHAR" property="lastName"/>
+        <result column="jmbag" jdbcType="VARCHAR" property="jmbag"/>
+        <result column="major" jdbcType="VARCHAR" property="major"/>
+    </resultMap>
+
+    <insert id="create" parameterType="tvz.ntpr.ntprdbrestapi.entity.Student" keyProperty="id">
+        INSERT
+          INTO `student` (
+                   `id`,
+                   `first_name`,
+                   `last_name`,
+                   `jmbag`,
+                   `major`
+               )
+        VALUES (
+                   #{id,jdbcType=VARCHAR},
+                   #{firstName,jdbcType=VARCHAR},
+                   #{lastName,jdbcType=VARCHAR},
+                   #{jmbag,jdbcType=VARCHAR},
+                   #{major,jdbcType=VARCHAR}
+               )
+    </insert>
+
+    <update id="update" parameterType="tvz.ntpr.ntprdbrestapi.entity.Student" keyProperty="id">
+        UPDATE `student`
+           SET `first_name` = #{firstName,jdbcType=VARCHAR},
+               `last_name`  = #{lastName,jdbcType=VARCHAR},
+               `jmbag`      = #{jmbag,jdbcType=VARCHAR},
+               `major`      = #{major,jdbcType=VARCHAR}
+        <where>
+               `id` = #{id,jdbcType=VARCHAR}
+        </where>
+    </update>
+
+    <delete id="deleteById" parameterType="String">
+        DELETE
+          FROM `student`
+        <where>
+               `id` = #{id,jdbcType=VARCHAR}
+        </where>
+    </delete>
+
+    <select id="findById" parameterType="String" resultMap="base">
+        SELECT *
+          FROM `student`
+        <where>
+               `id` = #{id,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <select id="findAll" resultType="tvz.ntpr.ntprdbrestapi.entity.Student">
+        SELECT *
+          FROM `student`
+    </select>
+</mapper>

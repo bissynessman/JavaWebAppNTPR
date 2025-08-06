@@ -1,0 +1,68 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tvz.ntpr.ntprdbrestapi.repo.RefreshTokenRepository">
+    <resultMap id="base" type="tvz.ntpr.ntprdbrestapi.auth.JwToken">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="token" jdbcType="VARCHAR" property="token"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="valid_until" jdbcType="DATE" property="validUntil"/>
+    </resultMap>
+
+    <insert id="create" parameterType="tvz.ntpr.ntprdbrestapi.auth.JwToken" keyProperty="id">
+        INSERT
+          INTO `tokens` (
+                   `id`,
+                   `token`,
+                   `username`,
+                   `valid_until`
+               )
+        VALUES (
+                   #{id,jdbcType=VARCHAR},
+                   #{token,jdbcType=VARCHAR},
+                   #{username,jdbcType=VARCHAR},
+                   #{validUntil,jdbcType=DATE}
+               )
+    </insert>
+
+    <update id="update" parameterType="tvz.ntpr.ntprdbrestapi.auth.JwToken" keyProperty="id">
+        UPDATE `tokens`
+           SET `token`       = #{token,jdbcType=VARCHAR},
+               `username`    = #{username,jdbcType=VARCHAR},
+               `valid_until` = #{validUntil,jdbcType=DATE}
+        <where>
+               `id` = #{id,jdbcType=VARCHAR}
+        </where>
+    </update>
+
+    <delete id="deleteById" parameterType="String">
+        DELETE
+          FROM `tokens`
+        <where>
+               `id` = #{id,jdbcType=VARCHAR}
+        </where>
+    </delete>
+
+    <select id="findById" parameterType="String" resultMap="base">
+        SELECT *
+          FROM `tokens`
+        <where>
+               `id` = #{id,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <select id="findByToken" parameterType="String" resultMap="base">
+        SELECT *
+          FROM `tokens`
+        <where>
+               `token` = #{token,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <delete id="deleteByUsername" parameterType="String">
+        DELETE
+          FROM `tokens`
+        <where>
+               `username` = #{username,jdbcType=VARCHAR}
+        </where>
+    </delete>
+</mapper>

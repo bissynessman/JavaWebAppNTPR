@@ -1,0 +1,73 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tvz.ntpr.ntprdbrestapi.repo.GradeRepository">
+    <resultMap id="base" type="tvz.ntpr.ntprdbrestapi.entity.Grade">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="grade" jdbcType="INTEGER" property="grade"/>
+        <result column="student" jdbcType="VARCHAR" property="student"/>
+        <result column="course" jdbcType="VARCHAR" property="course"/>
+    </resultMap>
+
+    <insert id="create" parameterType="tvz.ntpr.ntprdbrestapi.entity.Grade" keyProperty="id">
+        INSERT
+          INTO `grade` (
+                   `id`,
+                   `grade`,
+                   `student`,
+                   `course`
+               )
+        VALUES (
+                   #{id,jdbcType=VARCHAR},
+                   #{grade,jdbcType=INTEGER},
+                   #{student,jdbcType=VARCHAR},
+                   #{course,jdbcType=VARCHAR}
+               )
+    </insert>
+
+    <update id="update" parameterType="tvz.ntpr.ntprdbrestapi.entity.Grade" keyProperty="id">
+        UPDATE `grade`
+           SET `grade`   = #{grade,jdbcType=INTEGER},
+               `student` = #{student,jdbcType=VARCHAR},
+               `course`  = #{course,jdbcType=VARCHAR}
+        <where>
+               `id` = #{id,jdbcType=VARCHAR}
+        </where>
+    </update>
+
+    <delete id="deleteById" parameterType="String">
+        DELETE
+          FROM `grade`
+        <where>
+               `id` = #{id,jdbcType=VARCHAR}
+        </where>
+    </delete>
+
+    <select id="findById" parameterType="String" resultMap="base">
+        SELECT *
+          FROM `grade`
+        <where>
+               `id` = #{id,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <select id="findAll" resultType="tvz.ntpr.ntprdbrestapi.entity.Grade">
+        SELECT *
+          FROM `grade`
+    </select>
+
+    <select id="findByStudentId" parameterType="String" resultType="tvz.ntpr.ntprdbrestapi.entity.Grade">
+        SELECT *
+          FROM `grade`
+        <where>
+               `student` = #{studentId,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <select id="findByCourseId" parameterType="String" resultType="tvz.ntpr.ntprdbrestapi.entity.Grade">
+        SELECT *
+          FROM `grade`
+        <where>
+               `course` = #{courseId,jdbcType=VARCHAR}
+        </where>
+    </select>
+</mapper>
