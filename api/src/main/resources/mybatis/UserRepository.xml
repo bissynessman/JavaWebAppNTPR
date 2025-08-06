@@ -5,6 +5,7 @@
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="password_salt" jdbcType="VARCHAR" property="passwordSalt"/>
         <result column="role" jdbcType="VARCHAR" property="role"/>
         <result column="user_uuid" jdbcType="VARCHAR" property="userUuid"/>
     </resultMap>
@@ -15,6 +16,7 @@
                    `id`,
                    `username`,
                    `password`,
+                   `password_salt`,
                    `role`,
                    `user_uuid`
                )
@@ -22,6 +24,7 @@
                    #{id,jdbcType=VARCHAR},
                    #{username,jdbcType=VARCHAR},
                    #{password,jdbcType=VARCHAR},
+                   #{passwordSalt,jdbcType=VARCHAR}
                    #{role,jdbcType=VARCHAR},
                    #{userUuid,jdbcType=VARCHAR}
                )
@@ -29,10 +32,11 @@
 
     <update id="update" parameterType="tvz.ntpr.ntprdbrestapi.entity.User" keyProperty="id">
         UPDATE `user`
-           SET `username`  = #{username,jdbcType=VARCHAR},
-               `password`  = #{password,jdbcType=VARCHAR},
-               `role`      = #{role,jdbcType=VARCHAR},
-               `user_uuid` = #{userUuid,jdbcType=VARCHAR}
+           SET `username`      = #{username,jdbcType=VARCHAR},
+               `password`      = #{password,jdbcType=VARCHAR},
+               `password_salt` = #{passwordSalt,jdbcType=VARCHAR}
+               `role`          = #{role,jdbcType=VARCHAR},
+               `user_uuid`     = #{userUuid,jdbcType=VARCHAR}
         <where>
                `id` = #{id,jdbcType=VARCHAR}
         </where>
