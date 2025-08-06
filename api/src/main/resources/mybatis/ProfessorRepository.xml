@@ -1,14 +1,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="tvz.ntpr.ntprdbrestapi.repo.ProfessorRepository">
-    <resultMap id="base" type="tvz.ntpr.ntprdbrestapi.entity.Professor">
+    <resultMap id="base" type="tvz.ntpr.api.entity.Professor">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="first_name" jdbcType="VARCHAR" property="firstName"/>
         <result column="last_name" jdbcType="VARCHAR" property="lastName"/>
         <result column="authorized" jdbcType="BOOLEAN" property="authorized"/>
     </resultMap>
 
-    <insert id="create" parameterType="tvz.ntpr.ntprdbrestapi.entity.Professor" keyProperty="id">
+    <insert id="create" parameterType="tvz.ntpr.api.entity.Professor" keyProperty="id">
         INSERT
           INTO `professor` (
                    `id`,
@@ -24,7 +24,7 @@
                )
     </insert>
 
-    <update id="update" parameterType="tvz.ntpr.ntprdbrestapi.entity.Professor" keyProperty="id">
+    <update id="update" parameterType="tvz.ntpr.api.entity.Professor" keyProperty="id">
         UPDATE `professor`
            SET `first_name` = #{firstName,jdbcType=VARCHAR},
                `last_name`  = #{lastName,jdbcType=VARCHAR},
@@ -50,12 +50,12 @@
         </where>
     </select>
 
-    <select id="findAll" resultType="tvz.ntpr.ntprdbrestapi.entity.Professor">
+    <select id="findAll" resultType="tvz.ntpr.api.entity.Professor">
         SELECT *
           FROM `professor`
     </select>
     
-    <select id="findAllUnauthorized" resultType="tvz.ntpr.ntprdbrestapi.entity.Professor">
+    <select id="findAllUnauthorized" resultType="tvz.ntpr.api.entity.Professor">
         SELECT *
           FROM `professor`
         <where>
