@@ -55,6 +55,7 @@ public class StudentController {
         authenticationService.refresh();
         User user = (User) model.getAttribute("userLogin");
 
+        // TODO: generate server-side; client downloads through browser
         String studentReportsDirectory = System.getProperty("user.home") + "\\Downloads\\ntpr.student_reports";
         String tmpFile = studentReportsDirectory + "\\student_report.tmp.pdf";
         try {
