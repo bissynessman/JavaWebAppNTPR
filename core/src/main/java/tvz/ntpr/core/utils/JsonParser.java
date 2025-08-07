@@ -9,14 +9,10 @@ public class JsonParser {
     private static final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
     public static <T> T parseIntoObject(String json, Class<T> clazz) throws Exception {
-        T result = objectMapper.readValue(json, clazz);
-
-        return result;
+        return objectMapper.readValue(json, clazz);
     }
 
     public static <T> List<T> parseIntoList(String json, Class<T> clazz) throws Exception {
-        List <T> result = objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, clazz));
-
-        return result;
+        return objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, clazz));
     }
 }
