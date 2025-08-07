@@ -11,8 +11,8 @@
     <groupId>tvz.ntpr</groupId>
     <artifactId>core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ntpr-project</name>
-    <description>ntpr-project</description>
+    <name>core</name>
+    <description>core</description>
     <url/>
     <licenses>
         <license/>
@@ -82,14 +82,9 @@
             <type>pom</type>
         </dependency>
         <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
-            <version>1.70</version>
-        </dependency>
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
-            <version>1.70</version>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>bouncy-castle-adapter</artifactId>
+            <version>9.2.0</version>
         </dependency>
 
         <dependency>

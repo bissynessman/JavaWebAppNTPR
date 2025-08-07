@@ -11,8 +11,8 @@
     <groupId>tvz.ntpr</groupId>
     <artifactId>api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>NTPRDB-REST-API</name>
-    <description>NTPRDB-REST-API</description>
+    <name>api</name>
+    <description>api</description>
     <url/>
     <licenses>
         <license/>
