@@ -46,7 +46,7 @@ public class PasswordUtils {
 
     public static String spice(String password, String salt, String username) {
         StringBuilder stringBuilder = new StringBuilder();
-        int pepperIndex = (int) Integer.toUnsignedLong(username.hashCode()) % pepper.length;
+        int pepperIndex = Math.abs(username.hashCode()) % pepper.length;
 
         stringBuilder.append(password);
         stringBuilder.append(salt);
