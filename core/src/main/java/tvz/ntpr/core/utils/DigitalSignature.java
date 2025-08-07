@@ -1,6 +1,5 @@
 package tvz.ntpr.core.utils;
 
-import com.itextpdf.forms.form.element.SignatureFieldAppearance;
 import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.StampingProperties;
