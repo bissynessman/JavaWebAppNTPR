@@ -5,44 +5,44 @@ DROP TABLE IF EXISTS student CASCADE;
 DROP TABLE IF EXISTS user CASCADE;
 CREATE TABLE course
 (
-	ects              INTEGER     NOT NULL,
 	id                VARCHAR(36) NOT NULL,
-	professor         VARCHAR(36),
 	name              VARCHAR(50) NOT NULL,
+	ects              INTEGER     NOT NULL,
+	professor         VARCHAR(36),
 	PRIMARY KEY (id)
 );
 CREATE TABLE grade
 (
-	grade             INTEGER     NOT NULL,
-	course            VARCHAR(36),
 	id                VARCHAR(36) NOT NULL,
+	course            VARCHAR(36),
 	student           VARCHAR(36),
+	grade             INTEGER     NOT NULL,
 	PRIMARY KEY (id)
 );
 CREATE TABLE professor
 (
-	authorized        BOOLEAN DEFAULT FALSE NOT NULL,
 	id                VARCHAR(36)           NOT NULL,
 	first_name        VARCHAR(50)           NOT NULL,
 	last_name         VARCHAR(50)           NOT NULL,
+	authorized        BOOLEAN DEFAULT FALSE NOT NULL,
 	PRIMARY KEY (id)
 );
 CREATE TABLE student
 (
-	major             VARCHAR(32) NOT NULL,
-	jmbag             VARCHAR(11) NOT NULL,
 	id                VARCHAR(36) NOT NULL,
+	jmbag             VARCHAR(11) NOT NULL,
 	first_name        VARCHAR(50) NOT NULL,
 	last_name         VARCHAR(50) NOT NULL,
+	major             VARCHAR(32) NOT NULL,
 	PRIMARY KEY (id)
 );
 CREATE TABLE user
 (
-	role              VARCHAR(32)  NOT NULL,
 	id                VARCHAR(36)  NOT NULL,
-	user_uuid         VARCHAR(36),
-	password          VARCHAR(255) NOT NULL,
 	username          VARCHAR(32)  NOT NULL,
+	password          VARCHAR(255) NOT NULL,
+	role              VARCHAR(32)  NOT NULL,
+	user_uuid         VARCHAR(36),
 	PRIMARY KEY (id)
 );
 ALTER TABLE course ADD CONSTRAINT courseProfessorConstraint FOREIGN KEY (professor) REFERENCES professor(id);
