@@ -1,0 +1,2 @@
+ALTER TABLE `user`
+  ADD COLUMN `password_salt` VARCHAR(8) NOT NULL DEFAULT '0';
