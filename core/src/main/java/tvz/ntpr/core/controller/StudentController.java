@@ -20,15 +20,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static tvz.ntpr.core.utils.DigitalSignature.sign;
 import static tvz.ntpr.core.utils.HtmlToPdf.*;
 import static tvz.ntpr.core.utils.ModelInitialization.initialize;
-import static tvz.ntpr.core.utils.NotificationJNI.showNotification;
-import static tvz.ntpr.core.utils.URLS.*;
+import static tvz.ntpr.core.utils.NotificationJni.showNotification;
+import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
 @AllArgsConstructor
@@ -57,20 +55,13 @@ public class StudentController {
         authenticationService.refresh();
         User user = (User) model.getAttribute("userLogin");
 
-        // TODO: generate server-side; client downloads through browser
+        // TODO: client downloads through browser
         Path studentReportsDirectory = Paths.get("target", "generated", "student_reports");
         File tmpFile = Paths.get(studentReportsDirectory.toString(), "student_report.tmp.pdf").toFile();
         try {
             Files.createDirectories(studentReportsDirectory);
-
-            scrapeHtmlToPdfFile("http://127.0.0.1:8080/ntpr" + URL_STUDENT,
-                    user.getUserUuid(), tmpFile);
-            File outputFile = Paths.get(studentReportsDirectory.toString(),
-                    "student_report("
-                            + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss"))  // TODO: use timestamp fetched from api
-                            + ").pdf" ).toFile();
-            sign(tmpFile, outputFile);
-
+            scrapeHtmlToPdfFile("http://127.0.0.1:8080/ntpr" + URL_STUDENT, user.getUserUuid(), tmpFile);
+            File outputFile = sign(tmpFile);
             Files.deleteIfExists(tmpFile.toPath());
         } catch (IOException e) {
             e.printStackTrace();
