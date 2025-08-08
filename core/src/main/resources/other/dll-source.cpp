@@ -14,14 +14,14 @@ extern "C" __declspec(dllexport) void PlaySystemSound() {
     MessageBeep(MB_OK);
 }
 
-extern "C" __declspec(dllexport) void JNICALL Java_tvz_ntpr_core_utils_NotificationJNI_showNotification(
+extern "C" __declspec(dllexport) void JNICALL Java_tvz_ntpr_core_utils_NotificationJni_showNotification(
         JNIEnv* env, jobject obj, jstring message) {
     const char* nativeMessage = env->GetStringUTFChars(message, 0);
     ShowNotification(nativeMessage);
     env->ReleaseStringUTFChars(message, nativeMessage);
 }
 
-extern "C" __declspec(dllexport) void JNICALL Java_tvz_ntpr_core_utils_NotificationJNI_playSystemSound(
+extern "C" __declspec(dllexport) void JNICALL Java_tvz_ntpr_core_utils_NotificationJni_playSystemSound(
         JNIEnv* env, jobject obj) {
     PlaySystemSound();
 }
