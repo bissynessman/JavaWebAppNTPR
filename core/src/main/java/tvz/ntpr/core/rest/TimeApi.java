@@ -16,10 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class TimeAPI {
+public class TimeApi {
     private static final String API_URL = "https://api.api-ninjas.com/v1/worldtime?timezone=Europe/Zagreb";
 
-    public String getCurrentTime() {
+    public LocalDateTime getCurrentTime() {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -39,11 +39,10 @@ public class TimeAPI {
 
         if (map != null) {
             String dateTime = map.get("datetime").replace(" ", "T");
-            LocalDateTime localDateTime = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME);
 
-            return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd\nHH:mm:ss"));
+            return LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME);
         }
 
-        return "Fetching error";
+        return LocalDateTime.now();
     }
 }
