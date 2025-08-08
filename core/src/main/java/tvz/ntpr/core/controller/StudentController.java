@@ -15,8 +15,10 @@ import tvz.ntpr.core.service.CourseService;
 import tvz.ntpr.core.service.GradeService;
 import tvz.ntpr.core.service.StudentService;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -56,23 +58,20 @@ public class StudentController {
         User user = (User) model.getAttribute("userLogin");
 
         // TODO: generate server-side; client downloads through browser
-        String studentReportsDirectory = System.getProperty("user.home") + "\\Downloads\\ntpr.student_reports";
-        String tmpFile = studentReportsDirectory + "\\student_report.tmp.pdf";
+        Path studentReportsDirectory = Paths.get("target", "generated", "student_reports");
+        File tmpFile = Paths.get(studentReportsDirectory.toString(), "student_report.tmp.pdf").toFile();
         try {
-            if (!Files.exists(Paths.get(studentReportsDirectory)))
-                Files.createDirectory(Paths.get(studentReportsDirectory));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            Files.createDirectories(studentReportsDirectory);
 
-        scrapeHtmlToPdfFile("http://127.0.0.1:8080/ntpr" + URL_STUDENT,
-                user.getUserUuid(), tmpFile);
-        sign(tmpFile, studentReportsDirectory + "\\student_report"
-                + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss"))
-                + ".pdf");
+            scrapeHtmlToPdfFile("http://127.0.0.1:8080/ntpr" + URL_STUDENT,
+                    user.getUserUuid(), tmpFile);
+            File outputFile = Paths.get(studentReportsDirectory.toString(),
+                    "student_report("
+                            + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss"))  // TODO: use timestamp fetched from api
+                            + ").pdf" ).toFile();
+            sign(tmpFile, outputFile);
 
-        try {
-            Files.deleteIfExists(Paths.get(tmpFile));
+            Files.deleteIfExists(tmpFile.toPath());
         } catch (IOException e) {
             e.printStackTrace();
         }

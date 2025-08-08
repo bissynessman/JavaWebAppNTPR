@@ -6,6 +6,7 @@ import com.itextpdf.kernel.pdf.StampingProperties;
 import com.itextpdf.signatures.*;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
+import java.io.File;
 import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.PrivateKey;
@@ -15,7 +16,7 @@ import java.security.Security;
 public class DigitalSignature {
     private static final String KEYSTORE_PATH = "other/ntpr_keystore.p12";
 
-    public static void sign(String input, String output) {
+    public static void sign(File input, File output) {
         try {
             Security.addProvider(new BouncyCastleProvider());
             char[] keyPassword = "keypass".toCharArray();

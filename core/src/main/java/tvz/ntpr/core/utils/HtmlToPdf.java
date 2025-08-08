@@ -15,9 +15,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 
 public class HtmlToPdf {
-    public static void scrapeHtmlToPdfFile(String url, String userUuid, String outputFilePath) {
+    public static void scrapeHtmlToPdfFile(String url, String userUuid, File outputFilePath) {
         try {
             org.jsoup.nodes.Document htmlDoc = Jsoup.connect(url + "/" + userUuid).get();
             String title = htmlDoc.title();
