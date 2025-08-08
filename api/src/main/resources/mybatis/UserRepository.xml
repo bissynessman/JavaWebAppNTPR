@@ -24,7 +24,7 @@
                    #{id,jdbcType=VARCHAR},
                    #{username,jdbcType=VARCHAR},
                    #{password,jdbcType=VARCHAR},
-                   #{passwordSalt,jdbcType=VARCHAR}
+                   #{passwordSalt,jdbcType=VARCHAR},
                    #{role,jdbcType=VARCHAR},
                    #{userUuid,jdbcType=VARCHAR}
                )
