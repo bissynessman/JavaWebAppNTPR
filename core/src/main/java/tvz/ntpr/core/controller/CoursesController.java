@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static tvz.ntpr.core.utils.ModelInitialization.initialize;
-import static tvz.ntpr.core.utils.URLS.*;
+import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
 @AllArgsConstructor

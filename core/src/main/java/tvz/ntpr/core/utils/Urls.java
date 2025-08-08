@@ -1,6 +1,6 @@
 package tvz.ntpr.core.utils;
 
-public class URLS {
+public class Urls {
     public static final String URL_INDEX = "";
     public static final String URL_STUDENT = "/student";
     public static final String URL_PROFESSOR = "/professor";

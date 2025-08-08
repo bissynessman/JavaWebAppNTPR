@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tvz.ntpr.core.entity.User;
 
 import static tvz.ntpr.core.utils.ModelInitialization.initialize;
-import static tvz.ntpr.core.utils.URLS.*;
+import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
 @AllArgsConstructor

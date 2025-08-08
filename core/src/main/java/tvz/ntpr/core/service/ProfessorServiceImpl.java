@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tvz.ntpr.core.entity.Professor;
-import tvz.ntpr.core.rest.DatabaseAPI;
+import tvz.ntpr.core.rest.DatabaseApi;
 import tvz.ntpr.core.utils.JsonParser;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 @Primary
 @RequiredArgsConstructor
 public class ProfessorServiceImpl implements ProfessorService {
-    private static final String API_URL = DatabaseAPI.PROFESSORS_API;
+    private static final String API_URL = DatabaseApi.PROFESSORS_API;
 
     @Autowired
     private RestTemplate restTemplate;

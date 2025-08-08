@@ -5,12 +5,12 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tvz.ntpr.core.helper.LoginRequest;
-import tvz.ntpr.core.rest.DatabaseAPI;
+import tvz.ntpr.core.rest.DatabaseApi;
 
 @Service
 @Primary
 public class RefreshServiceImpl implements RefreshService {
-    private static final String API_URL = DatabaseAPI.AUTH_API;
+    private static final String API_URL = DatabaseApi.AUTH_API;
 
     private final RestTemplate restTemplate;
 

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tvz.ntpr.core.entity.Student;
-import tvz.ntpr.core.rest.DatabaseAPI;
+import tvz.ntpr.core.rest.DatabaseApi;
 import tvz.ntpr.core.utils.JsonParser;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 @Primary
 public class CronServiceImpl implements CronService {
-    private static final String API_URL = DatabaseAPI.CRON_API;
+    private static final String API_URL = DatabaseApi.CRON_API;
 
     private final RestTemplate restTemplate;
 

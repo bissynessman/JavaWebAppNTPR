@@ -1,8 +1,8 @@
 package tvz.ntpr.core.utils;
 
-public class NotificationJNI {
+public class NotificationJni {
     static {
-        String dllPath = NotificationJNI.class.getClassLoader().getResource("other/native.dll").getPath();
+        String dllPath = NotificationJni.class.getClassLoader().getResource("other/native.dll").getPath();
         System.load(dllPath);
     }
 

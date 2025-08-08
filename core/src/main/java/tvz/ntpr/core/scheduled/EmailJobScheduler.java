@@ -16,7 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import static tvz.ntpr.core.utils.HtmlToPdf.scrapeHtmlToPdfByteArray;
-import static tvz.ntpr.core.utils.URLS.URL_STUDENT;
+import static tvz.ntpr.core.utils.Urls.URL_STUDENT;
 
 @Service
 public class EmailJobScheduler {

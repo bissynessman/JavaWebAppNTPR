@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tvz.ntpr.core.entity.Grade;
-import tvz.ntpr.core.rest.DatabaseAPI;
+import tvz.ntpr.core.rest.DatabaseApi;
 import tvz.ntpr.core.utils.JsonParser;
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @Primary
 @RequiredArgsConstructor
 public class GradeServiceImpl implements GradeService {
-    private static final String API_URL = DatabaseAPI.GRADES_API;
+    private static final String API_URL = DatabaseApi.GRADES_API;
 
     @Autowired
     private RestTemplate restTemplate;

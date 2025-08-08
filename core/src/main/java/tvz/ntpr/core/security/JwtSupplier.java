@@ -6,10 +6,10 @@ import tvz.ntpr.core.helper.JwtHolder;
 import java.util.function.Supplier;
 
 @Component
-public class JwTokenSupplier implements Supplier<JwtHolder> {
+public class JwtSupplier implements Supplier<JwtHolder> {
     private final JwtHolder currentTokens;
 
-    public JwTokenSupplier(JwtHolder jwtHolder) {
+    public JwtSupplier(JwtHolder jwtHolder) {
         this.currentTokens = jwtHolder;
     }
 

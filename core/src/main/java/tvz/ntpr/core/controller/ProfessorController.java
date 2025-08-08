@@ -12,7 +12,7 @@ import tvz.ntpr.core.security.AuthenticationService;
 import tvz.ntpr.core.service.ProfessorService;
 
 import static tvz.ntpr.core.utils.ModelInitialization.initialize;
-import static tvz.ntpr.core.utils.URLS.*;
+import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
 @AllArgsConstructor

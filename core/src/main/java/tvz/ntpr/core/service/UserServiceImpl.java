@@ -6,7 +6,7 @@ import org.springframework.web.client.RestTemplate;
 import tvz.ntpr.core.entity.User;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import tvz.ntpr.core.rest.DatabaseAPI;
+import tvz.ntpr.core.rest.DatabaseApi;
 import tvz.ntpr.core.utils.JsonParser;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 @Primary
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private static final String API_URL = DatabaseAPI.USERS_API;
+    private static final String API_URL = DatabaseApi.USERS_API;
 
     @Autowired
     private RestTemplate restTemplate;
