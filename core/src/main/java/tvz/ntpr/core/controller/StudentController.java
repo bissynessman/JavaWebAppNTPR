@@ -60,7 +60,7 @@ public class StudentController {
         File tmpFile = Paths.get(studentReportsDirectory.toString(), "student_report.tmp.pdf").toFile();
         try {
             Files.createDirectories(studentReportsDirectory);
-            scrapeHtmlToPdfFile("http://127.0.0.1:8080/ntpr" + URL_STUDENT, user.getUserUuid(), tmpFile);
+            scrapeHtmlToPdfFile(BASE_URL + URL_STUDENT, user.getUserUuid(), tmpFile);
             File outputFile = sign(tmpFile);
             Files.deleteIfExists(tmpFile.toPath());
         } catch (IOException e) {
