@@ -15,6 +15,7 @@ import static tvz.ntpr.core.utils.ModelInitialization.initialize;
 import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
+@RequestMapping(URL_PROFESSOR)
 @AllArgsConstructor
 @SessionAttributes({"userLogin", "action"})
 public class ProfessorController {
@@ -23,14 +24,14 @@ public class ProfessorController {
     @Autowired
     private final AuthenticationService authenticationService;
 
-    @GetMapping(URL_PROFESSOR)
+    @GetMapping
     public String showProfessorView(Model model) {
         authenticationService.refresh();
         initModel(model);
         return "professor";
     }
 
-    @PostMapping(URL_PROFESSOR)
+    @PostMapping
     public String handleRedirects(Model model, RedirectAttributes redirectAttributes,
                                   @RequestParam("action") String action) {
         User userLogin = (User) model.getAttribute("userLogin");

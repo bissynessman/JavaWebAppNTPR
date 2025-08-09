@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tvz.ntpr.core.helper.Messages;
 import tvz.ntpr.core.helper.UserToRegister;
@@ -16,6 +17,7 @@ import static tvz.ntpr.core.utils.ModelInitialization.initialize;
 import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
+@RequestMapping(URL_SIGNUP)
 @AllArgsConstructor
 public class SignupController {
     @Autowired
@@ -25,13 +27,13 @@ public class SignupController {
     @Autowired
     private final Messages messages;
 
-    @GetMapping(URL_SIGNUP)
+    @GetMapping
     public String showRegisterView(Model model) {
         initModel(model);
         return "signup";
     }
 
-    @PostMapping(URL_SIGNUP)
+    @PostMapping
     public String processSignup(Model model, RedirectAttributes redirectAttributes,
                                   UserToRegister userToRegister) {
         authenticationService.signup(userToRegister);

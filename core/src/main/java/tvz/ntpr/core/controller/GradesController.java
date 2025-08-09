@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import tvz.ntpr.core.helper.Messages;
 import tvz.ntpr.core.comparator.CourseComparator;
@@ -23,6 +24,7 @@ import static tvz.ntpr.core.utils.ModelInitialization.initialize;
 import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
+@RequestMapping(URL_GRADES)
 @AllArgsConstructor
 @SessionAttributes({"userLogin", "grade"})
 public class GradesController {
@@ -39,7 +41,7 @@ public class GradesController {
     @Autowired
     private final Messages messages;
 
-    @GetMapping(URL_GRADES)
+    @GetMapping
     public String showGradesView(Model model) {
         authenticationService.refresh();
         User userLogin = (User) model.getAttribute("userLogin");
@@ -48,7 +50,7 @@ public class GradesController {
         return "grades";
     }
 
-    @PostMapping(URL_GRADES)
+    @PostMapping
     private String processGradeInput(Model model, Grade grade) {
         authenticationService.refresh();
         User userLogin = (User) model.getAttribute("userLogin");

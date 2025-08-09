@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import tvz.ntpr.core.helper.Messages;
 import tvz.ntpr.core.comparator.ProfessorComparator;
 import tvz.ntpr.core.helper.ProfessorBuffer;
@@ -19,6 +20,7 @@ import static tvz.ntpr.core.utils.ModelInitialization.initialize;
 import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
+@RequestMapping(URL_AUTHORIZATION)
 @AllArgsConstructor
 public class AuthorizationController {
     @Autowired
@@ -28,7 +30,7 @@ public class AuthorizationController {
     @Autowired
     private final Messages messages;
 
-    @GetMapping(URL_AUTHORIZATION)
+    @GetMapping
     public String showAuthorizationView(Model model) {
         authenticationService.refresh();
         User userLogin = (User) model.getAttribute("userLogin");
@@ -36,7 +38,7 @@ public class AuthorizationController {
         return "authorization";
     }
 
-    @PostMapping(URL_AUTHORIZATION)
+    @PostMapping
     public String processAuthorization(Model model, @ModelAttribute ProfessorBuffer professorBuffer) {
         authenticationService.refresh();
         User userLogin = (User) model.getAttribute("userLogin");

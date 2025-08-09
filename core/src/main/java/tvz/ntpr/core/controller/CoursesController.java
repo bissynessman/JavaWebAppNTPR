@@ -26,6 +26,7 @@ import static tvz.ntpr.core.utils.ModelInitialization.initialize;
 import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
+@RequestMapping(URL_COURSES)
 @AllArgsConstructor
 @SessionAttributes("userLogin")
 public class CoursesController {
@@ -38,7 +39,7 @@ public class CoursesController {
     @Autowired
     private final Messages messages;
 
-    @GetMapping(URL_COURSES)
+    @GetMapping
     public String showCoursesView(Model model) {
         authenticationService.refresh();
         User userLogin = (User) model.getAttribute("userLogin");
@@ -46,7 +47,7 @@ public class CoursesController {
         return "courses";
     }
 
-    @PostMapping(URL_COURSES + "/delete")
+    @PostMapping("/delete")
     public String processUpdates(Model model, RedirectAttributes redirectAttributes, @ModelAttribute DeleteBuffer courseBuffer) {
         authenticationService.refresh();
         User userLogin = (User) model.getAttribute("userLogin");
@@ -64,7 +65,7 @@ public class CoursesController {
         return "redirect:" + URL_COURSES;
     }
 
-    @PostMapping(URL_COURSES)
+    @PostMapping
     public String processAddCourse(Model model, @ModelAttribute CourseWrapper newCourse) {
         authenticationService.refresh();
         User userLogin = (User) model.getAttribute("userLogin");

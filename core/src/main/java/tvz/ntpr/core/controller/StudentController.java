@@ -29,6 +29,7 @@ import static tvz.ntpr.core.utils.NotificationJni.showNotification;
 import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
+@RequestMapping(URL_STUDENT)
 @AllArgsConstructor
 @SessionAttributes("userLogin")
 public class StudentController {
@@ -43,14 +44,14 @@ public class StudentController {
     @Autowired
     private final Messages messages;
 
-    @GetMapping(URL_STUDENT)
+    @GetMapping
     public String showStudentView(Model model) {
         authenticationService.refresh();
         initModel(model);
         return "student";
     }
 
-    @GetMapping(URL_STUDENT + "/download")
+    @GetMapping("/download")
     public String saveStudentReport(Model model, RedirectAttributes redirectAttributes) {
         authenticationService.refresh();
         User user = (User) model.getAttribute("userLogin");
@@ -73,7 +74,7 @@ public class StudentController {
         return "redirect:" + URL_STUDENT;
     }
 
-    @GetMapping(URL_STUDENT + "/{studentId}")
+    @GetMapping("/{studentId}")
     public String showStudentView(Model model, @PathVariable("studentId") String studentId) {
         initialize(model, URL_STUDENT + "/" + studentId);
         Student student = studentService.getStudentById(studentId);

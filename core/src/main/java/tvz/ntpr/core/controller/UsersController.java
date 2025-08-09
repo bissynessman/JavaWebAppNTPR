@@ -24,6 +24,7 @@ import static tvz.ntpr.core.utils.PasswordUtils.hashPassword;
 import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
+@RequestMapping(URL_USERS)
 @AllArgsConstructor
 @SessionAttributes("userLogin")
 public class UsersController {
@@ -34,7 +35,7 @@ public class UsersController {
     @Autowired
     private final Messages messages;
 
-    @GetMapping(URL_USERS)
+    @GetMapping
     public String showUsersView(Model model) {
         authenticationService.refresh();
         User userLogin = (User) model.getAttribute("userLogin");
@@ -42,14 +43,14 @@ public class UsersController {
         return "users";
     }
 
-    @GetMapping(URL_USERS + "/edit/{userId}")
+    @GetMapping("/edit/{userId}")
     public String editUser(Model model, @PathVariable String userId) {
         authenticationService.refresh();
         initEditModel(model, userId);
         return "editUser";
     }
 
-    @PostMapping(URL_USERS + "/delete")
+    @PostMapping("/delete")
     public String deleteUser(Model model, RedirectAttributes redirectAttributes,
                              @ModelAttribute DeleteBuffer userBuffer) {
         authenticationService.refresh();
@@ -68,7 +69,7 @@ public class UsersController {
         return "redirect:" + URL_USERS;
     }
 
-    @PostMapping(URL_USERS + "/edit/{userId}")
+    @PostMapping("/edit/{userId}")
     public String processEditUser(Model model, RedirectAttributes redirectAttributes,
                                   @PathVariable String userId, @ModelAttribute User userUpdate) {
         authenticationService.refresh();

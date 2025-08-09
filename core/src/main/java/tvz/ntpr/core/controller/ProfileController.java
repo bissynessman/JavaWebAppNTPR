@@ -25,6 +25,7 @@ import static tvz.ntpr.core.utils.PasswordUtils.hashPassword;
 import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
+@RequestMapping(URL_PROFILE)
 @AllArgsConstructor
 @SessionAttributes({"userToRegister", "profile"})
 public class ProfileController {
@@ -39,14 +40,14 @@ public class ProfileController {
     @Autowired
     private final Messages messages;
 
-    @GetMapping(URL_PROFILE)
+    @GetMapping
     public String showProfileView(Model model) {
         authenticationService.refresh();
         initModel(model);
         return "profile";
     }
 
-    @PostMapping(URL_PROFILE)
+    @PostMapping
     public String handleProfileSetup(Model model, RedirectAttributes redirectAttributes,
                                      UserToRegister userToRegister,
                                      @ModelAttribute("profile") Object profile) {

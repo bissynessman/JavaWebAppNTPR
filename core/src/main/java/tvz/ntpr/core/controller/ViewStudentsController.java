@@ -18,6 +18,7 @@ import static tvz.ntpr.core.utils.ModelInitialization.initialize;
 import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
+@RequestMapping(URL_VIEW_STUDENTS)
 @AllArgsConstructor
 @SessionAttributes({"userLogin", "majorFilter"})
 public class ViewStudentsController {
@@ -26,7 +27,7 @@ public class ViewStudentsController {
     @Autowired
     private final AuthenticationService authenticationService;
 
-    @GetMapping(URL_VIEW_STUDENTS)
+    @GetMapping
     public String showStudentsView(Model model) {
         authenticationService.refresh();
         User userLogin = (User) model.getAttribute("userLogin");
@@ -35,7 +36,7 @@ public class ViewStudentsController {
         return "students";
     }
 
-    @PostMapping(URL_VIEW_STUDENTS)
+    @PostMapping
     public String handleSort(Model model, @ModelAttribute MajorWrapper majorFilter) {
         authenticationService.refresh();
         User userLogin = (User) model.getAttribute("userLogin");
