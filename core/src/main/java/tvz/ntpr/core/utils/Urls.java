@@ -1,6 +1,8 @@
 package tvz.ntpr.core.utils;
 
 public class Urls {
+    public static final String BASE_URL = "http://127.0.0.1:8080/ntpr";
+
     public static final String URL_INDEX = "";
     public static final String URL_STUDENT = "/student";
     public static final String URL_PROFESSOR = "/professor";

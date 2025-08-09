@@ -16,6 +16,7 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import static tvz.ntpr.core.utils.HtmlToPdf.scrapeHtmlToPdfByteArray;
+import static tvz.ntpr.core.utils.Urls.BASE_URL;
 import static tvz.ntpr.core.utils.Urls.URL_STUDENT;
 
 @Service
@@ -36,13 +37,13 @@ public class EmailJobScheduler {
         this.authenticationService = authenticationService;
     }
 
-    @Scheduled(cron = "0 30 18 * * ?")
+    @Scheduled(cron = "0 0 12 1 * ?")
     public void sendStudentReports() {
         List<Student> students = cronService.getAllStudents();
 
         authenticationService.cron();
         for (Student student : students) {
-            byte[] pdfData = scrapeHtmlToPdfByteArray("http://127.0.0.1:8080/ntpr" + URL_STUDENT, student.getId());
+            byte[] pdfData = scrapeHtmlToPdfByteArray(BASE_URL + URL_STUDENT, student.getId());
             String studentEmail = "tvz.java.web.app@gmail.com";
             try {
                 sendEmail(studentEmail, pdfData);
