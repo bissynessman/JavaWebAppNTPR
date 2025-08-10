@@ -63,6 +63,7 @@ public class StudentController {
             File outputFile = sign(tmpFile);
             Files.deleteIfExists(tmpFile.toPath());
             // TODO: expose file to download endpoint; call ntpr protocol
+            // maybe store file in database and download using uuid? - uses blob ;)
         } catch (IOException e) {
             e.printStackTrace();
         }
