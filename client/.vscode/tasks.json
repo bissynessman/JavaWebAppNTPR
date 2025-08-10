@@ -1,0 +1,84 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "Build DLL download manager",
+            "command": "C:/msys64/ucrt64/bin/g++.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+				"-I", "C:\\Program Files (x86)\\vcpkg\\installed\\x64-windows\\include",
+				"-L", "C:\\Program Files (x86)\\vcpkg\\installed\\x64-windows\\lib",
+                "-g", "${workspaceFolder}\\source\\download_mng.cpp",
+                "-o", "${workspaceFolder}\\bin\\protocol_handler embedded dlls\\download_mng.dll",
+                "-lcurl",
+                "-lole32",
+                "-lcomctl32",
+                "-lshell32",
+                "-luser32",
+                "-lgdi32",
+                "-ladvapi32",
+                "-lws2_32",
+                "-luuid",
+                "-shared"
+            ],
+            "options": {
+                "cwd": "C:/msys64/ucrt64/bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "detail": "Build download manager as a DLL"
+        },
+		{
+			"type": "shell",
+			"label": "Build Python protocol handler",
+			"command": "pyinstaller.exe",
+			"args": [
+				"--onefile",
+				"--noconsole",
+				"--add-binary", "${workspaceFolder}\\bin\\protocol_handler embedded dlls\\download_mng.dll;.",
+				"--add-binary", "${workspaceFolder}\\bin\\protocol_handler embedded dlls\\libcurl.dll;.",
+				"--specpath", "${workspaceFolder}\\build artifacts\\PyInstaller",
+				"--workpath", "${workspaceFolder}\\build artifacts\\PyInstaller",
+				"--clean",
+				"--distpath", "bin",
+				"${workspaceFolder}\\source\\protocol_handler.py"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			},
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"detail": "Build protocol handler as an EXE with embedded DLLs"
+		},
+		{
+			"type": "shell",
+			"label": "Build protocol handler installer",
+			"command": "ISCC.exe",
+			"args": [
+				"/O\"${workspaceFolder}\\bin\"",
+				"\"${workspaceFolder}\\source\\protocol_handler_installer.iss\""
+			],
+			"options": {
+				"cwd": "${workspaceFolder}",
+				"shell": {
+					"executable": "cmd.exe"
+				}
+			},
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"detail": "Build protocol handler installer via Inno Setup"
+		}
+    ]
+}
