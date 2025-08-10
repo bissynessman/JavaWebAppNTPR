@@ -33,8 +33,7 @@ JavaWebAppNTPR/
 └── client/
   ├── source/
   ├── bin/
-  ├── compile scripts/
-  └── build artifacts/
+  └── compile scripts/
 ```
 
 Each module has its own `pom.xml` and can be run independently.
