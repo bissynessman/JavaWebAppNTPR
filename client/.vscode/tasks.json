@@ -3,7 +3,7 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "Build DLL download manager",
+            "label": "Download manager Build",
             "command": "C:/msys64/ucrt64/bin/g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
@@ -36,7 +36,7 @@
         },
 		{
 			"type": "shell",
-			"label": "Build Python protocol handler",
+			"label": "Protocol handler Build",
 			"command": "pyinstaller.exe",
 			"args": [
 				"--onefile",
@@ -61,17 +61,14 @@
 		},
 		{
 			"type": "shell",
-			"label": "Build protocol handler installer",
+			"label": "Protocol handler installer Build",
 			"command": "ISCC.exe",
 			"args": [
 				"/O\"${workspaceFolder}\\bin\"",
 				"\"${workspaceFolder}\\source\\protocol_handler_installer.iss\""
 			],
 			"options": {
-				"cwd": "${workspaceFolder}",
-				"shell": {
-					"executable": "cmd.exe"
-				}
+				"cwd": "${workspaceFolder}"
 			},
 			"problemMatcher": [],
 			"group": {
@@ -79,6 +76,15 @@
 				"isDefault": false
 			},
 			"detail": "Build protocol handler installer via Inno Setup"
+		},
+		{
+			"label": "Build",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"Download manager Build",
+				"Protocol handler Build",
+				"Protocol handler installer Build"
+			]
 		}
     ]
 }

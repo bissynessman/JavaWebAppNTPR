@@ -1,14 +1,14 @@
 [Setup]
 AppName=NTPR Protocol Handler
 AppVersion=1.0
-DefaultDirName={pf}\NtprProtocolHandler
+DefaultDirName={commonpf}\NtprProtocolHandler
 DefaultGroupName=NtprProtocolHandler
-OutputBaseFilename=NtprProtocolHandlerInstaller
+OutputBaseFilename=Ntpr-Protocol-Handler Installer
 Compression=lzma
 SolidCompression=yes
 
 [Files]
-Source: "dist\protocol_handler.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\protocol_handler.exe"; DestDir: "{app}"; Flags: ignoreversion
 
 [Registry]
 Root: HKCR; Subkey: "ntpr"; ValueType: string; ValueName: ""; ValueData: "URL:NTPR Protocol"; Flags: uninsdeletekey
