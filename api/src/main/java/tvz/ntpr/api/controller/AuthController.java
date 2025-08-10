@@ -21,10 +21,13 @@ public class AuthController {
     private static final long TEN_MINUTES = 600000;
     private static final long ONE_WEEK = 604800000;
 
-    @Autowired
-    private RefreshTokenService refreshTokenService;
-    @Autowired
-    private UserService userService;
+    private final RefreshTokenService refreshTokenService;
+    private final UserService userService;
+
+    public AuthController(RefreshTokenService refreshTokenService, UserService userService) {
+        this.refreshTokenService = refreshTokenService;
+        this.userService = userService;
+    }
 
     @PostMapping
     public String generateRefreshToken(@RequestBody LoginRequest loginRequest) {

@@ -1,6 +1,5 @@
 package tvz.ntpr.api.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tvz.ntpr.api.entity.Course;
 import tvz.ntpr.api.entity.Grade;
@@ -14,13 +13,12 @@ import static tvz.ntpr.api.config.Urls.*;
 @RestController
 @RequestMapping(URL_COURSE)
 public class CourseController {
-    @Autowired
-    private CourseService courseService;
-    @Autowired
-    private GradeService gradeService;
+    private final CourseService courseService;
+    private final GradeService gradeService;
 
-    public CourseController(CourseService courseService) {
+    public CourseController(CourseService courseService, GradeService gradeService) {
         this.courseService = courseService;
+        this.gradeService = gradeService;
     }
 
     @GetMapping

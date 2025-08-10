@@ -1,6 +1,5 @@
 package tvz.ntpr.api.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tvz.ntpr.api.entity.Grade;
 import tvz.ntpr.api.service.GradeService;
@@ -12,8 +11,7 @@ import static tvz.ntpr.api.config.Urls.*;
 @RestController
 @RequestMapping(URL_GRADE)
 public class GradeController {
-    @Autowired
-    private GradeService gradeService;
+    private final GradeService gradeService;
 
     public GradeController(GradeService gradeService) {
         this.gradeService = gradeService;

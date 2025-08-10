@@ -1,6 +1,5 @@
 package tvz.ntpr.api.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +13,11 @@ import static tvz.ntpr.api.config.Urls.URL_CRON;
 @RestController
 @RequestMapping(URL_CRON)
 public class CronController {
-    @Autowired
-    private CronService cronService;
+    private final CronService cronService;
+
+    public CronController(CronService cronService) {
+        this.cronService = cronService;
+    }
 
     @GetMapping
     public List<Student> cron() {
