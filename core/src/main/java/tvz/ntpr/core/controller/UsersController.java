@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 import static tvz.ntpr.core.utils.ModelInitialization.initialize;
 import static tvz.ntpr.core.utils.PasswordUtils.hashPassword;
-import static tvz.ntpr.core.utils.Urls.*;
+import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 @RequestMapping(URL_USERS)

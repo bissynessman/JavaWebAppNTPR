@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.Locale;
 
 import static tvz.ntpr.core.utils.ModelInitialization.initialize;
-import static tvz.ntpr.core.utils.Urls.*;
+import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 @AllArgsConstructor

@@ -1,4 +1,4 @@
-package tvz.ntpr.core.utils;
+package tvz.ntpr.core.config;
 
 public class Urls {
     public static final String BASE_URL = "http://127.0.0.1:8080/ntpr";
