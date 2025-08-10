@@ -3,7 +3,6 @@ AppName=NTPR Protocol Handler
 AppVersion=1.0
 DefaultDirName={pf}\NtprProtocolHandler
 DefaultGroupName=NtprProtocolHandler
-OutputDir=..\bin
 OutputBaseFilename=NtprProtocolHandlerInstaller
 Compression=lzma
 SolidCompression=yes

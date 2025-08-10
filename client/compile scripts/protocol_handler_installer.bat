@@ -1,1 +1,1 @@
-"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "..\source\protocol_handler_installer.iss"
+"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" /O"..\bin" "..\source\protocol_handler_installer.iss"

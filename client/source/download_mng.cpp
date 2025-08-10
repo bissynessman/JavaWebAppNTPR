@@ -15,6 +15,7 @@ HWND hProgressBar;
 HWND hWnd;
 HWND hLabelFile;
 HWND hLabelStats;
+HWND hLabelPercent;
 long gBandwidthLimit = 0;
 std::chrono::steady_clock::time_point gStartTime;
 std::string gFilename;
@@ -70,6 +71,9 @@ int progress_callback(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_
     if (dltotal > 0) {
         int percent = static_cast<int>((dlnow * 100) / dltotal);
         SendMessage(hProgressBar, PBM_SETPOS, percent, 0);
+		std::ostringstream percentStr;
+        percentStr << percent << "%";
+        SetWindowTextW(hLabelPercent, utf8_to_wstring(percentStr.str()).c_str());
 
         auto now = std::chrono::steady_clock::now();
         double elapsedSec = std::chrono::duration<double>(now - gStartTime).count();
@@ -101,7 +105,7 @@ void make_window() {
     RegisterClassW(&wc);
 
 	// Window creation
-    hWnd = CreateWindowW(utf8_to_wstring(CLASS_NAME).c_str(), utf8_to_wstring("Downloading File").c_str(),
+    hWnd = CreateWindowW(utf8_to_wstring(CLASS_NAME).c_str(), utf8_to_wstring("Downloading...").c_str(),
                         WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX,
                         CW_USEDEFAULT, CW_USEDEFAULT, 320, 150,
                         NULL, NULL, GetModuleHandle(NULL), NULL);
@@ -115,10 +119,14 @@ void make_window() {
 
     hProgressBar = CreateWindowEx(0, PROGRESS_CLASS, NULL,
                                   WS_CHILD | WS_VISIBLE,
-                                  10, 40, 280, 20,
+                                  10, 40, 220, 20,
                                   hWnd, NULL, GetModuleHandle(NULL), NULL);
-	
     SendMessage(hProgressBar, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
+
+	hLabelPercent = CreateWindowW(utf8_to_wstring("STATIC").c_str(), utf8_to_wstring("0%").c_str(),
+                            	 WS_CHILD | WS_VISIBLE | SS_RIGHT,
+                                 240, 40, 60, 20,
+                                 hWnd, NULL, GetModuleHandle(NULL), NULL);
 
     hLabelStats = CreateWindowW(utf8_to_wstring("STATIC").c_str(), utf8_to_wstring("0 KB/s - ETA: 0m 0s").c_str(),
                                WS_CHILD | WS_VISIBLE,
