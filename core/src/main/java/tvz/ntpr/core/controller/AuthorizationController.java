@@ -1,7 +1,5 @@
 package tvz.ntpr.core.controller;
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,14 +19,18 @@ import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 @RequestMapping(URL_AUTHORIZATION)
-@AllArgsConstructor
 public class AuthorizationController {
-    @Autowired
     private final ProfessorService professorService;
-    @Autowired
     private final AuthenticationService authenticationService;
-    @Autowired
     private final Messages messages;
+
+    public AuthorizationController(ProfessorService professorService,
+                                   AuthenticationService authenticationService,
+                                   Messages messages) {
+        this.professorService = professorService;
+        this.authenticationService = authenticationService;
+        this.messages = messages;
+    }
 
     @GetMapping
     public String showAuthorizationView(Model model) {

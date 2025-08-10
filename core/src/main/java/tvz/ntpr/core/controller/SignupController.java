@@ -1,7 +1,5 @@
 package tvz.ntpr.core.controller;
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,14 +16,16 @@ import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 @RequestMapping(URL_SIGNUP)
-@AllArgsConstructor
 public class SignupController {
-    @Autowired
     private final UserService userService;
-    @Autowired
     private final AuthenticationService authenticationService;
-    @Autowired
     private final Messages messages;
+
+    public SignupController(UserService userService, AuthenticationService authenticationService, Messages messages) {
+        this.userService = userService;
+        this.authenticationService = authenticationService;
+        this.messages = messages;
+    }
 
     @GetMapping
     public String showRegisterView(Model model) {

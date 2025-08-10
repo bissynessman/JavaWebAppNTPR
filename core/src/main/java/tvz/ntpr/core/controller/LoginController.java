@@ -1,7 +1,5 @@
 package tvz.ntpr.core.controller;
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tvz.ntpr.core.helper.JwtHolder;
@@ -20,16 +18,21 @@ import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 @RequestMapping(URL_LOGIN)
-@AllArgsConstructor
 public class LoginController {
-    @Autowired
     private final UserService userService;
-    @Autowired
     private final AuthenticationService authenticationService;
-    @Autowired
     private final Messages messages;
-    @Autowired
     private final JwtHolder jwtHolder;
+
+    public LoginController(UserService userService,
+                           AuthenticationService authenticationService,
+                           Messages messages,
+                           JwtHolder jwtHolder) {
+        this.userService = userService;
+        this.authenticationService = authenticationService;
+        this.messages = messages;
+        this.jwtHolder = jwtHolder;
+    }
 
     @GetMapping
     public String showLoginView(Model model) {

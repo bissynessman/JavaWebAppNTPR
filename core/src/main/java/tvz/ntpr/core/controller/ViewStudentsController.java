@@ -1,7 +1,5 @@
 package tvz.ntpr.core.controller;
 
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +17,15 @@ import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 @RequestMapping(URL_VIEW_STUDENTS)
-@AllArgsConstructor
 @SessionAttributes({"userLogin", "majorFilter"})
 public class ViewStudentsController {
-    @Autowired
     private final StudentService studentService;
-    @Autowired
     private final AuthenticationService authenticationService;
+
+    public ViewStudentsController(StudentService studentService, AuthenticationService authenticationService) {
+        this.studentService = studentService;
+        this.authenticationService = authenticationService;
+    }
 
     @GetMapping
     public String showStudentsView(Model model) {

@@ -2,7 +2,6 @@ package tvz.ntpr.core.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +16,12 @@ import static tvz.ntpr.core.utils.ModelInitialization.initialize;
 import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
-@AllArgsConstructor
 public class IndexController {
     private final LocaleResolver localeResolver;
+
+    public IndexController(LocaleResolver localeResolver) {
+        this.localeResolver = localeResolver;
+    }
 
     @GetMapping(URL_INDEX)
     public String index(Model model) {
@@ -27,7 +29,7 @@ public class IndexController {
         return "index";
     }
 
-    @PostMapping(CHANGE_LANGUAGE)
+    @PostMapping(URL_CHANGE_LANGUAGE)
     public String changeLanguage(@RequestParam("lang") String lang, @RequestParam("redirect") String redirect,
                                  RedirectAttributes redirectAttributes,
                                  HttpServletRequest request, HttpServletResponse response) {
