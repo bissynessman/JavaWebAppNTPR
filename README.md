@@ -10,13 +10,12 @@ A Spring Boot multi-module project consisting of three related applications in o
 
 ## Table of Contents
 
-1. [Project Structure](#project-structure)  
-2. [Features](#features)  
-3. [Prerequisites](#prerequisites)  
-4. [Build & Run](#build--run)  
-5. [Dependencies](#dependencies)  
-6. [Configuration](#configuration)  
-9. [Troubleshooting & Notes](#troubleshooting--notes)  
+1. [Project Structure](#project-structure)
+2. [Features](#features)
+3. [Technologies](#technologies)
+4. [Prerequisites](#prerequisites)
+5. [Configuration](#configuration)
+6. [Notes](#notes)
 
 ---
 
