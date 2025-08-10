@@ -25,7 +25,6 @@ import java.util.List;
 import static tvz.ntpr.core.utils.DigitalSignature.sign;
 import static tvz.ntpr.core.utils.HtmlToPdf.*;
 import static tvz.ntpr.core.utils.ModelInitialization.initialize;
-import static tvz.ntpr.core.utils.NotificationJni.showNotification;
 import static tvz.ntpr.core.utils.Urls.*;
 
 @Controller
@@ -56,7 +55,6 @@ public class StudentController {
         authenticationService.refresh();
         User user = (User) model.getAttribute("userLogin");
 
-        // TODO: client downloads through browser
         Path studentReportsDirectory = Paths.get("target", "generated", "student_reports");
         File tmpFile = Paths.get(studentReportsDirectory.toString(), "student_report.tmp.pdf").toFile();
         try {
@@ -64,11 +62,10 @@ public class StudentController {
             scrapeHtmlToPdfFile(BASE_URL + URL_STUDENT, user.getUserUuid(), tmpFile);
             File outputFile = sign(tmpFile);
             Files.deleteIfExists(tmpFile.toPath());
+            // TODO: expose file to download endpoint; call ntpr protocol
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        showNotification(messages.getMessage("success.download"));
 
         redirectAttributes.addFlashAttribute("success", messages.getMessage("success.download"));
         return "redirect:" + URL_STUDENT;
