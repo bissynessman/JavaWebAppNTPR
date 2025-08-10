@@ -25,7 +25,7 @@ import java.util.List;
 import static tvz.ntpr.core.utils.DigitalSignature.sign;
 import static tvz.ntpr.core.utils.HtmlToPdf.*;
 import static tvz.ntpr.core.utils.ModelInitialization.initialize;
-import static tvz.ntpr.core.utils.Urls.*;
+import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 @RequestMapping(URL_STUDENT)
