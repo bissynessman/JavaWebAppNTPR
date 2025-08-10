@@ -3,5 +3,5 @@
   - generated PDFs
   - automatically erase entry for given student upon new generation
 - digital signature verification | ***`prijavnica`***
-- calculated field in database | ***`prijavnica`***
-  - user: name = first name + last name
+- ~~calculated field in database | ***`prijavnica`***~~
+  - ~~user: name = first name + last name~~
