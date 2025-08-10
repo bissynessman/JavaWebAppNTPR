@@ -24,7 +24,7 @@ import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 @RequestMapping(URL_PROFILE)
-@SessionAttributes({"userToRegister", "profile"})
+@SessionAttributes({ "userToRegister", "profile" })
 public class ProfileController {
     private final UserService userService;
     private final ProfessorService professorService;

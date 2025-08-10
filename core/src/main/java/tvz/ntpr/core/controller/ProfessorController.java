@@ -14,7 +14,7 @@ import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 @RequestMapping(URL_PROFESSOR)
-@SessionAttributes({"userLogin", "action"})
+@SessionAttributes({ "userLogin", "action" })
 public class ProfessorController {
     private final ProfessorService professorService;
     private final AuthenticationService authenticationService;

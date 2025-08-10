@@ -23,7 +23,7 @@ import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 @RequestMapping(URL_GRADES)
-@SessionAttributes({"userLogin", "grade"})
+@SessionAttributes({ "userLogin", "grade" })
 public class GradesController {
     private final GradeService gradeService;
     private final StudentService studentService;

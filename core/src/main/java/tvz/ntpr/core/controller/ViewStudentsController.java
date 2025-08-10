@@ -17,7 +17,7 @@ import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 @RequestMapping(URL_VIEW_STUDENTS)
-@SessionAttributes({"userLogin", "majorFilter"})
+@SessionAttributes({ "userLogin", "majorFilter" })
 public class ViewStudentsController {
     private final StudentService studentService;
     private final AuthenticationService authenticationService;
