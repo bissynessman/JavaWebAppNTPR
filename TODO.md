@@ -1,4 +1,4 @@
-- download percentage
+- ~~download percentage~~
 - blob field in database
   - generated PDFs
   - automatically erase entry for given student upon new generation
