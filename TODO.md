@@ -1,7 +1,7 @@
 - download percentage
-- calculated field in database ***prijavnica***
+- calculated field in database | ***`prijavnica`***
   - user: name = first name + last name
 - blob field in database
   - generated PDFs
   - automatically erase entry for given student upon new generation
-- digital signature verification ***prijavnica***
+- digital signature verification | ***`prijavnica`***
