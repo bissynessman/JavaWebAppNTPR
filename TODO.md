@@ -1,7 +1,7 @@
 - ~~download percentage~~
-- blob field in database
-  - generated PDFs
-  - automatically erase entry for given student upon new generation
+- ~~blob field in database~~
+  - ~~generated PDFs~~
+  - ~~automatically erase entry for given student upon new generation~~
 - digital signature verification | ***`prijavnica`***
 - ~~calculated field in database~~
   - ~~user: name = first name + last name~~
