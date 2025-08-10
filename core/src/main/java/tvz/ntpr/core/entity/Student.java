@@ -13,6 +13,8 @@ public class Student {
     private String lastName;
     private Major major;
 
+    private String name;
+
     public Student() {}
 
     public String displayStudent() {

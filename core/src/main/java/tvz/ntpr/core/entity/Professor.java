@@ -11,6 +11,8 @@ public class Professor {
     private String lastName;
     private boolean authorized;
 
+    private String name;
+
     public Professor() {}
 
     public String displayProfessor() {

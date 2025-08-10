@@ -8,6 +8,8 @@ public class Student extends BaseEntity {
     private String lastName;
     private Major major;
 
+    private String name;
+
     public Student() {
         super(null);
     }
@@ -40,6 +42,10 @@ public class Student extends BaseEntity {
         return this.major;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setId(final String id) {
         super.setId(id);
     }
@@ -58,5 +64,9 @@ public class Student extends BaseEntity {
 
     public void setMajor(final Major major) {
         this.major = major;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

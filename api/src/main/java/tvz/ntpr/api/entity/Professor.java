@@ -5,6 +5,8 @@ public class Professor extends BaseEntity {
     private String lastName;
     private boolean authorized;
 
+    private String name;
+
     public Professor() {
         super(null);
     }
@@ -32,6 +34,10 @@ public class Professor extends BaseEntity {
         return this.authorized;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setId(final String id) {
         super.setId(id);
     }
@@ -46,5 +52,9 @@ public class Professor extends BaseEntity {
 
     public void setAuthorized(final boolean authorized) {
         this.authorized = authorized;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

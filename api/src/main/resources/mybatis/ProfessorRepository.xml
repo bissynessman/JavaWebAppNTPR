@@ -6,6 +6,7 @@
         <result column="first_name" jdbcType="VARCHAR" property="firstName"/>
         <result column="last_name" jdbcType="VARCHAR" property="lastName"/>
         <result column="authorized" jdbcType="BOOLEAN" property="authorized"/>
+        <result column="full_name" jdbcType="VARCHAR" property="name"/>
     </resultMap>
 
     <insert id="create" parameterType="tvz.ntpr.api.entity.Professor" keyProperty="id">
@@ -43,10 +44,12 @@
     </delete>
 
     <select id="findById" parameterType="String" resultMap="base">
-        SELECT *
-          FROM `professor`
+        SELECT *,
+               CONCAT(`p`.`first_name`, ' ', `p`.`last_name`, ' (', `u`.`username`, ')') AS full_name
+          FROM `professor` AS `p`
+          JOIN `user` AS `u` ON `u`.`user_uuid` = `p`.`id`
         <where>
-               `id` = #{id,jdbcType=VARCHAR}
+               `p`.`id` = #{id,jdbcType=VARCHAR}
         </where>
     </select>
 

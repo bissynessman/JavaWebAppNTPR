@@ -7,6 +7,7 @@
         <result column="last_name" jdbcType="VARCHAR" property="lastName"/>
         <result column="jmbag" jdbcType="VARCHAR" property="jmbag"/>
         <result column="major" jdbcType="VARCHAR" property="major"/>
+        <result column="full_name" jdbcType="VARCHAR" property="name"/>
     </resultMap>
 
     <insert id="create" parameterType="tvz.ntpr.api.entity.Student" keyProperty="id">
@@ -47,10 +48,12 @@
     </delete>
 
     <select id="findById" parameterType="String" resultMap="base">
-        SELECT *
-          FROM `student`
+        SELECT *,
+               CONCAT(`s`.`first_name`, ' ', `s`.`last_name`, ' (', `u`.`username`, ')') AS full_name
+          FROM `student` AS `s`
+          JOIN `user` AS `u` ON `u`.`user_uuid` = `s`.`id`
         <where>
-               `id` = #{id,jdbcType=VARCHAR}
+               `s`.`id` = #{id,jdbcType=VARCHAR}
         </where>
     </select>
 

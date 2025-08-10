@@ -16,8 +16,7 @@
 
             <div class="card mb-4">
                 <div class="card-body">
-                    <p><strong th:text="#{first-name} + ': '"></strong><span th:text="${professor.firstName}"></span></p>
-                    <p><strong th:text="#{last-name} + ': '"></strong><span th:text="${professor.lastName}"></span></p>
+                    <p><strong th:text="#{name} + ': '"></strong><span th:text="${professor.name}"></span></p>
                     <p><strong th:text="#{professor.authorization} + ': '"></strong>
                         <span th:if="${!professor.isAuthorized()}" class="error-message"
                               th:text="#{authorization.invalid}"></span>
