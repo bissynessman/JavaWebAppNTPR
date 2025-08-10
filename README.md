@@ -1,9 +1,10 @@
 # NTPR Project - Java Web App
 
-A Spring Boot multi-module project consisting of two related applications in one repository:
+A Spring Boot multi-module project consisting of three related applications in one repository:
 
 - **api** — a REST API that acts as the interface to the database.  
 - **core** — the core functionality.
+- **client** — a client-side app for managing downloads via a DLL.
 
 ---
 
