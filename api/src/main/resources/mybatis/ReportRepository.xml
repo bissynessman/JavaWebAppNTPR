@@ -1,0 +1,73 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tvz.ntpr.api.repo.ReportRepository">
+    <resultMap id="base" type="tvz.ntpr.api.entity.Report">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="data" jdbcType="BLOB" property="data"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
+        <result column="student" jdbcType="VARCHAR" property="student"/>
+    </resultMap>
+
+    <insert id="create" parameterType="tvz.ntpr.api.entity.User" keyProperty="id">
+        INSERT
+          INTO `report` (
+                   `id`,
+                   `data`,
+                   `file_name`,
+                   `student_id`
+               )
+        VALUES (
+                   #{id,jdbcType=VARCHAR},
+                   #{data,jdbcType=BLOB},
+                   #{fileName,jdbcType=VARCHAR},
+                   #{student,jdbcType=VARCHAR}
+               )
+    </insert>
+
+    <update id="update" parameterType="tvz.ntpr.api.entity.Report" keyProperty="id">
+        UPDATE `report`
+           SET `data`       = #{username,jdbcType=BLOB},
+               `file_name`  = #{password,jdbcType=VARCHAR},
+               `student_id` = #{passwordSalt,jdbcType=VARCHAR}
+        <where>
+               `id` = #{id,jdbcType=VARCHAR}
+        </where>
+    </update>
+
+    <delete id="deleteById" parameterType="String">
+        DELETE
+          FROM `report`
+        <where>
+               `id` = #{id,jdbcType=VARCHAR}
+        </where>
+    </delete>
+
+    <select id="findById" parameterType="String" resultMap="base">
+        SELECT *
+          FROM `report`
+        <where>
+               `id` = #{id,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <select id="findAll" resultType="tvz.ntpr.api.entity.Report">
+        SELECT *
+          FROM `report`
+    </select>
+
+    <select id="findByStudentId" parameterType="String" resultMap="base">
+        SELECT *
+          FROM `report`
+        <where>
+               `student_id` = #{studentId,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <delete id="deleteByStudentId" parameterType="String">
+        DELETE *
+          FROM `report`
+        <where>
+               `student_id` = #{studentId,jdbcType=VARCHAR}
+        </where>
+    </delete>
+</mapper>
