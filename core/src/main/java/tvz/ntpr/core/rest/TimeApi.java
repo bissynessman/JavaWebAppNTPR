@@ -18,12 +18,15 @@ import java.util.Map;
 @Service
 public class TimeApi {
     private static final String API_URL = "https://api.api-ninjas.com/v1/worldtime?timezone=Europe/Zagreb";
+    private static final String X_API_HEADER = "X-Api-Key";
+    private static final String API_KEY = "ql3+i8rS/RDUrUHd591kJg==hG8YGGDTeWNTly2q";
+    private static final String DATETIME_RESULT = "datetime";
 
     public LocalDateTime getCurrentTime() {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set("X-Api-Key", "ql3+i8rS/RDUrUHd591kJg==hG8YGGDTeWNTly2q");
+        headers.set(X_API_HEADER, API_KEY);
 
         HttpEntity<String> request = new HttpEntity<>(headers);
 
@@ -38,7 +41,7 @@ public class TimeApi {
         }
 
         if (map != null) {
-            String dateTime = map.get("datetime").replace(" ", "T");
+            String dateTime = map.get(DATETIME_RESULT).replace(" ", "T");
 
             return LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME);
         }

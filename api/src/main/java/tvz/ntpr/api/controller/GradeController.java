@@ -7,8 +7,10 @@ import tvz.ntpr.api.service.GradeService;
 
 import java.util.List;
 
+import static tvz.ntpr.api.config.Urls.*;
+
 @RestController
-@RequestMapping("/grades")
+@RequestMapping(URL_GRADE)
 public class GradeController {
     @Autowired
     private GradeService gradeService;
@@ -22,17 +24,17 @@ public class GradeController {
         return gradeService.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(URL_ID)
     public Grade getById(@PathVariable String id) {
         return gradeService.getById(id);
     }
 
-    @GetMapping("/student/{studentId}")
+    @GetMapping(URL_STUDENT_ID)
     public List<Grade> getGradesByStudent(@PathVariable String studentId) {
         return gradeService.getByStudentId(studentId);
     }
 
-    @GetMapping("/course/{courseId}")
+    @GetMapping(URL_COURSE_ID)
     public List<Grade> getGradesByCourse(@PathVariable String courseId) {
         return gradeService.getByCourseId(courseId);
     }
@@ -47,7 +49,7 @@ public class GradeController {
         gradeService.update(grade);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(URL_ID)
     public void deleteGrade(@PathVariable String id) {
         gradeService.deleteById(id);
     }

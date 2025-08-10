@@ -9,8 +9,10 @@ import tvz.ntpr.api.service.CronService;
 
 import java.util.List;
 
+import static tvz.ntpr.api.config.Urls.URL_CRON;
+
 @RestController
-@RequestMapping("/cron")
+@RequestMapping(URL_CRON)
 public class CronController {
     @Autowired
     private CronService cronService;

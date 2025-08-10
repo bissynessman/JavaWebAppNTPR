@@ -12,9 +12,11 @@ import tvz.ntpr.api.service.UserService;
 
 import java.util.Date;
 
+import static tvz.ntpr.api.config.Urls.*;
+
 @RestController
-@RequestMapping("/auth")
-public class RefreshController {
+@RequestMapping(URL_AUTH)
+public class AuthController {
     private static final long FIFTEEN_SECONDS = 15000;
     private static final long TEN_MINUTES = 600000;
     private static final long ONE_WEEK = 604800000;
@@ -39,7 +41,7 @@ public class RefreshController {
         return null;
     }
 
-    @PostMapping("/signup")
+    @PostMapping(URL_SIGNUP)
     public String generateRefreshTokenAtSignup(@RequestBody String username) {
         if (username != null && !username.isEmpty() && !username.isBlank()) {
             JwToken refreshToken = JwtGenerator.makeToken(username, ONE_WEEK);
@@ -49,12 +51,12 @@ public class RefreshController {
         return null;
     }
 
-    @PostMapping("/cron")
+    @PostMapping(URL_CRON)
     public String generateAccessTokenForCron() {
         return JwtGenerator.makeToken("cronjob", TEN_MINUTES).getToken();
     }
 
-    @PostMapping("/refresh")
+    @PostMapping(URL_REFRESH)
     public String refreshAccessToken(@RequestBody String refreshTokenValue) {
         JwToken refreshToken = refreshTokenService.getByToken(refreshTokenValue);
         if (refreshToken != null && refreshToken.getValidUntil().after(new Date()))

@@ -10,8 +10,10 @@ import tvz.ntpr.api.service.*;
 
 import java.util.List;
 
+import static tvz.ntpr.api.config.Urls.*;
+
 @RestController
-@RequestMapping("/users")
+@RequestMapping(URL_USER)
 public class UserController {
     @Autowired
     private UserService userService;
@@ -33,12 +35,12 @@ public class UserController {
         return userService.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(URL_ID)
     public User getById(@PathVariable String id) {
         return userService.getById(id);
     }
 
-    @GetMapping("/username/{username}")
+    @GetMapping(URL_USERNAME_VALUE)
     public User getByUsername(@PathVariable String username) {
         return userService.getByUsername(username);
     }
@@ -53,7 +55,7 @@ public class UserController {
         userService.update(user);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(URL_ID)
     public void deleteGrade(@PathVariable String id) {
         User user = userService.getById(id);
         if (user.getRole().equals(Role.STUDENT)) {

@@ -9,8 +9,10 @@ import tvz.ntpr.api.service.ProfessorService;
 
 import java.util.List;
 
+import static tvz.ntpr.api.config.Urls.*;
+
 @RestController
-@RequestMapping("/professors")
+@RequestMapping(URL_PROFESSOR)
 public class ProfessorController {
     @Autowired
     private ProfessorService professorService;
@@ -26,12 +28,12 @@ public class ProfessorController {
         return professorService.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(URL_ID)
     public Professor getById(@PathVariable String id) {
         return professorService.getById(id);
     }
 
-    @GetMapping("/unauthorized")
+    @GetMapping(URL_UNAUTHORIZED)
     public List<Professor> getUnauthorized() {
         return professorService.getAllUnauthorized();
     }
@@ -46,12 +48,12 @@ public class ProfessorController {
         professorService.update(professor);
     }
 
-    @PutMapping("/authorize")
+    @PutMapping(URL_AUTHORIZE)
     public void authorize(@RequestBody Professor professor) {
         professorService.authorize(professor.getId());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(URL_ID)
     public void deleteGrade(@PathVariable String id) {
         for (Course course : courseService.getByProfessorId(id)) {
             course.setProfessor(null);
