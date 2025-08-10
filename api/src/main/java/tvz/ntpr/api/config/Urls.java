@@ -8,7 +8,7 @@ public class Urls {
     public static final String URL_STUDENT_FILTER = "/student";
     public static final String URL_COURSE_FILTER = "/course";
     public static final String URL_STUDENT_ID = URL_STUDENT_FILTER + "/{studentId}";
-    public static final String URL_COURSE_ID = URL_COURSE_FILTER + "/courseId}";
+    public static final String URL_COURSE_ID = URL_COURSE_FILTER + "/{courseId}";
 
     public static final String URL_PROFESSOR = "/professors";
     public static final String URL_UNAUTHORIZED = "/unauthorized";
