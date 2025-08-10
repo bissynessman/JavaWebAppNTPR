@@ -16,7 +16,6 @@ public class Urls {
 
     public static final String URL_REPORT = "/reports";
 
-
     public static final String URL_STUDENT = "/students";
 
     public static final String URL_USER = "/users";

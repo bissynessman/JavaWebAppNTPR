@@ -23,7 +23,7 @@ public class ReportService extends BaseService<Report> {
         return repository.findByStudentId(studentId).orElse(null);
     }
 
-    public int deleteByStudent(String studentId) {
-        return repository.deleteByStudentId(studentId);
+    private void deleteByStudent(String studentId) {
+        repository.deleteByStudentId(studentId);
     }
 }

@@ -36,7 +36,7 @@ public class SecurityConfig {
                             String apiKey = context.getRequest().getHeader(X_API_KEY);
                             return new AuthorizationDecision("supersecretapikeythatihaveconcoctedformycronscheduler".equals(apiKey));
                         })
-                        .requestMatchers(HttpMethod.GET, URL_REPORT).permitAll()
+                        .requestMatchers(HttpMethod.GET, URL_REPORT + URL_WILDCARD).permitAll()
                         .anyRequest().authenticated());
 
         return http.build();

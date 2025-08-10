@@ -8,7 +8,7 @@
         <result column="student" jdbcType="VARCHAR" property="student"/>
     </resultMap>
 
-    <insert id="create" parameterType="tvz.ntpr.api.entity.User" keyProperty="id">
+    <insert id="create" parameterType="tvz.ntpr.api.entity.Report" keyProperty="id">
         INSERT
           INTO `report` (
                    `id`,
@@ -64,7 +64,7 @@
     </select>
 
     <delete id="deleteByStudentId" parameterType="String">
-        DELETE *
+        DELETE
           FROM `report`
         <where>
                `student_id` = #{studentId,jdbcType=VARCHAR}

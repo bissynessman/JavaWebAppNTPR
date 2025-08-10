@@ -4,13 +4,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import tvz.ntpr.core.entity.Report;
 import tvz.ntpr.core.helper.Messages;
 import tvz.ntpr.core.entity.Grade;
 import tvz.ntpr.core.entity.Student;
 import tvz.ntpr.core.entity.User;
+import tvz.ntpr.core.rest.DatabaseApi;
 import tvz.ntpr.core.security.AuthenticationService;
 import tvz.ntpr.core.service.CourseService;
 import tvz.ntpr.core.service.GradeService;
+import tvz.ntpr.core.service.ReportService;
 import tvz.ntpr.core.service.StudentService;
 
 import java.io.File;
@@ -27,23 +30,28 @@ import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 @RequestMapping(URL_STUDENT)
-@SessionAttributes("userLogin")
+@SessionAttributes({ "userLogin", "downloadUrl" })
 public class StudentController {
+    private static final String NTPR_PROTOCOL_PREFIX = "ntpr://download?url=";
+
     private final StudentService studentService;
     private final GradeService gradeService;
     private final CourseService courseService;
     private final AuthenticationService authenticationService;
+    private final ReportService reportService;
     private final Messages messages;
 
     public StudentController(StudentService studentService,
                              GradeService gradeService,
                              CourseService courseService,
                              AuthenticationService authenticationService,
+                             ReportService reportService,
                              Messages messages) {
         this.studentService = studentService;
         this.gradeService = gradeService;
         this.courseService = courseService;
         this.authenticationService = authenticationService;
+        this.reportService = reportService;
         this.messages = messages;
     }
 
@@ -66,8 +74,17 @@ public class StudentController {
             scrapeHtmlToPdfFile(BASE_URL + URL_STUDENT, user.getUserUuid(), tmpFile);
             File outputFile = sign(tmpFile);
             Files.deleteIfExists(tmpFile.toPath());
-            // TODO: expose file to download endpoint; call ntpr protocol
-            // maybe store file in database and download using uuid? - uses blob ;)
+
+            Report report = Report.builder()
+                    .fileName(outputFile.getName())
+                    .pathToFile(outputFile.toPath())
+                    .student(user.getUserUuid())
+                    .build();
+
+            reportService.saveReport(report);
+            String downloadUrl = NTPR_PROTOCOL_PREFIX + DatabaseApi.REPORTS_API + "/" + report.getStudent();
+            model.addAttribute("downloadUrl", downloadUrl);
+            return "redirect:" + URL_STUDENT;
         } catch (IOException e) {
             e.printStackTrace();
         }

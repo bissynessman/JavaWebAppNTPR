@@ -1,8 +1,6 @@
 package tvz.ntpr.api.entity;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class Report extends BaseEntity {
     private byte[] data;
@@ -13,9 +11,9 @@ public class Report extends BaseEntity {
         super(null);
     }
 
-    public Report(String id, Path pathToFile, String fileName, String student) throws IOException {
+    public Report(String id, byte[] data, String fileName, String student) throws IOException {
         super(id);
-        this.data = Files.readAllBytes(pathToFile);
+        this.data = data;
         this.fileName = fileName;
         this.student = student;
     }
@@ -50,13 +48,5 @@ public class Report extends BaseEntity {
 
     public void setStudent(String student) {
         this.student = student;
-    }
-
-    public void writeToTmpFile(String path) throws IOException {
-
-    }
-
-    public int deleteTmpFile() throws IOException {
-        return 0;
     }
 }

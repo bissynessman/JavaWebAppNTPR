@@ -12,11 +12,16 @@
         <div th:replace="~{fragments::dateTime}"></div>
         <div th:replace="~{fragments::languageSwitch}"></div>
         <div class="download-btn">
-            <form method="get" th:action="@{/student/download}">
+            <form th:unless="${downloadUrl} != null" method="get" th:action="@{/student/download}">
                 <button type="submit">
-                    <span class="button_top" th:text="#{download-student-report}"></span>
+                    <span class="button_top" th:text="#{generate-student-report}"></span>
                 </button>
             </form>
+            <button th:if="${downloadUrl} != null" id="downloadButton">
+                <a th:href="${downloadUrl}">
+                    <span class="button_top" th:text="#{download-student-report}"></span>
+                </a>
+            </button>
         </div>
         <div class="container mt-5">
             <h1 class="mb-4" th:text="#{student.info}"></h1>
