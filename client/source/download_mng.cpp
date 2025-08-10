@@ -18,6 +18,7 @@ HWND hLabelStats;
 HWND hLabelPercent;
 long gBandwidthLimit = 0;
 std::chrono::steady_clock::time_point gStartTime;
+std::string gTempFilename = "temp_download.tmp";
 std::string gFilename;
 
 std::string get_downloads_folder() {
@@ -57,6 +58,30 @@ std::wstring utf8_to_wstring(const std::string& str) {
     std::wstring wStr(wstring_size, 0);
     MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wStr[0], wstring_size);
     return wStr;
+}
+
+// Header callback
+size_t header_callback(char* buffer, size_t size, size_t nitems, void* userdata) {
+    size_t totalSize = size * nitems;
+    std::string headerLine(buffer, totalSize);
+
+    std::string prefix = "Content-Disposition:";
+    if (headerLine.compare(0, prefix.size(), prefix) == 0) {
+        std::string filenameKey = "filename=";
+        size_t pos = headerLine.find(filenameKey);
+        if (pos != std::string::npos) {
+            pos += filenameKey.length();
+            while (pos < headerLine.size() && (headerLine[pos] == ' ' || headerLine[pos] == '\"')) pos++;
+
+            size_t endPos = headerLine.find_first_of("\"\r\n;", pos);
+            if (endPos == std::string::npos)
+                endPos = headerLine.size();
+
+            gFilename = headerLine.substr(pos, endPos - pos);
+        	SetWindowTextW(hLabelFile, utf8_to_wstring(gFilename).c_str());
+        }
+    }
+    return totalSize;
 }
 
 // Write callback
@@ -138,16 +163,18 @@ void make_window() {
 
 // Download thread
 void download(std::string url) {
-    std::string downloadsPath = get_downloads_folder();
-    std::string outputPath = downloadsPath + "\\" + gFilename;
+    std::string downloads_path = get_downloads_folder();
+
+    std::string output_path = downloads_path + "\\" + gTempFilename;
 
     CURL* curl = curl_easy_init();
     if (curl) {
-        std::ofstream outFile(outputPath, std::ios::binary);
+        std::ofstream outFile(output_path, std::ios::binary);
 
         gStartTime = std::chrono::steady_clock::now();
 
         curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+		curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, header_callback);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &outFile);
 
@@ -158,6 +185,11 @@ void download(std::string url) {
 
         curl_easy_perform(curl);
         curl_easy_cleanup(curl);
+
+		outFile.close();
+
+		std::string final_path = downloads_path + "\\" + gFilename;
+		std::rename(output_path.c_str(), final_path.c_str());
     }
 
     PostMessage(hWnd, WM_CLOSE, 0, 0);
@@ -175,7 +207,6 @@ int downloadFile(const char* url, long bandwidthLimitBytesPerSec) {
 		gBandwidthLimit = bandwidthLimitBytesPerSec;
 
 		size_t pos = urlStr.find_last_of('/');
-		gFilename = (pos != std::string::npos) ? urlStr.substr(pos + 1) : "downloaded_file";
 
 		make_window();
 
