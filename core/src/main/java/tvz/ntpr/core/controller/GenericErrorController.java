@@ -6,8 +6,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import static tvz.ntpr.core.config.Urls.URL_ERROR;
+
 @Controller
-@RequestMapping("/error")
+@RequestMapping(URL_ERROR)
 public class GenericErrorController implements ErrorController {
     @RequestMapping
     public String handleError(HttpServletRequest request, Model model) {

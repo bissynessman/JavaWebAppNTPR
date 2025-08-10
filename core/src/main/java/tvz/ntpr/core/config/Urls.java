@@ -15,5 +15,7 @@ public class Urls {
     public static final String URL_VIEW_STUDENTS = "/students";
     public static final String URL_AUTHORIZATION = "/authorization";
     public static final String URL_USERS = "/users";
-    public static final String CHANGE_LANGUAGE = "/switch-language";
+    public static final String URL_CHANGE_LANGUAGE = "/switch-language";
+
+    public static final String URL_ERROR = "/error";
 }
