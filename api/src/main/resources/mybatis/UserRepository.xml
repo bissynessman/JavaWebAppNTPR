@@ -34,7 +34,7 @@
         UPDATE `user`
            SET `username`      = #{username,jdbcType=VARCHAR},
                `password`      = #{password,jdbcType=VARCHAR},
-               `password_salt` = #{passwordSalt,jdbcType=VARCHAR}
+               `password_salt` = #{passwordSalt,jdbcType=VARCHAR},
                `role`          = #{role,jdbcType=VARCHAR},
                `user_uuid`     = #{userUuid,jdbcType=VARCHAR}
         <where>
