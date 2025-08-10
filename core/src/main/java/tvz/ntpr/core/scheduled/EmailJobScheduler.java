@@ -44,6 +44,7 @@ public class EmailJobScheduler {
         authenticationService.cron();
         for (Student student : students) {
             byte[] pdfData = scrapeHtmlToPdfByteArray(BASE_URL + URL_STUDENT, student.getId());
+            // TODO: add email to user table
             String studentEmail = "tvz.java.web.app@gmail.com";
             try {
                 sendEmail(studentEmail, pdfData);
