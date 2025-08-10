@@ -56,6 +56,4 @@ public class SpicedPassword {
     public void setSalt(String salt) {
         this.salt = salt;
     }
-
-
 }
