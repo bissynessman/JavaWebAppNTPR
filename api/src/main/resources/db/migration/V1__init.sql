@@ -47,15 +47,15 @@ CREATE TABLE `user` (
 	PRIMARY KEY (`id`)
 );
 
-   ALTER TABLE `course`
-ADD CONSTRAINT `courseProfessorConstraint`
-   FOREIGN KEY (`professor`)
-    REFERENCES `professor`(`id`);
-   ALTER TABLE `grade`
-ADD CONSTRAINT `gradeCourseConstraint`
-   FOREIGN KEY (`course`)
-    REFERENCES `course`(`id`);
-   ALTER TABLE `grade`
-ADD CONSTRAINT `gradeStudentConstraint`
-   FOREIGN KEY (`student`)
-    REFERENCES `student`(`id`);
+      ALTER TABLE `course`
+        ADD CONSTRAINT `courseProfessorConstraint`
+FOREIGN KEY (`professor`)
+ REFERENCES `professor`(`id`);
+      ALTER TABLE `grade`
+        ADD CONSTRAINT `gradeCourseConstraint`
+FOREIGN KEY (`course`)
+ REFERENCES `course`(`id`);
+      ALTER TABLE `grade`
+        ADD CONSTRAINT `gradeStudentConstraint`
+FOREIGN KEY (`student`)
+ REFERENCES `student`(`id`);
