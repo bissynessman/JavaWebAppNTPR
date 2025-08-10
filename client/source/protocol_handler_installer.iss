@@ -2,6 +2,7 @@
 AppName=NTPR Protocol Handler
 AppVersion=1.0
 DefaultDirName={commonpf}\NtprProtocolHandler
+DisableDirPage=no
 DefaultGroupName=NtprProtocolHandler
 OutputBaseFilename=Ntpr-Protocol-Handler Installer
 Compression=lzma
