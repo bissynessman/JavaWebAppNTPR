@@ -5,3 +5,4 @@
 - digital signature verification | ***`prijavnica`***
 - ~~calculated field in database~~
   - ~~user: name = first name + last name~~
+- save user e-mail to database; use for cronjob
