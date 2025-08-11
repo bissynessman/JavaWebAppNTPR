@@ -4,6 +4,7 @@
     <resultMap id="base" type="tvz.ntpr.api.entity.Report">
         <id column="id" jdbcType="VARCHAR" property="id"/>
         <result column="data" jdbcType="BLOB" property="data"/>
+        <result column="signature" jdbcType="BLOB" property="signature"/>
         <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
         <result column="student" jdbcType="VARCHAR" property="student"/>
     </resultMap>
@@ -13,12 +14,14 @@
           INTO `report` (
                    `id`,
                    `data`,
+                   `signature`,
                    `file_name`,
                    `student_id`
                )
         VALUES (
                    #{id,jdbcType=VARCHAR},
                    #{data,jdbcType=BLOB},
+                   #{signature,jdbcType=BLOB},
                    #{fileName,jdbcType=VARCHAR},
                    #{student,jdbcType=VARCHAR}
                )
@@ -26,9 +29,10 @@
 
     <update id="update" parameterType="tvz.ntpr.api.entity.Report" keyProperty="id">
         UPDATE `report`
-           SET `data`       = #{username,jdbcType=BLOB},
-               `file_name`  = #{password,jdbcType=VARCHAR},
-               `student_id` = #{passwordSalt,jdbcType=VARCHAR}
+           SET `data`       = #{data,jdbcType=BLOB},
+               `signature`  = #{signature,jdbcType=BLOB},
+               `file_name`  = #{fileName,jdbcType=VARCHAR},
+               `student_id` = #{student,jdbcType=VARCHAR}
         <where>
                `id` = #{id,jdbcType=VARCHAR}
         </where>

@@ -11,14 +11,16 @@ import java.util.UUID;
 public class Report {
     private String id;
     private byte[] data;
+    private byte[] signature;
     private String fileName;
     private String student;
 
     public Report() {}
 
-    private Report(String id, Path pathToFile, String fileName, String student) throws IOException {
+    private Report(String id, Path pathToFile, Path pathToSignature, String fileName, String student) throws IOException {
         this.id = id;
         this.data = Files.readAllBytes(pathToFile);
+        this.signature = Files.readAllBytes(pathToSignature);
         this.fileName = fileName;
         this.student = student;
     }
@@ -30,6 +32,7 @@ public class Report {
     public static class ReportBuilder {
         private String id = UUID.randomUUID().toString();
         private Path pathToFile;
+        private Path pathToSignature;
         private String fileName;
         private String student;
 
@@ -45,6 +48,11 @@ public class Report {
             return this;
         }
 
+        public ReportBuilder pathToSignature(final Path pathToSignature) {
+            this.pathToSignature = pathToSignature;
+            return this;
+        }
+
         public ReportBuilder fileName(final String fileName) {
             this.fileName = fileName;
             return this;
@@ -57,7 +65,7 @@ public class Report {
 
         public Report build() {
             try {
-                return new Report(this.id, this.pathToFile, this.fileName, this.student);
+                return new Report(this.id, this.pathToFile, this.pathToSignature, this.fileName, this.student);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -68,6 +76,7 @@ public class Report {
             return "Report.ReportBuilder["
                     + "id=" + this.id
                     + ", pathToFile=" + this.pathToFile
+                    + ", pathToSignature=" + this.pathToSignature
                     + ", fileName=" + this.fileName
                     + ", student=" + this.student
                     + "]";

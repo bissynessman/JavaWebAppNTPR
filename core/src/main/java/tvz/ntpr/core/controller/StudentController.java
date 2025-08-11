@@ -17,13 +17,9 @@ import tvz.ntpr.core.service.ReportService;
 import tvz.ntpr.core.service.StudentService;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
-import static tvz.ntpr.core.utils.DigitalSignature.sign;
+import static tvz.ntpr.core.utils.DigitalSignature.createDetachedSignature;
 import static tvz.ntpr.core.utils.HtmlToPdf.*;
 import static tvz.ntpr.core.utils.ModelInitialization.initialize;
 import static tvz.ntpr.core.config.Urls.*;
@@ -67,17 +63,14 @@ public class StudentController {
         authenticationService.refresh();
         User user = (User) model.getAttribute("userLogin");
 
-        Path studentReportsDirectory = Paths.get("target", "generated", "student_reports");
-        File tmpFile = Paths.get(studentReportsDirectory.toString(), "student_report.tmp.pdf").toFile();
         try {
-            Files.createDirectories(studentReportsDirectory);
-            scrapeHtmlToPdfFile(BASE_URL + URL_STUDENT, user.getUserUuid(), tmpFile);
-            File outputFile = sign(tmpFile);
-            Files.deleteIfExists(tmpFile.toPath());
+            File data = scrapeHtmlToPdfFile(BASE_URL + URL_STUDENT, user.getUserUuid());
+            File signature = createDetachedSignature(data);
 
             Report report = Report.builder()
-                    .fileName(outputFile.getName())
-                    .pathToFile(outputFile.toPath())
+                    .fileName(data.getName())
+                    .pathToFile(data.toPath())
+                    .pathToSignature(signature.toPath())
                     .student(user.getUserUuid())
                     .build();
 
@@ -85,7 +78,7 @@ public class StudentController {
             String downloadUrl = NTPR_PROTOCOL_PREFIX + DatabaseApi.REPORTS_API + "/" + report.getStudent();
             model.addAttribute("downloadUrl", downloadUrl);
             return "redirect:" + URL_STUDENT;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

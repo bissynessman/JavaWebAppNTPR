@@ -4,6 +4,7 @@ import java.io.IOException;
 
 public class Report extends BaseEntity {
     private byte[] data;
+    private byte[] signature;
     private String fileName;
     private String student;
 
@@ -26,8 +27,16 @@ public class Report extends BaseEntity {
         return data;
     }
 
+    public byte[] getSignature() {
+        return signature;
+    }
+
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public void setSignature(byte[] signature) {
+        this.signature = signature;
     }
 
     public String getFileName() {

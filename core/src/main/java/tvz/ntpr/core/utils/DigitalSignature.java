@@ -1,72 +1,44 @@
 package tvz.ntpr.core.utils;
 
-import com.itextpdf.kernel.pdf.PdfReader;
-import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.StampingProperties;
-import com.itextpdf.signatures.*;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import tvz.ntpr.core.rest.TimeApi;
-
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
 import java.security.KeyStore;
 import java.security.PrivateKey;
-import java.security.cert.Certificate;
-import java.security.Security;
-import java.time.ZoneOffset;
+import java.security.Signature;
 
 public class DigitalSignature {
-    private static final String KEYSTORE_PATH = "other/ntpr_keystore.p12";
+    private static final String KEYSTORE_PATH = "other/keystore.p12";
     private static final String KEYSTORE_TYPE = "PKCS12";
     private static final String KEY_PASSWORD = "keypass";
-    private static final String KEY_ALIAS = "certkey";
-    private static final String HASH_ALGORITHM = "SHA256";
-    private static final String PROVIDER = "BC";
+    private static final String KEY_ALIAS = "ntprkey";
+    private static final String HASH_ALGORITHM = "SHA256withRSA";
 
-    private static final TimeApi timeApi = new TimeApi();
+    public static File createDetachedSignature(File input) throws Exception {
+        Signature sig = Signature.getInstance(HASH_ALGORITHM);
 
-    public static File sign(File input) {
-        File output = new File(input
-                .getPath()
-                .replaceFirst(
-                        "\\.tmp",
-                        "(" + timeApi.getCurrentTime().toEpochSecond(ZoneOffset.UTC) + ")"));
-
-        try {
-            Security.addProvider(new BouncyCastleProvider());
-
-            InputStream keystoreStream = DigitalSignature.class.getClassLoader().getResourceAsStream(KEYSTORE_PATH);
-            KeyStore keyStore = KeyStore.getInstance(KEYSTORE_TYPE);
-            char[] keyPassword = KEY_PASSWORD.toCharArray();
-
+        KeyStore keyStore = KeyStore.getInstance(KEYSTORE_TYPE);
+        char[] keyPassword = KEY_PASSWORD.toCharArray();
+        try (InputStream keystoreStream = DigitalSignature.class.getClassLoader().getResourceAsStream(KEYSTORE_PATH)) {
             keyStore.load(keystoreStream, keyPassword);
-            PrivateKey privateKey = (PrivateKey) keyStore.getKey(KEY_ALIAS, keyPassword);
-            Certificate[] certChain = keyStore.getCertificateChain(KEY_ALIAS);
+        }
+        PrivateKey privateKey = (PrivateKey) keyStore.getKey(KEY_ALIAS, keyPassword);
 
-            PdfReader reader = new PdfReader(input);
-            PdfWriter writer = new PdfWriter(output);
+        sig.initSign(privateKey);
 
-            StampingProperties stampingProperties = new StampingProperties().useAppendMode();
-
-            PdfSigner signer = new PdfSigner(reader, writer, stampingProperties);
-
-            SignerProperties signerProperties = new SignerProperties()
-                    .setFieldName("signature")
-                    .setReason("NTPR Project")
-                    .setSignatureCreator("(0246108773)Tim Pavić")
-                    .setLocation("Zagreb, HR")
-                    .setContact("tpavic2@tvz.hr");
-            signer.setSignerProperties(signerProperties);
-
-            IExternalSignature signature = new PrivateKeySignature(privateKey, HASH_ALGORITHM, PROVIDER);
-
-            signer.signDetached(new BouncyCastleDigest(), signature, certChain, null, null, null, 0, null);
-            reader.close();
-            writer.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        try (InputStream in = new BufferedInputStream(new FileInputStream(input))) {
+            byte[] buffer = new byte[8192];
+            int read;
+            while ((read = in.read(buffer)) != -1) {
+                sig.update(buffer, 0, read);
+            }
         }
 
-        return output;
+        byte[] signatureBytes = sig.sign();
+
+        File signatureFile = new File(input.getParentFile(), input.getName() + ".p7s");
+        try (OutputStream out = new BufferedOutputStream(new FileOutputStream(signatureFile))) {
+            out.write(signatureBytes);
+        }
+
+        return signatureFile;
     }
 }

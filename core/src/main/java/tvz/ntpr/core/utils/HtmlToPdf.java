@@ -13,36 +13,46 @@ import com.itextpdf.layout.properties.TextAlignment;
 import org.jsoup.nodes.Element;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
+import tvz.ntpr.core.rest.TimeApi;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.ZoneOffset;
 
 public class HtmlToPdf {
-    public static void scrapeHtmlToPdfFile(String url, String userUuid, File outputFilePath) {
-        try {
-            org.jsoup.nodes.Document htmlDoc = Jsoup.connect(url + "/" + userUuid).get();
-            String title = htmlDoc.title();
+    private static final TimeApi timeApi = new TimeApi();
 
-            PdfFont bold = PdfFontFactory.createFont(
-                    StandardFonts.HELVETICA_BOLD,
-                    PdfEncodings.WINANSI,
-                    PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
+    public static File scrapeHtmlToPdfFile(String url, String userUuid) throws Exception {
+        Path studentReportsDirectory = Paths.get("target", "generated", "student_reports");
+        String timestamp = String.valueOf(timeApi.getCurrentTime().toEpochSecond(ZoneOffset.UTC));
+        File output = Paths.get(
+                studentReportsDirectory.toString(),"student_report(" + timestamp + ").pdf").toFile();
+        Files.createDirectories(studentReportsDirectory);
+        org.jsoup.nodes.Document htmlDoc = Jsoup.connect(url + "/" + userUuid).get();
+        String title = htmlDoc.title();
 
-            PdfWriter writer = new PdfWriter(outputFilePath);
-            PdfDocument pdfDoc = new PdfDocument(writer);
-            Document pdfDocument = new Document(pdfDoc);
+        PdfFont bold = PdfFontFactory.createFont(
+                StandardFonts.HELVETICA_BOLD,
+                PdfEncodings.WINANSI,
+                PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
 
-            pdfDocument.add(new Paragraph(title).setFont(bold).setFontSize(18).setTextAlignment(TextAlignment.CENTER));
+        PdfWriter writer = new PdfWriter(output);
+        PdfDocument pdfDoc = new PdfDocument(writer);
+        Document pdfDocument = new Document(pdfDoc);
 
-            Elements bodyChildren = htmlDoc.body().children();
-            for (Element element : bodyChildren) {
-                convertHtmlElementToPdf(element, pdfDocument);
-            }
+        pdfDocument.add(new Paragraph(title).setFont(bold).setFontSize(18).setTextAlignment(TextAlignment.CENTER));
 
-            pdfDocument.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        Elements bodyChildren = htmlDoc.body().children();
+        for (Element element : bodyChildren) {
+            convertHtmlElementToPdf(element, pdfDocument);
         }
+
+        pdfDocument.close();
+
+        return output;
     }
 
     public static byte[] scrapeHtmlToPdfByteArray(String url, String studentId) {
