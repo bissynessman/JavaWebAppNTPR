@@ -4,7 +4,7 @@ A Spring Boot multi-module project consisting of three related applications in o
 
 - **api** — a REST API that acts as the interface to the database.  
 - **core** — the core functionality.
-- **client** — a client-side app for managing downloads via a DLL.
+- **client** — a client-side app for executing tasks on users machine.
 
 ---
 
@@ -36,7 +36,7 @@ JavaWebAppNTPR/
 ```
 
 Each module has its own `pom.xml` and can be run independently.
-`client` is not a module but a directory containing the client-side app for managing downloads.
+`client` is not a module but a directory containing the client-side app for remote-prompted local execution.
 
 ---
 
