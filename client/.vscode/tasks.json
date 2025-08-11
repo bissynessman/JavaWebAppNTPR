@@ -3,14 +3,14 @@
     "tasks": [
         {
             "type": "cppbuild",
-            "label": "Download manager Build",
+            "label": "NTRP Library Build",
             "command": "C:/msys64/ucrt64/bin/g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
 				"-I", "C:\\Program Files (x86)\\vcpkg\\installed\\x64-windows\\include",
 				"-L", "C:\\Program Files (x86)\\vcpkg\\installed\\x64-windows\\lib",
-                "-g", "${workspaceFolder}\\source\\download_mng.cpp",
-                "-o", "${workspaceFolder}\\bin\\protocol_handler embedded dlls\\download_mng.dll",
+                "-g", "${workspaceFolder}\\source\\ntpr_library.cpp",
+                "-o", "${workspaceFolder}\\bin\\ntpr_handler embedded dlls\\ntpr_library.dll",
                 "-lcurl",
                 "-lole32",
                 "-lcomctl32",
@@ -20,6 +20,8 @@
                 "-ladvapi32",
                 "-lws2_32",
                 "-luuid",
+				"-lssl",
+				"-lcrypto",
                 "-shared"
             ],
             "options": {
@@ -32,22 +34,22 @@
                 "kind": "build",
                 "isDefault": false
             },
-            "detail": "Build download manager as a DLL"
+            "detail": "Build NTPR Library as a DLL"
         },
 		{
 			"type": "shell",
-			"label": "Protocol handler Build",
+			"label": "NTPR Handler Build",
 			"command": "pyinstaller.exe",
 			"args": [
 				"--onefile",
 				"--noconsole",
-				"--add-binary", "${workspaceFolder}\\bin\\protocol_handler embedded dlls\\download_mng.dll;.",
-				"--add-binary", "${workspaceFolder}\\bin\\protocol_handler embedded dlls\\libcurl.dll;.",
+				"--add-binary", "${workspaceFolder}\\bin\\ntpr_handler embedded dlls\\ntpr_library.dll;.",
+				"--add-binary", "${workspaceFolder}\\bin\\ntpr_handler embedded dlls\\libcurl.dll;.",
 				"--specpath", "${workspaceFolder}\\build artifacts\\PyInstaller",
 				"--workpath", "${workspaceFolder}\\build artifacts\\PyInstaller",
 				"--clean",
 				"--distpath", "bin",
-				"${workspaceFolder}\\source\\protocol_handler.py"
+				"${workspaceFolder}\\source\\ntpr_handler.py"
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
@@ -57,15 +59,15 @@
 				"kind": "build",
 				"isDefault": false
 			},
-			"detail": "Build protocol handler as an EXE with embedded DLLs"
+			"detail": "Build NTPR Handler as an EXE with embedded DLLs"
 		},
 		{
 			"type": "shell",
-			"label": "Protocol handler installer Build",
+			"label": "NTPR Installer Build",
 			"command": "ISCC.exe",
 			"args": [
 				"/O\"${workspaceFolder}\\bin\"",
-				"\"${workspaceFolder}\\source\\protocol_handler_installer.iss\""
+				"\"${workspaceFolder}\\source\\ntpr_installer.iss\""
 			],
 			"options": {
 				"cwd": "${workspaceFolder}"
@@ -81,9 +83,9 @@
 			"label": "Build",
 			"dependsOrder": "sequence",
 			"dependsOn": [
-				"Download manager Build",
-				"Protocol handler Build",
-				"Protocol handler installer Build"
+				"NTRP Library Build",
+				"NTPR Handler Build",
+				"NTPR Installer Build"
 			]
 		}
     ]

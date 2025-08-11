@@ -1,0 +1,1 @@
+ISCC.exe /O"..\bin" "..\bin\ntpr_installer.iss"

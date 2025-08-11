@@ -1,1 +1,0 @@
-ISCC.exe /O"..\bin" "..\bin\protocol_handler_installer.iss"
