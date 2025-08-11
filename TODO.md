@@ -2,8 +2,8 @@
 - ~~blob field in database~~
   - ~~generated PDFs~~
   - ~~automatically erase entry for given student upon new generation~~
-- digital signature verification | ***`prijavnica`***
-  - signature verification in python; check if being run natively 
+- ~~digital signature verification~~
+  - ~~signature verification in python; check if being run natively~~
 - ~~calculated field in database~~
   - ~~user: name = first name + last name~~
 - save user e-mail to database; use for cronjob
