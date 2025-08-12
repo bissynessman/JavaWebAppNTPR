@@ -63,16 +63,17 @@ public class StudentController {
     public String saveStudentReport(Model model, RedirectAttributes redirectAttributes) {
         authenticationService.refresh();
         User user = (User) model.getAttribute("userLogin");
+        String studentId = user.getUserUuid();
 
         try {
-            File data = scrapeHtmlToPdfFile(BASE_URL + URL_STUDENT, user.getUserUuid());
+            File data = scrapeHtmlToPdfFile(BASE_URL + URL_STUDENT, studentId);
             File signature = createDetachedSignature(data);
 
             Report report = Report.builder()
                     .fileName(data.getName())
                     .pathToFile(data.toPath())
                     .pathToSignature(signature.toPath())
-                    .student(user.getUserUuid())
+                    .student(studentId)
                     .build();
 
             reportService.saveReport(new ReportWrapper(report, data, signature));
