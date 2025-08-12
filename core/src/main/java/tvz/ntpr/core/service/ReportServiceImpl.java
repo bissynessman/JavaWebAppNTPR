@@ -6,8 +6,12 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tvz.ntpr.core.entity.Report;
+import tvz.ntpr.core.helper.ReportWrapper;
 import tvz.ntpr.core.rest.DatabaseApi;
 import tvz.ntpr.core.utils.JsonParser;
+
+import java.io.IOException;
+import java.nio.file.Files;
 
 @Service
 @Primary
@@ -34,7 +38,13 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void saveReport(Report report) {
-        restTemplate.postForEntity(API_URL, report, void.class);
+    public void saveReport(ReportWrapper report) {
+        restTemplate.postForEntity(API_URL, report.getReport(), void.class);
+        try {
+            Files.deleteIfExists(report.getDataFile().toPath());
+            Files.deleteIfExists(report.getSignatureFile().toPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

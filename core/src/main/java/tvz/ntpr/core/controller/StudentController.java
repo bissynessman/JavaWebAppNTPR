@@ -9,6 +9,7 @@ import tvz.ntpr.core.helper.Messages;
 import tvz.ntpr.core.entity.Grade;
 import tvz.ntpr.core.entity.Student;
 import tvz.ntpr.core.entity.User;
+import tvz.ntpr.core.helper.ReportWrapper;
 import tvz.ntpr.core.rest.DatabaseApi;
 import tvz.ntpr.core.security.AuthenticationService;
 import tvz.ntpr.core.service.CourseService;
@@ -74,7 +75,7 @@ public class StudentController {
                     .student(user.getUserUuid())
                     .build();
 
-            reportService.saveReport(report);
+            reportService.saveReport(new ReportWrapper(report, data, signature));
             String downloadUrl = NTPR_PROTOCOL_PREFIX + DatabaseApi.REPORTS_API + "/" + report.getStudent();
             model.addAttribute("downloadUrl", downloadUrl);
             return "redirect:" + URL_STUDENT;
