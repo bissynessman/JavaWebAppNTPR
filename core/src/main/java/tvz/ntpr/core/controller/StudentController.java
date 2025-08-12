@@ -59,7 +59,7 @@ public class StudentController {
         return "student";
     }
 
-    @GetMapping("/download")
+    @GetMapping(URL_DOWNLOAD)
     public String saveStudentReport(Model model, RedirectAttributes redirectAttributes) {
         authenticationService.refresh();
         User user = (User) model.getAttribute("userLogin");
@@ -87,7 +87,7 @@ public class StudentController {
         return "redirect:" + URL_STUDENT;
     }
 
-    @GetMapping("/{studentId}")
+    @GetMapping(URL_STUDENT_ID)
     public String showStudentView(Model model, @PathVariable("studentId") String studentId) {
         initialize(model, URL_STUDENT + "/" + studentId);
         Student student = studentService.getStudentById(studentId);

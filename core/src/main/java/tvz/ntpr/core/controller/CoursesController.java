@@ -50,7 +50,7 @@ public class CoursesController {
         return "courses";
     }
 
-    @PostMapping("/delete")
+    @PostMapping(URL_DELETE)
     public String processUpdates(Model model, RedirectAttributes redirectAttributes, @ModelAttribute DeleteBuffer courseBuffer) {
         authenticationService.refresh();
         User userLogin = (User) model.getAttribute("userLogin");

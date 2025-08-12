@@ -43,14 +43,14 @@ public class UsersController {
         return "users";
     }
 
-    @GetMapping("/edit/{userId}")
+    @GetMapping(URL_EDIT_USER)
     public String editUser(Model model, @PathVariable String userId) {
         authenticationService.refresh();
         initEditModel(model, userId);
         return "editUser";
     }
 
-    @PostMapping("/delete")
+    @PostMapping(URL_DELETE)
     public String deleteUser(Model model, RedirectAttributes redirectAttributes,
                              @ModelAttribute DeleteBuffer userBuffer) {
         authenticationService.refresh();
@@ -69,7 +69,7 @@ public class UsersController {
         return "redirect:" + URL_USERS;
     }
 
-    @PostMapping("/edit/{userId}")
+    @PostMapping(URL_EDIT_USER)
     public String processEditUser(Model model, RedirectAttributes redirectAttributes,
                                   @PathVariable String userId, @ModelAttribute User userUpdate) {
         authenticationService.refresh();
