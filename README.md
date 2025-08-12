@@ -47,9 +47,10 @@ Each module has its own `pom.xml` and can be run independently.
 - Core services that:
   - Host web pages as user interfaces.
   - Use Cron scheduler for periodic job execution.
-  - Produce digitally-signed PDFs using a PKCS#12 keystore.
+  - Generate PDFs with detached digital signatures using a PKCS#12 keystore.
 - Client-side app for managing downloads.
-  - Uses dynamically linked library for downloading files given a URL and bandwidth limit.
+  - If ran by an implemented custom protocol prompts use to input a bandwidth limit and downloads files from a URL supplied by the protocol.
+  - If ran by user prompts them to select a PDF file and it's signature to verify validity.
 
 ---
 
@@ -59,7 +60,6 @@ Each module has its own `pom.xml` and can be run independently.
 - Thymeleaf
 - Maven
 - iText
-- Bouncy Castle
 - jUnit
 - jsoup
 - JSON Web Token
@@ -75,8 +75,6 @@ Each module has its own `pom.xml` and can be run independently.
 
 - Java 17+
 - Maven 3.6+
-- IntelliJ IDEA (recommended) — enable annotation processing for Lombok
-- A PKCS#12 keystore (`.p12` or `.pfx`) that contains a private key and certificate chain for signing
 
 ---
 
@@ -84,8 +82,8 @@ Each module has its own `pom.xml` and can be run independently.
 
 Typical configuration points:
 
-- `application.properties` / `application.yml` for each app (ports, database connection, keystore path, etc.).
-- Different apps use different server ports (if running simultaneously):
+- `application.properties` for each app (ports, database connection, etc.).
+- Different apps use different server ports:
 
     #### api/src/main/resources/application.properties
     `server.port=8081`
@@ -94,6 +92,7 @@ Typical configuration points:
     `server.port=8080`
 
 - A PKCS#12 keystore under `core/src/main/resources/other`.
+- A corresponding `cert.pem` file in `client/bin`.
 
 ---
 
@@ -101,15 +100,15 @@ Typical configuration points:
 
 ### Client-side `ntpr://` protocol handler
 
-- **Handler & install path:** `protocol_handler.exe` (Python→PyInstaller) is installed, by default, to `C:\Program Files (x86)\NtprProtocolHandler\protocol_handler.exe`.  
+- **Handler & install path:** `ntpr_handler.exe` (Python→PyInstaller) is installed, by default, to `C:\Program Files (x86)\NTPR\ntpr_handler.exe` alongside `cert.pem`.  
 - **Protocol format:**  
-  `ntpr://download?url=<percent-encoded-URL>&bandwidth=<number>` — `url` must be percent-encoded; `bandwidth` is a numeric limit (in bytes per second).
+  `ntpr://download?url=<percent-encoded-URL>` — `url` must be percent-encoded.
 - **Registry / launch:** Installer must register the protocol so the command is exactly:  
   `"<path>\protocol_handler.exe" "%1"`  
   Wrong quoting or registering under the wrong hive will break launches.
-- **Native DLL** The EXE uses a native DLL.
+- **Native DLL** The EXE uses a native DLL requiring minimum version of Windows: Windows 8 (WINVER, _WIN32_WINNT = 0x0602).
 - **Quick local test:**
-  `"C:\Program Files (x86)\ntprprotocolhandler\protocol_handler.exe" "ntpr://download?url=...&bandwidth=..."`
+  `"C:\Program Files (x86)\ntprprotocolhandler\protocol_handler.exe" "ntpr://download?url=..."`
 
 ---
 
