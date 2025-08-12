@@ -23,11 +23,11 @@ import java.nio.file.Paths;
 import java.time.ZoneOffset;
 
 public class HtmlToPdf {
-    private static final TimeApi timeApi = new TimeApi();
+    private static final TimeApi TIME_API = new TimeApi();
 
     public static File scrapeHtmlToPdfFile(String url, String userUuid) throws Exception {
         Path studentReportsDirectory = Paths.get("target", "generated", "student_reports");
-        String timestamp = String.valueOf(timeApi.getCurrentTime().toEpochSecond(ZoneOffset.UTC));
+        String timestamp = String.valueOf(TIME_API.getCurrentTime().toEpochSecond(ZoneOffset.UTC));
         File output = Paths.get(
                 studentReportsDirectory.toString(),"student_report(" + timestamp + ").pdf").toFile();
         Files.createDirectories(studentReportsDirectory);

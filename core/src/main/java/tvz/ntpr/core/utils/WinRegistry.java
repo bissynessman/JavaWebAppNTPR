@@ -50,12 +50,4 @@ public class WinRegistry {
 
         return false;
     }
-
-//    public static String readRegistryValue(String regPath, String valueName) {
-//        return "ENG";
-//    }
-//
-//    public static boolean writeRegistryValue(String regPath, String valueName, String value) {
-//        return true;
-//    }
 }

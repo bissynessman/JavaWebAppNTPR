@@ -12,9 +12,10 @@ import static tvz.ntpr.core.utils.WinRegistry.*;
 @Component
 @NoArgsConstructor
 public class ModelInitialization {
+    private static final TimeApi TIME_API = new TimeApi();
+
     public static void initialize(Model model, String currentContextPath) {
-        TimeApi timeService = new TimeApi();
-        String[] dateTime = timeService.getCurrentTime()
+        String[] dateTime = TIME_API.getCurrentTime()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
                 .split("T");
         model.addAttribute("currentDate", dateTime[0].trim());
