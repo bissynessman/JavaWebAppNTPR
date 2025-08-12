@@ -6,4 +6,4 @@
   - ~~signature verification in python; check if being run natively~~
 - ~~calculated field in database~~
   - ~~user: name = first name + last name~~
-- save user e-mail to database; use for cronjob
+- ~~save user e-mail to database; use for cronjob~~
