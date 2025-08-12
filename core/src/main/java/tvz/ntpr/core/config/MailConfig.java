@@ -9,14 +9,20 @@ import java.util.Properties;
 
 @Configuration
 public class MailConfig {
+    private final AppProperties appProperties;
+
+    public MailConfig(AppProperties appProperties) {
+        this.appProperties = appProperties;
+    }
+
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
+        mailSender.setHost(appProperties.getMailHost());
+        mailSender.setPort(appProperties.getMailPort());
 
-        mailSender.setUsername("tvz.java.web.app@gmail.com");
-        mailSender.setPassword("uwfxdltsdltmruds");
+        mailSender.setUsername(appProperties.getEmailAgent());
+        mailSender.setPassword(appProperties.getEmailPassword());
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

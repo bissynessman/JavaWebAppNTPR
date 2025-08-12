@@ -13,10 +13,10 @@ import java.util.List;
 
 @Configuration
 public class RestTemplateConfig {
-    private static final String CRON_API_KEY = "supersecretapikeythatihaveconcoctedformycronscheduler";
-
     @Autowired
     private JwtHolder jwtHolder;
+    @Autowired
+    private AppProperties appProperties;
 
     @Bean
     public RestTemplate restTemplate() {
@@ -40,7 +40,7 @@ public class RestTemplateConfig {
 
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
         interceptors.add((request, body, execution) -> {
-            request.getHeaders().set("X-API-KEY", CRON_API_KEY);
+            request.getHeaders().set("X-API-KEY", appProperties.getCronApiKey());
             return execution.execute(request, body);
         });
         restTemplate.setInterceptors(interceptors);

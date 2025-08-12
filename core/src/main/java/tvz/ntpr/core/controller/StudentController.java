@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import tvz.ntpr.core.config.AppProperties;
 import tvz.ntpr.core.entity.Report;
 import tvz.ntpr.core.helper.Messages;
 import tvz.ntpr.core.entity.Grade;
@@ -37,19 +38,22 @@ public class StudentController {
     private final AuthenticationService authenticationService;
     private final ReportService reportService;
     private final Messages messages;
+    private final AppProperties appProperties;
 
     public StudentController(StudentService studentService,
                              GradeService gradeService,
                              CourseService courseService,
                              AuthenticationService authenticationService,
                              ReportService reportService,
-                             Messages messages) {
+                             Messages messages,
+                             AppProperties appProperties) {
         this.studentService = studentService;
         this.gradeService = gradeService;
         this.courseService = courseService;
         this.authenticationService = authenticationService;
         this.reportService = reportService;
         this.messages = messages;
+        this.appProperties = appProperties;
     }
 
     @GetMapping
@@ -66,7 +70,7 @@ public class StudentController {
         String studentId = user.getUserUuid();
 
         try {
-            File data = scrapeHtmlToPdfFile(BASE_URL + URL_STUDENT, studentId);
+            File data = scrapeHtmlToPdfFile(appProperties.getApplicationUrl() + URL_STUDENT, studentId);
             File signature = createDetachedSignature(data);
 
             Report report = Report.builder()
