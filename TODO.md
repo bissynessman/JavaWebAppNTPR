@@ -8,3 +8,4 @@
   - ~~user: name = first name + last name~~
 - ~~save user e-mail to database; use for cronjob~~
 - add course info
+- language switch in client app
