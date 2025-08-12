@@ -6,6 +6,8 @@ import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import tvz.ntpr.api.entity.Professor;
+import tvz.ntpr.api.entity.User;
+import tvz.ntpr.api.enums.Role;
 
 import java.util.List;
 
@@ -17,13 +19,24 @@ class ProfessorRepositoryTest {
     @Autowired ProfessorRepository professorRepository;
 
     Professor mockProfessor, mockProfessor2;
+    User mockUser;
+    @Autowired
+    private UserRepository userRepository;
 
     @BeforeEach
     void setUp() {
         mockProfessor = new Professor("testuuid", "test", "professor", true);
         mockProfessor2 = new Professor("testuuid2", "test2", "professor2", false);
+        mockUser = new User("testuuid",
+                "test@test.test",
+                "testusername",
+                "testpassword",
+                "test",
+                Role.STUDENT,
+                "testuuid2");
         professorRepository.create(mockProfessor);
         professorRepository.create(mockProfessor2);
+        userRepository.create(mockUser);
     }
 
     @Test

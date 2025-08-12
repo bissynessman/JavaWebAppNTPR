@@ -22,12 +22,14 @@ class UserRepositoryTest {
     @BeforeEach
     void setUp() {
         mockUser = new User("testuuid",
+                "test@test.test",
                 "testusername",
                 "testpassword",
                 "test",
                 Role.STUDENT,
                 "testuseruuid");
         mockUser2 = new User("testuuid2",
+                "test2@test.test",
                 "testusername2",
                 "testpassword2",
                 "test",
