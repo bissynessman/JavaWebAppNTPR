@@ -94,7 +94,7 @@ size_t header_callback(char* buffer, size_t size, size_t nitems, void* userdata)
 	return totalSize;
 }
 
-size_t write_data(void* ptr, size_t size, size_t nmemb, void* stream) {
+size_t write_callback(void* ptr, size_t size, size_t nmemb, void* stream) {
 	std::ofstream* out = static_cast<std::ofstream*>(stream);
 	out->write(static_cast<char*>(ptr), size * nmemb);
 	return size * nmemb;
@@ -180,7 +180,7 @@ void download(std::string url) {
 
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 		curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, header_callback);
-		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_callback);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &outFile);
 
 		curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
