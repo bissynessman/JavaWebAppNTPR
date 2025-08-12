@@ -32,10 +32,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, URL_AUTH + URL_WILDCARD).permitAll()
                         .requestMatchers(HttpMethod.GET, URL_USER + URL_USERNAME + URL_WILDCARD).permitAll()
-                        .requestMatchers(HttpMethod.GET, URL_CRON, URL_AUTH + URL_CRON).access((authentication, context) -> {
-                            String apiKey = context.getRequest().getHeader(X_API_KEY);
-                            return new AuthorizationDecision("supersecretapikeythatihaveconcoctedformycronscheduler".equals(apiKey));
-                        })
+                        .requestMatchers(HttpMethod.GET, URL_CRON + URL_WILDCARD, URL_AUTH + URL_CRON)
+                                .access((authentication, context) -> {
+                                    String apiKey = context.getRequest().getHeader(X_API_KEY);
+                                    return new AuthorizationDecision(
+                                            "supersecretapikeythatihaveconcoctedformycronscheduler".equals(apiKey));
+                                })
                         .requestMatchers(HttpMethod.GET, URL_REPORT + URL_WILDCARD).permitAll()
                         .anyRequest().authenticated());
 

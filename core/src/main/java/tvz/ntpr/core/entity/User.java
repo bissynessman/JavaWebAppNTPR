@@ -8,6 +8,7 @@ import java.util.UUID;
 @Data
 public class User {
     private String id;
+    private String email;
     private String username;
     private String password;
     private String passwordSalt;
@@ -16,8 +17,15 @@ public class User {
 
     public User() {}
 
-    private User(final String id, final String username, final String password, final String passwordSalt, final Role role, final String userUuid) {
+    private User(final String id,
+                 final String email,
+                 final String username,
+                 final String password,
+                 final String passwordSalt,
+                 final Role role,
+                 final String userUuid) {
         this.id = id;
+        this.email = email;
         this.username = username;
         this.password = password;
         this.passwordSalt = passwordSalt;
@@ -31,6 +39,7 @@ public class User {
 
     public static class UserBuilder {
         private String id = UUID.randomUUID().toString();
+        private String email;
         private String username;
         private String password;
         private String passwordSalt;
@@ -41,6 +50,11 @@ public class User {
 
         public UserBuilder id(final String id) {
             this.id = id;
+            return this;
+        }
+
+        public UserBuilder email(final String email) {
+            this.email = email;
             return this;
         }
 
@@ -70,11 +84,12 @@ public class User {
         }
 
         public User build() {
-            return new User(this.id, this.username, this.password, this.passwordSalt, this.role, this.userUuid);
+            return new User(this.id, this.email, this.username, this.password, this.passwordSalt, this.role, this.userUuid);
         }
 
         public String toString() {
             return "User.UserBuilder[id=" + this.id
+                    + ", email=" + this.email
                     + ", username=" + this.username
                     + ", password=" + this.password
                     + ", passwordSalt="+ this.passwordSalt

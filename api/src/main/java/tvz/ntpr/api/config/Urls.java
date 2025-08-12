@@ -27,6 +27,8 @@ public class Urls {
     public static final String URL_REFRESH = "/refresh";
 
     public static final String URL_CRON = "/cron";
+    public static final String URL_STUDENTS = "/students";
+    public static final String URL_EMAIL = "/email/{userId}";
 
     public static final String URL_ID = "/{id}";
     public static final String URL_WILDCARD = "/**";

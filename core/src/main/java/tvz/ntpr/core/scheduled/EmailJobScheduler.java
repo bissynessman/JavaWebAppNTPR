@@ -11,6 +11,7 @@ import tvz.ntpr.core.helper.Messages;
 import tvz.ntpr.core.entity.Student;
 import tvz.ntpr.core.security.AuthenticationService;
 import tvz.ntpr.core.service.CronService;
+import tvz.ntpr.core.service.UserService;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
@@ -21,22 +22,22 @@ import static tvz.ntpr.core.config.Urls.URL_STUDENT;
 
 @Service
 public class EmailJobScheduler {
-    @Autowired
     private final JavaMailSender mailSender;
-    @Autowired
     private final CronService cronService;
-    @Autowired
     private final Messages messages;
-    @Autowired
     private final AuthenticationService authenticationService;
 
-    public EmailJobScheduler(JavaMailSender mailSender, CronService cronService, Messages messages, AuthenticationService authenticationService) {
+    public EmailJobScheduler(JavaMailSender mailSender,
+                             CronService cronService,
+                             Messages messages,
+                             AuthenticationService authenticationService) {
         this.mailSender = mailSender;
         this.cronService = cronService;
         this.messages = messages;
         this.authenticationService = authenticationService;
     }
 
+//    @Scheduled(cron = "0 * * * * ?")
     @Scheduled(cron = "0 0 12 1 * ?")
     public void sendStudentReports() {
         List<Student> students = cronService.getAllStudents();
@@ -44,25 +45,25 @@ public class EmailJobScheduler {
         authenticationService.cron();
         for (Student student : students) {
             byte[] pdfData = scrapeHtmlToPdfByteArray(BASE_URL + URL_STUDENT, student.getId());
-            // TODO: add email to user table
-            String studentEmail = "tvz.java.web.app@gmail.com";
-            try {
-                sendEmail(studentEmail, pdfData);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
+            String studentEmail = cronService.getEmailByUserId(student.getId());
+//            studentEmail = "tvz.java.web.app@gmail.com";
+            sendEmail(studentEmail, pdfData);
         }
     }
 
-    private void sendEmail(String to, byte[] pdfData) throws MessagingException {
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+    private void sendEmail(String to, byte[] pdfData) {
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
-        helper.setTo(to);
-        helper.setSubject(messages.getMessage("student-report.subject"));
-        helper.setText(messages.getMessage("student-report.text"));
-        helper.addAttachment("student-report.pdf", () -> new ByteArrayInputStream(pdfData), "application/pdf");
+            helper.setTo(to);
+            helper.setSubject(messages.getMessage("student-report.subject"));
+            helper.setText(messages.getMessage("student-report.text"));
+            helper.addAttachment("student-report.pdf", () -> new ByteArrayInputStream(pdfData), "application/pdf");
 
-        mailSender.send(mimeMessage);
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 }

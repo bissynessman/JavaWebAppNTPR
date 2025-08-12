@@ -2,6 +2,7 @@ INSERT INTO `user` (
                 `id`,
                 `role`,
                 `user_uuid`,
+                `email`,
                 `username`,
                 `password`
 			)
@@ -9,6 +10,7 @@ INSERT INTO `user` (
                 'f2941987-1f60-4ae9-a33f-a767b9d07dff',
                 'ADMIN',
                 null,
+                'admin@ntpr.hr',
                 'admin',
                 '6700221bbe32dbc80ba9b573f57ef75d'
             );
@@ -16,6 +18,7 @@ INSERT INTO `user` (
                 `id`,
                 `role`,
                 `user_uuid`,
+                `email`,
                 `username`,
                 `password`
 			)
@@ -23,6 +26,7 @@ INSERT INTO `user` (
                 '51269c36-1da8-4154-b6c1-4c9d22613345',
                 'PROFESSOR',
                 'b3dbda61-412e-4df8-93c3-6bc02b6f91f1',
+                'testProf@ntpr.hr',
                 'testProf',
                 'b3d6069bc82a64da99c5d07d16b9984b'
             );
@@ -30,6 +34,7 @@ INSERT INTO `user` (
                 `id`,
                 `role`,
                 `user_uuid`,
+                `email`,
                 `username`,
                 `password`
 			)
@@ -37,6 +42,7 @@ INSERT INTO `user` (
 	            'afa0cd75-5940-42d7-a8ca-89e8ba9320fb',
 	            'STUDENT',
 	            '20b8f744-2d28-417c-a917-1acf0ffbb386',
+	            'testStud@ntpr.hr',
 	            'testStud',
 	            '26566cb79d7f81196e1ceeef596840aa'
 	        );

@@ -29,12 +29,23 @@ public class CronServiceImpl implements CronService {
         try{
             students = JsonParser.parseIntoList(
                     restTemplate.getForEntity(
-                            API_URL,
+                            API_URL + "/students",
                             String.class).getBody(),
                     Student.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return students;
+    }
+
+    @Override
+    public String getEmailByUserId(String userId) {
+        String email = null;
+        try {
+            email = restTemplate.getForEntity(API_URL + "/email/" + userId, String.class).getBody();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return email;
     }
 }

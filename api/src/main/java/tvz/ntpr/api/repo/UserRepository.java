@@ -9,4 +9,5 @@ import java.util.List;
 public interface UserRepository extends BaseRepository<User> {
     List<User> findAll();
     User findByUsername(String username);
+    String findEmailByUserUuid(String userId);
 }

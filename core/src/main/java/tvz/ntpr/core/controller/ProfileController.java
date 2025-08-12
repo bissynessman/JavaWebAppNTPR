@@ -26,6 +26,8 @@ import static tvz.ntpr.core.config.Urls.*;
 @RequestMapping(URL_PROFILE)
 @SessionAttributes({ "userToRegister", "profile" })
 public class ProfileController {
+    private static final String EMAIL_SUFFIX = "@ntpr.hr";
+
     private final UserService userService;
     private final ProfessorService professorService;
     private final StudentService studentService;
@@ -96,6 +98,7 @@ public class ProfileController {
     private User registerUser(UserToRegister userToRegister, String userUuid) {
         SpicedPassword spicedPassword = hashPassword(userToRegister.getPassword(), null, userToRegister.getUsername());
         User newUser = User.builder()
+                .email(userToRegister.getUsername() + EMAIL_SUFFIX)
                 .username(userToRegister.getUsername())
                 .password(spicedPassword.getPasswordHash())
                 .passwordSalt(spicedPassword.getSalt())

@@ -42,6 +42,7 @@ CREATE TABLE `user` (
 	       `id` VARCHAR(36)  NOT NULL,
 	     `role` VARCHAR(32)  NOT NULL,
 	`user_uuid` VARCHAR(36),
+	    `email` VARCHAR(40)  NOT NULL,
 	 `username` VARCHAR(32)  NOT NULL,
 	 `password` VARCHAR(255) NOT NULL,
 	PRIMARY KEY (`id`)

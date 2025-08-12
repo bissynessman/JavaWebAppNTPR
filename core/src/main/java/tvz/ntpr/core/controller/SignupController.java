@@ -34,8 +34,7 @@ public class SignupController {
     }
 
     @PostMapping
-    public String processSignup(Model model, RedirectAttributes redirectAttributes,
-                                  UserToRegister userToRegister) {
+    public String processSignup(Model model, RedirectAttributes redirectAttributes, UserToRegister userToRegister) {
         authenticationService.signup(userToRegister);
         if (userService.getByUsername(userToRegister.getUsername()) != null) {
             model.addAttribute("error", messages.getMessage("error.username-exists"));

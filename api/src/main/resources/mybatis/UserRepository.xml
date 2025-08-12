@@ -3,6 +3,7 @@
 <mapper namespace="tvz.ntpr.api.repo.UserRepository">
     <resultMap id="base" type="tvz.ntpr.api.entity.User">
         <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
         <result column="password_salt" jdbcType="VARCHAR" property="passwordSalt"/>
@@ -14,6 +15,7 @@
         INSERT
           INTO `user` (
                    `id`,
+                   `email`,
                    `username`,
                    `password`,
                    `password_salt`,
@@ -22,6 +24,7 @@
                )
         VALUES (
                    #{id,jdbcType=VARCHAR},
+                   #{email,jdbcType=VARCHAR},
                    #{username,jdbcType=VARCHAR},
                    #{password,jdbcType=VARCHAR},
                    #{passwordSalt,jdbcType=VARCHAR},
@@ -32,7 +35,8 @@
 
     <update id="update" parameterType="tvz.ntpr.api.entity.User" keyProperty="id">
         UPDATE `user`
-           SET `username`      = #{username,jdbcType=VARCHAR},
+           SET `email`         = #{email,jdbcType=VARCHAR},
+               `username`      = #{username,jdbcType=VARCHAR},
                `password`      = #{password,jdbcType=VARCHAR},
                `password_salt` = #{passwordSalt,jdbcType=VARCHAR},
                `role`          = #{role,jdbcType=VARCHAR},
@@ -68,6 +72,14 @@
           FROM `user`
         <where>
                `username` = #{username,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <select id="findEmailByUserUuid" parameterType="String" resultType="String">
+        SELECT `email`
+          FROM `user`
+        <where>
+               `user_uuid` = #{uudi,jdbcType=VARCHAR}
         </where>
     </select>
 </mapper>
