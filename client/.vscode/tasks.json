@@ -1,41 +1,45 @@
 {
     "version": "2.0.0",
     "tasks": [
-        {
-            "type": "cppbuild",
-            "label": "NTRP Library Build",
-            "command": "C:/msys64/ucrt64/bin/g++.exe",
-            "args": [
-                "-fdiagnostics-color=always",
-				"-I", "C:\\Program Files (x86)\\vcpkg\\installed\\x64-windows\\include",
-				"-L", "C:\\Program Files (x86)\\vcpkg\\installed\\x64-windows\\lib",
-                "-g", "${workspaceFolder}\\source\\ntpr_library.cpp",
-                "-o", "${workspaceFolder}\\bin\\ntpr_handler embedded dlls\\ntpr_library.dll",
-                "-lcurl",
-                "-lole32",
-                "-lcomctl32",
-                "-lshell32",
-                "-luser32",
-                "-lgdi32",
-                "-ladvapi32",
-                "-lws2_32",
-                "-luuid",
+		{
+			"type": "cppbuild",
+			"label": "NTRP Library Build",
+			"command": "C:/msys64/ucrt64/bin/g++.exe",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-I",
+				"C:\\Program Files (x86)\\vcpkg\\installed\\x64-windows\\include",
+				"-L",
+				"C:\\Program Files (x86)\\vcpkg\\installed\\x64-windows\\lib",
+				"-g",
+				"${workspaceFolder}\\source\\ntpr_library.cpp",
+				"-o",
+				"${workspaceFolder}\\bin\\ntpr_handler embedded dlls\\ntpr_library.dll",
+				"-lcurl",
+				"-lole32",
+				"-lcomctl32",
+				"-lshell32",
+				"-luser32",
+				"-lgdi32",
+				"-ladvapi32",
+				"-lws2_32",
+				"-luuid",
 				"-lssl",
 				"-lcrypto",
-                "-shared"
-            ],
-            "options": {
-                "cwd": "C:/msys64/ucrt64/bin"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            },
-            "detail": "Build NTPR Library as a DLL"
-        },
+				"-shared"
+			],
+			"options": {
+				"cwd": "C:/msys64/ucrt64/bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": false
+			},
+			"detail": "Build NTPR Library as a DLL"
+		},
 		{
 			"type": "shell",
 			"label": "NTPR Handler Build",
@@ -43,12 +47,17 @@
 			"args": [
 				"--onefile",
 				"--noconsole",
-				"--add-binary", "${workspaceFolder}\\bin\\ntpr_handler embedded dlls\\ntpr_library.dll;.",
-				"--add-binary", "${workspaceFolder}\\bin\\ntpr_handler embedded dlls\\libcurl.dll;.",
-				"--specpath", "${workspaceFolder}\\build artifacts\\PyInstaller",
-				"--workpath", "${workspaceFolder}\\build artifacts\\PyInstaller",
+				"--add-binary",
+				"${workspaceFolder}\\bin\\ntpr_handler embedded dlls\\ntpr_library.dll;.",
+				"--add-binary",
+				"${workspaceFolder}\\bin\\ntpr_handler embedded dlls\\libcurl.dll;.",
+				"--specpath",
+				"${workspaceFolder}\\build artifacts\\PyInstaller",
+				"--workpath",
+				"${workspaceFolder}\\build artifacts\\PyInstaller",
 				"--clean",
-				"--distpath", "bin",
+				"--distpath",
+				"bin",
 				"${workspaceFolder}\\source\\ntpr_handler.py"
 			],
 			"options": {
@@ -86,7 +95,8 @@
 				"NTRP Library Build",
 				"NTPR Handler Build",
 				"NTPR Installer Build"
-			]
+			],
+			"problemMatcher": []
 		}
-    ]
+	]
 }
