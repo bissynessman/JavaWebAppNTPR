@@ -49,7 +49,7 @@ Each module has its own `pom.xml` and can be run independently.
   - Use Cron scheduler for periodic job execution.
   - Generate PDFs with detached digital signatures using a PKCS#12 keystore.
 - Client-side app for managing downloads.
-  - If ran by an implemented custom protocol prompts use to input a bandwidth limit and downloads files from a URL supplied by the protocol.
+  - If ran by an implemented custom protocol prompts user to input a bandwidth limit and downloads files from a URL supplied by the protocol.
   - If ran by user prompts them to select a PDF file and it's signature to verify validity.
 
 ---
@@ -68,6 +68,8 @@ Each module has its own `pom.xml` and can be run independently.
 - H2
 - MyBatis
 - Flyway
+- curl
+- OpenSSL
 
 ---
 
@@ -75,6 +77,7 @@ Each module has its own `pom.xml` and can be run independently.
 
 - Java 17+
 - Maven 3.6+
+- Windows 8+
 
 ---
 
@@ -92,7 +95,7 @@ Typical configuration points:
     `server.port=8080`
 
 - A PKCS#12 keystore under `core/src/main/resources/other`.
-- A corresponding `cert.pem` file in `client/bin`.
+- A corresponding `cert.pem` file under `client/bin`.
 
 ---
 
@@ -100,7 +103,7 @@ Typical configuration points:
 
 ### Client-side `ntpr://` protocol handler
 
-- **Handler & install path:** `ntpr_handler.exe` (Python→PyInstaller) is installed, by default, to `C:\Program Files (x86)\NTPR\ntpr_handler.exe` alongside `cert.pem`.  
+- **Handler & install path:** `ntpr_handler.exe` is installed, by default, to `C:\Program Files (x86)\NTPR\ntpr_handler.exe` alongside `cert.pem`.  
 - **Protocol format:**  
   `ntpr://download?url=<percent-encoded-URL>` — `url` must be percent-encoded.
 - **Registry / launch:** Installer must register the protocol so the command is exactly:  
@@ -108,7 +111,7 @@ Typical configuration points:
   Wrong quoting or registering under the wrong hive will break launches.
 - **Native DLL** The EXE uses a native DLL requiring minimum version of Windows: Windows 8 (WINVER, _WIN32_WINNT = 0x0602).
 - **Quick local test:**
-  `"C:\Program Files (x86)\ntprprotocolhandler\protocol_handler.exe" "ntpr://download?url=..."`
+  `"C:\Program Files (x86)\NTPR\ntpr_handler.exe" "ntpr://download?url=..."`
 
 ---
 
