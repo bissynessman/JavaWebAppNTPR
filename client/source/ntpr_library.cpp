@@ -22,7 +22,7 @@ HWND hLabelStats;
 HWND hLabelPercent;
 long gBandwidthLimit = 0;
 std::chrono::steady_clock::time_point gStartTime;
-std::string gTempFilename = "temp_download.tmp";
+std::string gTempFilename = "download.tmp";
 std::string gFilename;
 
 std::string get_downloads_folder() {
@@ -137,16 +137,16 @@ void make_download_window() {
 	RegisterClassW(&wc);
 
 	hWnd = CreateWindowW(utf8_to_wstring(CLASS_NAME).c_str(), utf8_to_wstring("Downloading...").c_str(),
-						WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX,
-						CW_USEDEFAULT, CW_USEDEFAULT, 320, 150,
-						NULL, NULL, GetModuleHandle(NULL), NULL);
+						 WS_OVERLAPPEDWINDOW & ~WS_MAXIMIZEBOX & ~WS_SIZEBOX,
+						 CW_USEDEFAULT, CW_USEDEFAULT, 320, 150,
+						 NULL, NULL, GetModuleHandle(NULL), NULL);
 
 	InitCommonControls();
 
 	hLabelFile = CreateWindowW(utf8_to_wstring("STATIC").c_str(), utf8_to_wstring(gFilename).c_str(),
-							  WS_CHILD | WS_VISIBLE,
-							  10, 10, 280, 20,
-							  hWnd, NULL, GetModuleHandle(NULL), NULL);
+							   WS_CHILD | WS_VISIBLE,
+							   10, 10, 280, 20,
+							   hWnd, NULL, GetModuleHandle(NULL), NULL);
 
 	hProgressBar = CreateWindowEx(0, PROGRESS_CLASS, NULL,
 								  WS_CHILD | WS_VISIBLE,
@@ -155,24 +155,23 @@ void make_download_window() {
 	SendMessage(hProgressBar, PBM_SETRANGE, 0, MAKELPARAM(0, 100));
 
 	hLabelPercent = CreateWindowW(utf8_to_wstring("STATIC").c_str(), utf8_to_wstring("0%").c_str(),
-								 WS_CHILD | WS_VISIBLE | SS_RIGHT,
-								 240, 40, 60, 20,
-								 hWnd, NULL, GetModuleHandle(NULL), NULL);
+								  WS_CHILD | WS_VISIBLE | SS_RIGHT,
+								  240, 40, 60, 20,
+								  hWnd, NULL, GetModuleHandle(NULL), NULL);
 
 	hLabelStats = CreateWindowW(utf8_to_wstring("STATIC").c_str(), utf8_to_wstring("0 KB/s - ETA: 0m 0s").c_str(),
-							   WS_CHILD | WS_VISIBLE,
-							   10, 70, 280, 20,
-							   hWnd, NULL, GetModuleHandle(NULL), NULL);
+								WS_CHILD | WS_VISIBLE,
+								10, 70, 280, 20,
+								hWnd, NULL, GetModuleHandle(NULL), NULL);
 
 	ShowWindow(hWnd, SW_SHOW);
 }
 
 void download(std::string url) {
 	std::string downloads_path = get_downloads_folder();
-
 	std::string output_path = downloads_path + "\\" + gTempFilename;
-
 	CURL* curl = curl_easy_init();
+
 	if (curl) {
 		std::ofstream outFile(output_path, std::ios::binary);
 
@@ -206,78 +205,74 @@ void showNotification(const char* message) {
 	MessageBoxA(hWndForeground, message, "Notification", MB_OK | MB_ICONINFORMATION);
 }
 
-int verifySignature(const char* dataFilepath,
-					const char* sigFilepath,
-					const char* certFilepath) {
+int verifySignature(const char* dataFilepath, const char* sigFilepath, const char* certFilepath) {
+	int return_value;
+	std::ifstream in(dataFilepath, std::ios::binary);
+	const size_t BUF_SZ = 8192;
+	std::vector<char> buffer(BUF_SZ);
+	bool valid;
+
 	ERR_load_crypto_strings();
 	OpenSSL_add_all_algorithms();
 
 	std::vector<unsigned char> sig = read_file(sigFilepath);
 
 	if (sig.empty())
-		return 2;
+		return -1;
 
 	BIO* bio_cert = BIO_new_file(certFilepath, "r");
 	if (!bio_cert)
-		return 3;
+		return -1;
 
 	X509* cert = PEM_read_bio_X509(bio_cert, nullptr, nullptr, nullptr);
 	BIO_free(bio_cert);
 	if (!cert)
-		return 4;
+		return 2;
 
 	EVP_PKEY* pubkey = X509_get_pubkey(cert);
 	X509_free(cert);
 	if (!pubkey)
-		return 5;
+		return_value = 2;
 
 	EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
 	if (!mdctx) {
-		EVP_PKEY_free(pubkey);
-		return 6;
+		return_value = 3;
+		goto leave_pkey;
 	}
 
-	if (EVP_DigestVerifyInit(mdctx, nullptr, EVP_sha256(), nullptr, pubkey) != 1) {
-		EVP_MD_CTX_free(mdctx);
-		EVP_PKEY_free(pubkey);
-		return 7;
+	if (!in.is_open() || EVP_DigestVerifyInit(mdctx, nullptr, EVP_sha256(), nullptr, pubkey) != 1) {
+		return_value = 4;
+		goto leave_mdctx;
 	}
 
-	std::ifstream in(dataFilepath, std::ios::binary);
-	if (!in.is_open()) {
-		EVP_MD_CTX_free(mdctx);
-		EVP_PKEY_free(pubkey);
-		return 8;
-	}
-
-	const size_t BUF_SZ = 8192;
-	std::vector<char> buffer(BUF_SZ);
 	while (in.good()) {
 		in.read(buffer.data(), (std::streamsize)BUF_SZ);
 		std::streamsize nBytesRead = in.gcount();
 		if (nBytesRead > 0) {
 			if (EVP_DigestVerifyUpdate(mdctx, reinterpret_cast<unsigned char*>(buffer.data()), (size_t)nBytesRead) != 1) {
-				EVP_MD_CTX_free(mdctx);
-				EVP_PKEY_free(pubkey);
-				return 9;
+				return_value = 5;
+				goto leave_mdctx;
 			}
 		}
 	}
 	in.close();
 
-	bool valid = EVP_DigestVerifyFinal(mdctx, sig.data(), sig.size()) == 1;
+	valid = EVP_DigestVerifyFinal(mdctx, sig.data(), sig.size()) == 1;
+	return_value = 0;
 
+leave_mdctx:
 	EVP_MD_CTX_free(mdctx);
+leave_pkey:
 	EVP_PKEY_free(pubkey);
 
-	return valid ? 0 : 1;
+	return return_value ? return_value : valid ? 0 : 1;
 }
 
 int downloadFile(const char* url, long bandwidthLimitBytesPerSec) {
-	try {
-		std::string urlStr(url);
-		gBandwidthLimit = bandwidthLimitBytesPerSec;
 
+	try {
+		gBandwidthLimit = bandwidthLimitBytesPerSec;
+		std::string urlStr(url);
 		size_t pos = urlStr.find_last_of('/');
 
 		make_download_window();
