@@ -40,7 +40,7 @@ public class PasswordUtils {
         StringBuilder sb = new StringBuilder();
 
         String salt = generateSalt(username);
-        String pepper = PEPPERS[generatePepperIntex()];
+        String pepper = PEPPERS[generatePepperIndex()];
 
         sb.append(password);
         sb.append(salt);
@@ -76,7 +76,7 @@ public class PasswordUtils {
         return sb.toString();
     }
 
-    private static int generatePepperIntex() {
+    private static int generatePepperIndex() {
         Random rng = new Random();
         return rng.nextInt(PEPPERS.length);
     }
