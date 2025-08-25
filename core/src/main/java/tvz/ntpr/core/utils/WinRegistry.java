@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class WinRegistry {
-    public static final String CHANGE_LANGUAGE_REGISTRY_PATH = "HKEY_LOCAL_MACHINE\\SOFTWARE\\NTPR\\JavaApp\\Language";
+    public static final String CHANGE_LANGUAGE_REGISTRY_PATH = "HKEY_CURRENT_USER\\SOFTWARE\\NTPR\\JavaApp\\Language";
     public static final String LANGUAGE_VALUE_NAME = "lang";
 
     public static String readRegistryValue(String regPath, String valueName) {
