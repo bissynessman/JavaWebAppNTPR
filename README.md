@@ -46,11 +46,20 @@ Each module has its own `pom.xml` and can be run independently.
   - Produces and uses JWTs for authenticated access to the database.
 - Core services that:
   - Host web pages as user interfaces.
+    - Login/Signup
+    - Student overview
+    - Professor overview
+    - Administrative actions
+      - Professor authorization
+      - User account manipulation
+      - New course input
+    - New Grade input
   - Use Cron scheduler for periodic job execution.
   - Generate PDFs with detached digital signatures using a PKCS#12 keystore.
-- Client-side app for managing downloads.
+    - Download generated PDFs along with their detached signature as a .zip archive
+- Client-side app
   - If ran by an implemented custom protocol prompts user to input a bandwidth limit and downloads files from a URL supplied by the protocol.
-  - If ran by user prompts them to select a PDF file and it's signature to verify validity.
+  - If ran by user prompts them to select a PDF file and it's detached signature to verify validity.
 
 ---
 
@@ -68,6 +77,7 @@ Each module has its own `pom.xml` and can be run independently.
 - H2
 - MyBatis
 - Flyway
+- Tkinter
 - curl
 - OpenSSL
 
@@ -77,6 +87,7 @@ Each module has its own `pom.xml` and can be run independently.
 
 - Java 17+
 - Maven 3.6+
+- Python 3.0+
 - Windows 8+
 
 ---
@@ -105,7 +116,7 @@ Typical configuration points:
 
 - **Handler & install path:** `ntpr_handler.exe` is installed, by default, to `C:\Program Files (x86)\NTPR\ntpr_handler.exe` alongside `cert.pem`.  
 - **Protocol format:**  
-  `ntpr://download?url=<percent-encoded-URL>` — `url` must be percent-encoded.
+  `ntpr://download?url=<URL>` — `<URL>` must be percent-encoded.
 - **Registry / launch:** Installer must register the protocol so the command is exactly:  
   `"<path>\protocol_handler.exe" "%1"`  
   Wrong quoting or registering under the wrong hive will break launches.
