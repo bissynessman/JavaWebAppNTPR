@@ -8,6 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class NtprCoreApplication {
     public static void main(String[] args) {
-        SpringApplication.run(NtprCoreApplication.class, args);
+        SpringApplication app = new SpringApplication(NtprCoreApplication.class);
+        app.setAdditionalProfiles("ntpr");
+        app.run(args);
     }
 }
