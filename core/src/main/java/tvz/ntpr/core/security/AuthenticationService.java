@@ -27,8 +27,13 @@ public class AuthenticationService {
     }
 
     public void refresh() {
-        String newToken = refreshService.getAccessToken(jwtHolder.getRefreshToken());
-        jwtHolder.setAccessToken(newToken);
+        String refreshToken = jwtHolder.getRefreshToken();
+        if (refreshToken != null) {
+            String newToken = refreshService.getAccessToken(refreshToken);
+            jwtHolder.setAccessToken(newToken);
+        } else {
+            jwtHolder.setAccessToken(null);
+        }
     }
 
     public void cron() {

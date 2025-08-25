@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, URL_AUTH + URL_WILDCARD).permitAll()
+//                        .requestMatchers(HttpMethod.POST, URL_PROFESSOR, URL_STUDENT, URL_USER).permitAll()
                         .requestMatchers(HttpMethod.GET, URL_USER + URL_USERNAME + URL_WILDCARD).permitAll()
                         .requestMatchers(HttpMethod.GET, URL_CRON + URL_WILDCARD, URL_AUTH + URL_CRON)
                                 .access((authentication, context) -> {

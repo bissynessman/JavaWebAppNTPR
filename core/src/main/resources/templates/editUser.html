@@ -13,14 +13,8 @@
         <div th:replace="~{fragments::languageSwitch}"></div>
         <div class="container mt-5">
             <h1 class="mb-4" th:text="#{edit-user.title}"></h1>
-
-            <div th:if="${error != null}" class="card mb-4">
-                <div class="card-body">
-                    <div class="error-message">
-                        <p th:text="${error}"></p>
-                    </div>
-                </div>
-            </div>
+            <div th:replace="~{fragments::success}"></div>
+            <div th:replace="~{fragments::error}"></div>
 
             <form method="POST" th:action="@{/users/edit/{id}(id=${userUpdate.id})}" th:object="${userUpdate}">
                 <table class="table table-striped">

@@ -31,13 +31,14 @@ public class AuthController {
     @PostMapping
     public String generateRefreshToken(@RequestBody LoginRequest loginRequest) {
         User user = userService.getByUsername(loginRequest.getUsername());
-        String password = user.getPassword();
-        String salt = user.getPasswordSalt();
-        String username = user.getUsername();
-        if (PasswordUtils.verifyPassword(password, loginRequest.getPassword(), salt, username)) {
-            JwToken refreshToken = JwtGenerator.makeToken(user.getUsername(), ONE_WEEK);
-            refreshTokenService.deleteByUsername(user.getUsername());
-            return refreshTokenService.create(refreshToken).getToken();
+        if (user != null) {
+            String password = user.getPassword();
+            String username = user.getUsername();
+            if (PasswordUtils.verifyPassword(password, loginRequest.getPassword(), username)) {
+                JwToken refreshToken = JwtGenerator.makeToken(user.getUsername(), ONE_WEEK);
+                refreshTokenService.deleteByUsername(user.getUsername());
+                return refreshTokenService.create(refreshToken).getToken();
+            }
         }
 
         return null;

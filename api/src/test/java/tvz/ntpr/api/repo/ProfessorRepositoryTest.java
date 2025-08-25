@@ -31,7 +31,6 @@ class ProfessorRepositoryTest {
                 "test@test.test",
                 "testusername",
                 "testpassword",
-                "test",
                 Role.STUDENT,
                 "testuuid2");
         professorRepository.create(mockProfessor);

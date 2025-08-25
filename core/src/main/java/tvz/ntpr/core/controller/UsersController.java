@@ -10,7 +10,6 @@ import tvz.ntpr.core.helper.BooleanWrapper;
 import tvz.ntpr.core.helper.DeleteBuffer;
 import tvz.ntpr.core.enums.Role;
 import tvz.ntpr.core.entity.User;
-import tvz.ntpr.core.helper.SpicedPassword;
 import tvz.ntpr.core.security.AuthenticationService;
 import tvz.ntpr.core.service.UserService;
 
@@ -78,9 +77,8 @@ public class UsersController {
         if (user != null) {
             user.setUsername(userUpdate.getUsername());
             if (!userUpdate.getPassword().isEmpty()) {
-                SpicedPassword spicedPassword = hashPassword(userUpdate.getPassword(), null, userUpdate.getUsername());
-                user.setPassword(spicedPassword.getPasswordHash());
-                user.setPasswordSalt(spicedPassword.getSalt());
+                String spicedPassword = hashPassword(userUpdate.getPassword(), userUpdate.getUsername());
+                user.setPassword(spicedPassword);
             }
             userService.updateUser(user);
             redirectAttributes.addFlashAttribute("success", messages.getMessage("success.changes-saved"));

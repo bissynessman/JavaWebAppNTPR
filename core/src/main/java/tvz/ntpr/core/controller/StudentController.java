@@ -86,20 +86,19 @@ public class StudentController {
                         .build();
 
                 reportService.saveReport(new ReportWrapper(report, data, signature));
-                String downloadUrlRedirectAttr =
+                String downloadUrl =
                         NTPR_PROTOCOL_PREFIX + DatabaseApi.REPORTS_API + "/" + report.getStudent();
-                redirectAttributes.addFlashAttribute("downloadUrl", downloadUrlRedirectAttr);
+                redirectAttributes.addFlashAttribute("downloadUrl", downloadUrl);
+                redirectAttributes.addFlashAttribute("success", messages.getMessage("success.generation"));
             } else {
                 Files.deleteIfExists(data.toPath());
                 Files.deleteIfExists(signature.toPath());
                 redirectAttributes.addFlashAttribute("error", messages.getMessage("error.generation-failed"));
             }
-            return "redirect:" + URL_STUDENT;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        redirectAttributes.addFlashAttribute("success", messages.getMessage("success.download"));
         return "redirect:" + URL_STUDENT;
     }
 

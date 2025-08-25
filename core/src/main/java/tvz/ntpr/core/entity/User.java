@@ -11,7 +11,6 @@ public class User {
     private String email;
     private String username;
     private String password;
-    private String passwordSalt;
     private Role role;
     private String userUuid;
 
@@ -21,14 +20,12 @@ public class User {
                  final String email,
                  final String username,
                  final String password,
-                 final String passwordSalt,
                  final Role role,
                  final String userUuid) {
         this.id = id;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.passwordSalt = passwordSalt;
         this.role = role;
         this.userUuid = userUuid;
     }
@@ -42,7 +39,6 @@ public class User {
         private String email;
         private String username;
         private String password;
-        private String passwordSalt;
         private Role role;
         private String userUuid;
 
@@ -68,11 +64,6 @@ public class User {
             return this;
         }
 
-        public UserBuilder passwordSalt(final String passwordSalt) {
-            this.passwordSalt = passwordSalt;
-            return this;
-        }
-
         public UserBuilder role(final Role role) {
             this.role = role;
             return this;
@@ -84,7 +75,7 @@ public class User {
         }
 
         public User build() {
-            return new User(this.id, this.email, this.username, this.password, this.passwordSalt, this.role, this.userUuid);
+            return new User(this.id, this.email, this.username, this.password, this.role, this.userUuid);
         }
 
         public String toString() {
@@ -92,7 +83,6 @@ public class User {
                     + ", email=" + this.email
                     + ", username=" + this.username
                     + ", password=" + this.password
-                    + ", passwordSalt="+ this.passwordSalt
                     + ", role=" + this.role
                     + ", userUuid=" + this.userUuid
                     + "]";
