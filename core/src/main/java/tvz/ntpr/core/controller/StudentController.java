@@ -89,6 +89,7 @@ public class StudentController {
                 String downloadUrl =
                         NTPR_PROTOCOL_PREFIX + DatabaseApi.REPORTS_API + "/" + report.getStudent();
                 redirectAttributes.addFlashAttribute("downloadUrl", downloadUrl);
+                redirectAttributes.addFlashAttribute("success", messages.getMessage("success.download"));
             } else {
                 Files.deleteIfExists(data.toPath());
                 Files.deleteIfExists(signature.toPath());
@@ -99,7 +100,6 @@ public class StudentController {
             e.printStackTrace();
         }
 
-        redirectAttributes.addFlashAttribute("success", messages.getMessage("success.download"));
         return "redirect:" + URL_STUDENT;
     }
 
