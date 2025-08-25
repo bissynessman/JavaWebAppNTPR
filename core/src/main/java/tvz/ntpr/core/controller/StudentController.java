@@ -95,7 +95,6 @@ public class StudentController {
                 Files.deleteIfExists(signature.toPath());
                 redirectAttributes.addFlashAttribute("error", messages.getMessage("error.generation-failed"));
             }
-            return "redirect:" + URL_STUDENT;
         } catch (Exception e) {
             e.printStackTrace();
         }
