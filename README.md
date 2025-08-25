@@ -1,4 +1,4 @@
-# NTPR Project - Java Web App
+# Final Project - Java Web App
 
 A Spring Boot multi-module project consisting of three related applications in one repository:
 
