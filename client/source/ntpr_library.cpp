@@ -232,7 +232,7 @@ int verifySignature(const char* dataFilepath, const char* sigFilepath, const cha
 	EVP_PKEY* pubkey = X509_get_pubkey(cert);
 	X509_free(cert);
 	if (!pubkey)
-		return_value = 2;
+		return 2;
 
 	EVP_MD_CTX* mdctx = EVP_MD_CTX_new();
 	if (!mdctx) {
@@ -269,7 +269,6 @@ leave_pkey:
 }
 
 int downloadFile(const char* url, long bandwidthLimitBytesPerSec) {
-
 	try {
 		gBandwidthLimit = bandwidthLimitBytesPerSec;
 		std::string urlStr(url);
