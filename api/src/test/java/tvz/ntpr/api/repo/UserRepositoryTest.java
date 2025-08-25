@@ -25,14 +25,12 @@ class UserRepositoryTest {
                 "test@test.test",
                 "testusername",
                 "testpassword",
-                "test",
                 Role.STUDENT,
                 "testuseruuid");
         mockUser2 = new User("testuuid2",
                 "test2@test.test",
                 "testusername2",
                 "testpassword2",
-                "test",
                 Role.PROFESSOR,
                 "testuseruuid2");
         userRepository.create(mockUser);

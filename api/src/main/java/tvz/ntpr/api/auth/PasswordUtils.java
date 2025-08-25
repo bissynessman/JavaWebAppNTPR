@@ -1,12 +1,12 @@
 package tvz.ntpr.api.auth;
 
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Random;
 
 public class PasswordUtils {
-    private static final String ALGORITHM = "MD5";
-    private static final String[] pepper = {
+    private static final String ALGORITHM = "SHA-256";
+    private static final String[] PEPPERS = {
             "_B2sv:b8",
             "4utJctyv",
             "-sBXN)GL",
@@ -17,53 +17,70 @@ public class PasswordUtils {
             "Z9_ftZ-o"
     };
 
-    public static Boolean verifyPassword(String passwordHash, String password, String salt, String username) {
-        return passwordHash.equals(PasswordUtils.hashPassword(password, salt, username).getPasswordHash());
-    }
+    public static Boolean verifyPassword(String passwordHash, String password, String username) {
+        Boolean result = false;
 
-    private static SpicedPassword hashPassword(String password, String salt, String username) {
-        if (salt == null) {
-            salt = generateSalt();
+        String saltedPassword = salt(password, username);
+        for (String pepper : PEPPERS) {
+            if (passwordHash.equals(PasswordUtils.hashPassword(saltedPassword + pepper, username)))
+                result = true;
         }
 
+        return result;
+    }
+
+    private static String hashPassword(String spicedPassword, String username) {
         try {
             MessageDigest md = MessageDigest.getInstance(ALGORITHM);
 
-            String spiced = spice(password, salt, username);
-            byte[] hashBytes = md.digest(spiced.getBytes());
+            byte[] hashBytes = md.digest(spicedPassword.getBytes(StandardCharsets.UTF_8));
 
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             for (byte b : hashBytes) {
-                stringBuilder.append(String.format("%02x", b));
+                sb.append(String.format("%02x", b));
             }
 
-            return SpicedPassword.builder()
-                    .passwordHash(stringBuilder.toString())
-                    .salt(salt)
-                    .build();
+            return sb.toString();
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static String spice(String password, String salt, String username) {
-        StringBuilder stringBuilder = new StringBuilder();
-        int pepperIndex = Math.abs(username.hashCode()) % pepper.length;
+    public static String salt(String password, String username) {
+        StringBuilder sb = new StringBuilder();
 
-        stringBuilder.append(password);
-        stringBuilder.append(salt);
-        stringBuilder.append(pepper[pepperIndex]);
+        String salt = generateSalt(username);
 
-        return stringBuilder.toString();
+        sb.append(password);
+        sb.append(salt);
+
+        return sb.toString();
     }
 
-    private static String generateSalt() {
-        Random rng = new Random();
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 8; i++) {
-            int randomAscii = 32 + rng.nextInt(95);
-            stringBuilder.append((char) randomAscii);
+    private static String generateSalt(String username) {
+        StringBuilder sb = new StringBuilder();
+
+        try {
+            MessageDigest md = MessageDigest.getInstance(ALGORITHM);
+
+            for (int i = 0; i < username.length() - 1; i++) {
+                byte[] hashBytes = md.digest(username.substring(i, i + 2).getBytes(StandardCharsets.UTF_8));
+
+                for (int j = 0; j < hashBytes.length; j += 4) {
+                    int value = 0;
+                    for (int k = 0; k < 4 && (j + k) < hashBytes.length; k++)
+                        value |= (hashBytes[j + k] & 0xFF) << (8 * (3 - k));
+
+                    int modValue = value % 361;
+                    if (modValue < 0) modValue += 361;
+
+                    sb.append(Integer.toString(modValue, 36));
+                }
+            }
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
-        return stringBuilder.toString();
+
+        return sb.toString();
     }
 }

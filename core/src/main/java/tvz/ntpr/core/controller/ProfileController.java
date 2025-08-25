@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tvz.ntpr.core.helper.Messages;
 import tvz.ntpr.core.enums.Role;
-import tvz.ntpr.core.helper.SpicedPassword;
 import tvz.ntpr.core.helper.UserToRegister;
 import tvz.ntpr.core.entity.Professor;
 import tvz.ntpr.core.entity.Student;
@@ -57,6 +56,7 @@ public class ProfileController {
     public String handleProfileSetup(Model model, RedirectAttributes redirectAttributes,
                                      UserToRegister userToRegister,
                                      @ModelAttribute("profile") Object profile) {
+        authenticationService.signup(userToRegister);
         if (profile instanceof Professor professorProfile) {
             Professor newProfessor = Professor.builder()
                     .firstName(professorProfile.getFirstName())
@@ -96,12 +96,11 @@ public class ProfileController {
     }
 
     private User registerUser(UserToRegister userToRegister, String userUuid) {
-        SpicedPassword spicedPassword = hashPassword(userToRegister.getPassword(), null, userToRegister.getUsername());
+        String spicedPassword = hashPassword(userToRegister.getPassword(), userToRegister.getUsername());
         User newUser = User.builder()
                 .email(userToRegister.getUsername() + EMAIL_SUFFIX)
                 .username(userToRegister.getUsername())
-                .password(spicedPassword.getPasswordHash())
-                .passwordSalt(spicedPassword.getSalt())
+                .password(spicedPassword)
                 .role(userToRegister.getRole())
                 .userUuid(userUuid)
                 .build();

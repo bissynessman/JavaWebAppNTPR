@@ -12,7 +12,7 @@ INSERT INTO `user` (
                 null,
                 'admin@ntpr.hr',
                 'admin',
-                '6700221bbe32dbc80ba9b573f57ef75d'
+                '94b5ff32f1f0dfc73723c8c4d7c03bce394dfbaef495398d610e9d50778ec7d8'
             );
 INSERT INTO `user` (
                 `id`,
@@ -28,7 +28,7 @@ INSERT INTO `user` (
                 'b3dbda61-412e-4df8-93c3-6bc02b6f91f1',
                 'testProf@ntpr.hr',
                 'testProf',
-                'b3d6069bc82a64da99c5d07d16b9984b'
+                'd933f3a75ac77a985fca7fdd8668584f5d592a5c5460ab705db5a12d6aa887b4'
             );
 INSERT INTO `user` (
                 `id`,
@@ -44,7 +44,7 @@ INSERT INTO `user` (
 	            '20b8f744-2d28-417c-a917-1acf0ffbb386',
 	            'testStud@ntpr.hr',
 	            'testStud',
-	            '26566cb79d7f81196e1ceeef596840aa'
+	            '36fac4163e065e0bc8e56aa56ecb0e25ada0a661683547ea0a243cea8d0e803b'
 	        );
 INSERT INTO `student` (
                 `id`,
