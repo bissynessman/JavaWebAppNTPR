@@ -1,6 +1,9 @@
 package tvz.ntpr.core.utils;
 
+import org.springframework.core.io.ClassPathResource;
+
 import java.io.*;
+import java.nio.file.Files;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.Signature;
@@ -11,6 +14,9 @@ public class DigitalSignature {
     private static final String KEY_PASSWORD = "keypass";
     private static final String KEY_ALIAS = "ntprkey";
     private static final String HASH_ALGORITHM = "SHA256withRSA";
+
+    private static final String VERIFIER_PATH = "other/verifier.exe";
+    private static final String CERT_PATH = "other/cert.pem";
 
     public static File createDetachedSignature(File input) throws Exception {
         Signature sig = Signature.getInstance(HASH_ALGORITHM);
@@ -40,5 +46,33 @@ public class DigitalSignature {
         }
 
         return signatureFile;
+    }
+
+    public static int verifySignature(File data, File sig) throws Exception {
+        ClassPathResource verifierResource = new ClassPathResource(VERIFIER_PATH);
+        ClassPathResource certResource = new ClassPathResource(CERT_PATH);
+        File verifier = Files.createTempFile("verifier-", ".exe").toFile();
+        File cert = Files.createTempFile("certificate-", ".pem").toFile();
+
+        verifier.deleteOnExit();
+        try (InputStream in = verifierResource.getInputStream();
+             OutputStream out = new FileOutputStream(verifier)) {
+            in.transferTo(out);
+        }
+        verifier.setExecutable(true);
+
+        cert.deleteOnExit();
+        try (InputStream in = certResource.getInputStream();
+             OutputStream out = new FileOutputStream(cert)) {
+            in.transferTo(out);
+        }
+
+        ProcessBuilder pb = new ProcessBuilder(
+                verifier.getAbsolutePath(), data.getAbsolutePath(), sig.getAbsolutePath(), cert.getAbsolutePath());
+        pb.redirectErrorStream(true);
+        Process process = pb.start();
+        int exitCode = process.waitFor();
+
+        return exitCode;
     }
 }

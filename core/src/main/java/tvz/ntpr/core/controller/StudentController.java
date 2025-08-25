@@ -19,16 +19,20 @@ import tvz.ntpr.core.service.ReportService;
 import tvz.ntpr.core.service.StudentService;
 
 import java.io.File;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.List;
 
 import static tvz.ntpr.core.utils.DigitalSignature.createDetachedSignature;
+import static tvz.ntpr.core.utils.DigitalSignature.verifySignature;
 import static tvz.ntpr.core.utils.HtmlToPdf.*;
 import static tvz.ntpr.core.utils.ModelInitialization.initialize;
 import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 @RequestMapping(URL_STUDENT)
-@SessionAttributes({ "userLogin", "downloadUrl" })
+@SessionAttributes("userLogin")
 public class StudentController {
     private static final String NTPR_PROTOCOL_PREFIX = "ntpr://download?url=";
 
@@ -73,16 +77,23 @@ public class StudentController {
             File data = scrapeHtmlToPdfFile(appProperties.getApplicationUrl() + URL_STUDENT, studentId);
             File signature = createDetachedSignature(data);
 
-            Report report = Report.builder()
-                    .fileName(data.getName())
-                    .pathToFile(data.toPath())
-                    .pathToSignature(signature.toPath())
-                    .student(studentId)
-                    .build();
+            if (verifySignature(data, signature) == 0) {
+                Report report = Report.builder()
+                        .fileName(data.getName())
+                        .pathToFile(data.toPath())
+                        .pathToSignature(signature.toPath())
+                        .student(studentId)
+                        .build();
 
-            reportService.saveReport(new ReportWrapper(report, data, signature));
-            String downloadUrl = NTPR_PROTOCOL_PREFIX + DatabaseApi.REPORTS_API + "/" + report.getStudent();
-            model.addAttribute("downloadUrl", downloadUrl);
+                reportService.saveReport(new ReportWrapper(report, data, signature));
+                String downloadUrlRedirectAttr =
+                        NTPR_PROTOCOL_PREFIX + DatabaseApi.REPORTS_API + "/" + report.getStudent();
+                redirectAttributes.addFlashAttribute("downloadUrl", downloadUrlRedirectAttr);
+            } else {
+                Files.deleteIfExists(data.toPath());
+                Files.deleteIfExists(signature.toPath());
+                redirectAttributes.addFlashAttribute("error", messages.getMessage("error.generation-failed"));
+            }
             return "redirect:" + URL_STUDENT;
         } catch (Exception e) {
             e.printStackTrace();

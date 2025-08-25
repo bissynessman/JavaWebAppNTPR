@@ -26,6 +26,14 @@
         <div class="container mt-5">
             <h1 class="mb-4" th:text="#{student.info}"></h1>
 
+            <div th:if="${error != null}" class="card mb-4">
+                <div class="card-body">
+                    <div class="error-message">
+                        <p th:text="${error}"></p>
+                    </div>
+                </div>
+            </div>
+
             <div class="card mb-4">
                 <div class="card-body">
                     <p><strong th:text="#{jmbag} + ': '"></strong><span th:text="${student.jmbag}"></span></p>
