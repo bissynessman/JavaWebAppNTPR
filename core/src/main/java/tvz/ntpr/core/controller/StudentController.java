@@ -86,9 +86,9 @@ public class StudentController {
                         .build();
 
                 reportService.saveReport(new ReportWrapper(report, data, signature));
-                String downloadUrlRedirectAttr =
+                String downloadUrl =
                         NTPR_PROTOCOL_PREFIX + DatabaseApi.REPORTS_API + "/" + report.getStudent();
-                redirectAttributes.addFlashAttribute("downloadUrl", downloadUrlRedirectAttr);
+                redirectAttributes.addFlashAttribute("downloadUrl", downloadUrl);
             } else {
                 Files.deleteIfExists(data.toPath());
                 Files.deleteIfExists(signature.toPath());
