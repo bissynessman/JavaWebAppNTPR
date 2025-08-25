@@ -22,14 +22,14 @@ public class PasswordUtils {
 
         String saltedPassword = salt(password, username);
         for (String pepper : PEPPERS) {
-            if (passwordHash.equals(PasswordUtils.hashPassword(saltedPassword + pepper, username)))
+            if (passwordHash.equals(PasswordUtils.hashPassword(saltedPassword + pepper)))
                 result = true;
         }
 
         return result;
     }
 
-    private static String hashPassword(String spicedPassword, String username) {
+    private static String hashPassword(String spicedPassword) {
         try {
             MessageDigest md = MessageDigest.getInstance(ALGORITHM);
 
