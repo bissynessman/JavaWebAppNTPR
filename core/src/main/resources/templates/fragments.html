@@ -53,13 +53,12 @@
         <div th:fragment="assignmentSidebar(assignments)">
             <aside th:if="${assignments != null}" class="sidebar">
                 <h2 th:text="#{assignment.title}"></h2>
-                <ul th:unless="${assignments.isEmpty()}">
+                <ul>
                     <li th:each="assignment : ${assignments}">
                         <a th:href="@{/assignment/{id}(id=${assignment.id})}"
                            th:text="${assignment.content == null ? '' : '✔ '} + ${assignment.title}"></a>
                     </li>
                 </ul>
-                <p th:if="${assignments.isEmpty()}" th:text="#{assignment.no-assignments}"></p>
             </aside>
         </div>
     </body>
