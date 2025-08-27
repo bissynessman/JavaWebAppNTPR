@@ -30,22 +30,23 @@ public class TimeApi {
 
         HttpEntity<String> request = new HttpEntity<>(headers);
 
-        ResponseEntity<String> response = restTemplate.exchange(API_URL, HttpMethod.GET, request, String.class);
-
-        ObjectMapper mapper = new ObjectMapper();
-        Map<String, String> map = new HashMap<>();
+        LocalDateTime result = LocalDateTime.now();
         try {
+            ResponseEntity<String> response = restTemplate.exchange(API_URL, HttpMethod.GET, request, String.class);
+
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, String> map = new HashMap<>();
             map = mapper.readValue(response.getBody(), new TypeReference<>() {});
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+
+            if (map != null) {
+                String dateTime = map.get(DATETIME_RESULT).replace(" ", "T");
+
+                result = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
-        if (map != null) {
-            String dateTime = map.get(DATETIME_RESULT).replace(" ", "T");
-
-            return LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME);
-        }
-
-        return LocalDateTime.now();
+        return result;
     }
 }
