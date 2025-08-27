@@ -75,12 +75,14 @@
         SELECT `assignment`.`id`,
                `assignment`.`parent_assignment`,
                parent.`title`,
+               parent.`task`,
                `assignment`.`content`,
                `assignment`.`grade`,
+               parent.`course`,
                `assignment`.`student`
           FROM `assignment`
-               LEFT JOIN `assignment` AS parent
-                      ON `assignment`.`parent_assignment` = parent.`id`
+          JOIN `assignment` AS parent
+            ON `assignment`.`parent_assignment` = parent.`id`
         <where>
                `assignment`.`student`  = #{studentId,jdbcType=VARCHAR}
            AND `assignment`.`content` IS NULL
