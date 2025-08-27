@@ -48,15 +48,17 @@ Each module has its own `pom.xml` and can be run independently.
   - Host web pages as user interfaces.
     - Login/Signup
     - Student overview
+      - Assignment turn-in
+      - Download generated PDFs along with their detached signature as a .zip archive
     - Professor overview
+      - Assignment creation and grading
     - Administrative actions
       - Professor authorization
       - User account manipulation
       - New course input
-    - New Grade input
+    - Student grading
   - Use Cron scheduler for periodic job execution.
   - Generate PDFs with detached digital signatures using a PKCS#12 keystore.
-    - Download generated PDFs along with their detached signature as a .zip archive
 - Client-side app
   - If ran by an implemented custom protocol prompts user to input a bandwidth limit and downloads files from a URL supplied by the protocol.
   - If ran by user prompts them to select a PDF file and it's detached signature to verify validity.
