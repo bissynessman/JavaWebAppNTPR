@@ -59,10 +59,9 @@
     </delete>
 
     <select id="findById" parameterType="String" resultMap="base">
-        SELECT *
-          FROM `assignment`
+        <include refid="selectFromFilledEntries"/>
         <where>
-               `id` = #{id,jdbcType=VARCHAR}
+               `assignment`.`id` = #{id,jdbcType=VARCHAR}
         </where>
     </select>
 
@@ -72,20 +71,10 @@
     </select>
 
     <select id="findActiveForStudent" parameterType="String" resultMap="base">
-        SELECT `assignment`.`id`,
-               `assignment`.`parent_assignment`,
-               parent.`title`,
-               parent.`task`,
-               `assignment`.`content`,
-               `assignment`.`grade`,
-               parent.`course`,
-               `assignment`.`student`
-          FROM `assignment`
-          JOIN `assignment` AS parent
-            ON `assignment`.`parent_assignment` = parent.`id`
+        <include refid="selectChild"/>
         <where>
                `assignment`.`student`  = #{studentId,jdbcType=VARCHAR}
-           AND `assignment`.`content` IS NULL
+           AND `assignment`.`grade`   IS NULL
         </where>
     </select>
     
@@ -104,4 +93,32 @@
                `parent_assignment` = #{assignmentId,jdbcType=VARCHAR}
         </where>
     </select>
+
+    <sql id="selectChild">
+        SELECT `assignment`.`id`,
+               `assignment`.`parent_assignment`,
+               parent.`title`,
+               parent.`task`,
+               `assignment`.`content`,
+               `assignment`.`grade`,
+               parent.`course`,
+               `assignment`.`student`
+          FROM `assignment`
+          JOIN `assignment` AS parent
+            ON `assignment`.`parent_assignment` = parent.`id`
+    </sql>
+
+    <sql id="selectFromFilledEntries">
+        SELECT `assignment`.`id`,
+               `assignment`.`parent_assignment`,
+               parent.`title`,
+               parent.`task`,
+               `assignment`.`content`,
+               `assignment`.`grade`,
+               parent.`course`,
+               `assignment`.`student`
+        FROM `assignment`
+             LEFT JOIN `assignment` AS parent
+                    ON `assignment`.`parent_assignment` = parent.`id`
+    </sql>
 </mapper>
