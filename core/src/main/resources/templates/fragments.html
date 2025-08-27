@@ -41,5 +41,17 @@
                 </div>
             </div>
         </div>
+
+        <div th:fragment="assignmentSidebar(assignments)">
+            <aside class="sidebar">
+                <h2 th:text="#{assignment.title}"></h2>
+                <ul>
+                    <li th:each="assignment : ${assignments}">
+                        <a th:href="@{/assignment/{id}(id=${assignment.id})}"
+                           th:text="${assignment.title}"></a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
     </body>
 </html>
