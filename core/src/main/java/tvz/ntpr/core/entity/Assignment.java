@@ -8,6 +8,7 @@ import java.util.UUID;
 public class Assignment {
     private String id;
     private String assignment;
+    private String title;
     private String task;
     private String content;
     private Integer grade;
@@ -19,6 +20,7 @@ public class Assignment {
 
     private Assignment(final String id,
                        final String assignment,
+                       final String title,
                        final String task,
                        final String content,
                        final Integer grade,
@@ -26,6 +28,7 @@ public class Assignment {
                        final String student) {
         this.id = id;
         this.assignment = assignment;
+        this.title = title;
         this.task = task;
         this.content = content;
         this.grade = grade;
@@ -40,6 +43,7 @@ public class Assignment {
     public static class AssignmentBuilder {
         private String id = UUID.randomUUID().toString();
         private String assignment;
+        private String title;
         private String task;
         private String content;
         private Integer grade;
@@ -55,6 +59,11 @@ public class Assignment {
 
         public AssignmentBuilder assignment(final String assignment) {
             this.assignment = assignment;
+            return this;
+        }
+
+        public AssignmentBuilder title(final String title) {
+            this.title = title;
             return this;
         }
 
@@ -84,14 +93,21 @@ public class Assignment {
         }
 
         public Assignment build() {
-            return new Assignment(
-                    this.id, this.assignment, this.task, this.content, this.grade, this.course, this.student);
+            return new Assignment(this.id,
+                                  this.assignment,
+                                  this.title,
+                                  this.task,
+                                  this.content,
+                                  this.grade,
+                                  this.course,
+                                  this.student);
         }
 
         public String toString() {
             return "Assignment["
                     + "id=" + this.id
                     + ", assignment=" + this.assignment
+                    + ", title=" + this.title
                     + ", task=" + this.task
                     + ", content=" + this.content
                     + ", grade=" + this.grade

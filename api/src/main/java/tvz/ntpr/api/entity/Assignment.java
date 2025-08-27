@@ -2,6 +2,7 @@ package tvz.ntpr.api.entity;
 
 public class Assignment extends BaseEntity {
     private String assignment;
+    private String title;
     private String task;
     private String content;
     private Integer grade;
@@ -15,6 +16,7 @@ public class Assignment extends BaseEntity {
 
     public Assignment(final String id,
                       final String assignment,
+                      final String title,
                       final String task,
                       final String content,
                       final Integer grade,
@@ -22,6 +24,7 @@ public class Assignment extends BaseEntity {
                       final String student) {
         super(id);
         this.assignment = assignment;
+        this.title = title;
         this.task = task;
         this.content = content;
         this.grade = grade;
@@ -35,6 +38,10 @@ public class Assignment extends BaseEntity {
 
     public String getAssignment() {
         return assignment;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public String getTask() {
@@ -63,6 +70,10 @@ public class Assignment extends BaseEntity {
 
     public void setAssignment(String assignment) {
         this.assignment = assignment;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setTask(String task) {

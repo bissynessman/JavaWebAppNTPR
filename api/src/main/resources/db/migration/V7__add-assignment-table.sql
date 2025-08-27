@@ -4,6 +4,7 @@ CASCADE;
 CREATE TABLE `assignment` (
             `id` VARCHAR(36) NOT NULL,
     `assignment` VARCHAR(36),
+		 `title` VARCHAR(255),
 		  `task` TEXT,
        `content` TEXT,
 		 `grade` INTEGER     CHECK (`grade` BETWEEN 0 AND 100),

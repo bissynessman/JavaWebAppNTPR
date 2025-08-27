@@ -15,6 +15,7 @@
           INTO `assignment` (
                     `id`,
                     `assignment`,
+                    `title`,
                     `task`,
                     `content`,
                     `grade`,
@@ -24,6 +25,7 @@
         VALUES (
                    #{id,jdbcType=VARCHAR},
                    #{assignment,jdbcType=VARCHAR},
+                   #{title,jdbcType=VARCHAR},
                    #{task,jdbcType=VARCHAR},
                    #{content,jdbcType=VARCHAR},
                    #{grade,jdbcType=INTEGER},
@@ -35,6 +37,7 @@
     <update id="update" parameterType="tvz.ntpr.api.entity.Assignment" keyProperty="id">
         UPDATE `assignment`
            SET `assignment` = #{assignment,jdbcType=VARCHAR},
+               `title`      = #{title,jdbcType=VARCHAR},
                `task`       = #{task,jdbcType=VARCHAR},
                `content`    = #{content,jdbcType=VARCHAR},
                `grade`      = #{grade,jdbcType=INTEGER},
