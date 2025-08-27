@@ -2,9 +2,12 @@ package tvz.ntpr.api.controller;
 
 import org.springframework.web.bind.annotation.*;
 import tvz.ntpr.api.entity.Assignment;
+import tvz.ntpr.api.entity.Student;
 import tvz.ntpr.api.service.AssignmentService;
+import tvz.ntpr.api.service.StudentService;
 
 import java.util.List;
+import java.util.UUID;
 
 import static tvz.ntpr.api.config.Urls.*;
 
@@ -12,9 +15,11 @@ import static tvz.ntpr.api.config.Urls.*;
 @RequestMapping(URL_ASSIGNMENT)
 public class AssignmentController {
     private final AssignmentService assignmentService;
+    private final StudentService studentService;
 
-    public AssignmentController(AssignmentService assignmentService) {
+    public AssignmentController(AssignmentService assignmentService, StudentService studentService) {
         this.assignmentService = assignmentService;
+        this.studentService = studentService;
     }
 
     @GetMapping
@@ -43,17 +48,24 @@ public class AssignmentController {
     }
 
     @PostMapping
-    public void saveGrade(@RequestBody Assignment assignment) {
+    public void saveAssignment(@RequestBody Assignment assignment) {
         assignmentService.create(assignment);
+        for (String studentId : studentService.getAll().stream().map(Student::getId).toList()) {
+            Assignment newAssignment = new Assignment();
+            newAssignment.setId(UUID.randomUUID().toString());
+            newAssignment.setAssignment(assignment.getId());
+            newAssignment.setStudent(studentId);
+            assignmentService.create(newAssignment);
+        }
     }
 
     @PutMapping
-    public void updateGrade(@RequestBody Assignment assignment) {
+    public void updateAssignment(@RequestBody Assignment assignment) {
         assignmentService.update(assignment);
     }
 
     @DeleteMapping(URL_ID)
-    public void deleteCourse(@PathVariable String id) {
+    public void deleteAssignment(@PathVariable String id) {
         assignmentService.deleteById(id);
     }
 }
