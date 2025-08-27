@@ -119,6 +119,7 @@ public class StudentController {
         List<Assignment> assignments = assignmentService.getActiveForStudent(student.getId());
         model.addAttribute("student", student);
         model.addAttribute("grades", grades);
-        model.addAttribute("assignments", assignments);
+        if (!assignments.isEmpty())
+            model.addAttribute("assignments", assignments);
     }
 }

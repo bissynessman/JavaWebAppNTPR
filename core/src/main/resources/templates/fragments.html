@@ -51,7 +51,7 @@
         <!--/*@thymesVar id="assignments" type="java.util.List"*/-->
         <!--/*@thymesVar id="assignment" type="tvz.ntpr.core.entity.Assignment"*/-->
         <div th:fragment="assignmentSidebar(assignments)">
-            <aside class="sidebar">
+            <aside th:if="${assignments != null}" class="sidebar">
                 <h2 th:text="#{assignment.title}"></h2>
                 <ul th:unless="${assignments.isEmpty()}">
                     <li th:each="assignment : ${assignments}">
