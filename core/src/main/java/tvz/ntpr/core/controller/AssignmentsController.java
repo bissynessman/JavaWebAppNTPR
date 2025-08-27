@@ -3,7 +3,6 @@ package tvz.ntpr.core.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tvz.ntpr.core.entity.Assignment;
 import tvz.ntpr.core.entity.Course;
 import tvz.ntpr.core.entity.User;
@@ -82,7 +81,7 @@ public class AssignmentsController {
         authenticationService.refresh();
         User userLogin = (User) model.getAttribute("userLogin");
         model.addAttribute("professor", professor);
-        initModelStudent(model, assignmentId);
+        initModel(model, assignmentId);
         return "assignment";
     }
 
@@ -96,11 +95,11 @@ public class AssignmentsController {
         assignmentService.updateAssignment(assignment);
         model.addAttribute("success", messages.getMessage("assignment.update-success"));
         model.addAttribute("professor", professor);
-        initModelStudent(model, assignmentId);
+        initModel(model, assignmentId);
         return "assignment";
     }
 
-    private void initModelStudent(Model model, String assignmentId) {
+    private void initModel(Model model, String assignmentId) {
         initialize(model, URL_ASSIGNMENT + "/" + assignmentId);
         Assignment assignment = assignmentService.getAssignmentById(assignmentId);
         String courseName = courseService.getCourseById(assignment.getCourse()).getName();
