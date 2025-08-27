@@ -13,6 +13,7 @@ public class Report {
     private byte[] data;
     private byte[] signature;
     private String fileName;
+
     private String student;
 
     public Report() {}
