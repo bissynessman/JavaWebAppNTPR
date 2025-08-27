@@ -3,9 +3,11 @@
 <mapper namespace="tvz.ntpr.api.repo.AssignmentRepository">
     <resultMap id="base" type="tvz.ntpr.api.entity.Assignment">
         <id column="id" jdbcType="VARCHAR" property="id"/>
-        <result column="assignment" jdbcType="VARCHAR" property="assignment"/>
-        <result column="content" jdbcType="INTEGER" property="content"/>
-        <result column="grade" jdbcType="VARCHAR" property="grade"/>
+        <result column="parent_assignment" jdbcType="VARCHAR" property="assignment"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="task" jdbcType="VARCHAR" property="task"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="grade" jdbcType="INTEGER" property="grade"/>
         <result column="course" jdbcType="VARCHAR" property="course"/>
         <result column="student" jdbcType="VARCHAR" property="student"/>
     </resultMap>
@@ -14,7 +16,7 @@
         INSERT
           INTO `assignment` (
                     `id`,
-                    `assignment`,
+                    `parent_assignment`,
                     `title`,
                     `task`,
                     `content`,
@@ -36,7 +38,7 @@
 
     <update id="update" parameterType="tvz.ntpr.api.entity.Assignment" keyProperty="id">
         UPDATE `assignment`
-           SET `assignment` = #{assignment,jdbcType=VARCHAR},
+           SET `parent_assignment` = #{assignment,jdbcType=VARCHAR},
                `title`      = #{title,jdbcType=VARCHAR},
                `task`       = #{task,jdbcType=VARCHAR},
                `content`    = #{content,jdbcType=VARCHAR},
@@ -70,21 +72,34 @@
     </select>
 
     <select id="findActiveForStudent" parameterType="String" resultMap="base">
-        SELECT *
+        SELECT `assignment`.`id`,
+               `assignment`.`parent_assignment`,
+               parent.`title`,
+               `assignment`.`content`,
+               `assignment`.`grade`,
+               `assignment`.`student`
           FROM `assignment`
+               LEFT JOIN `assignment` AS parent
+                      ON `assignment`.`parent_assignment` = parent.`id`
         <where>
-               `student`  = #{studentId,jdbcType=VARCHAR}
-           AND `content` IS NULL
+               `assignment`.`student`  = #{studentId,jdbcType=VARCHAR}
+           AND `assignment`.`content` IS NULL
         </where>
     </select>
     
     <select id="findAllForCourse" parameterType="String" resultMap="base">
-        SELECT `id`,
-               `task`,
-               `course`
+        SELECT *
           FROM `assignment`
         <where>
                `course` = #{courseId,jdbcType=VARCHAR}
+        </where>
+    </select>
+
+    <select id="findAllForAssignment" parameterType="String" resultMap="base">
+        SELECT *
+          FROM `assignment`
+        <where>
+               `parent_assignment` = #{assignmentId,jdbcType=VARCHAR}
         </where>
     </select>
 </mapper>

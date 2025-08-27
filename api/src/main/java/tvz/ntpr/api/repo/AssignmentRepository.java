@@ -10,4 +10,5 @@ public interface AssignmentRepository extends BaseRepository<Assignment> {
     List<Assignment> findAll();
     List<Assignment> findActiveForStudent(String studentId);
     List<Assignment> findAllForCourse(String courseId);
+    List<Assignment> findAllForAssignment(String assignmentId);
 }

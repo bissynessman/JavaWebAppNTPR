@@ -48,4 +48,8 @@ public class AssignmentService extends BaseService<Assignment> {
     public List<Assignment> getAllForCourse(String courseId) {
         return repository.findAllForCourse(courseId);
     }
+
+    public List<Assignment> getAllForAssigment(String assigmentId) {
+        return repository.findAllForAssignment(assigmentId);
+    }
 }
