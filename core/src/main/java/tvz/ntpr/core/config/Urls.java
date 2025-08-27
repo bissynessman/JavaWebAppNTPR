@@ -17,7 +17,7 @@ public class Urls {
     public static final String URL_EDIT_USER = "/edit/{userId}";
     public static final String URL_ASSIGNMENT = "/assignment";
     public static final String URL_ASSIGNMENT_ID = "/{assignmentId}";
-
+    public static final String URL_ASSIGNMENT_COURSE = "/course/{courseId}";
 
     public static final String URL_CHANGE_LANGUAGE = "/switch-language";
     public static final String URL_DELETE = "/delete";

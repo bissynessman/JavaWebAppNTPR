@@ -16,6 +16,8 @@ public class Assignment {
     private String course;
     private String student;
 
+    private String studentName;
+
     public Assignment() {}
 
     private Assignment(final String id,

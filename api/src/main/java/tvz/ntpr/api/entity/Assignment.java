@@ -10,6 +10,8 @@ public class Assignment extends BaseEntity {
     private String course;
     private String student;
 
+    private String studentName;
+
     public Assignment() {
         super(null);
     }
@@ -64,6 +66,10 @@ public class Assignment extends BaseEntity {
         return student;
     }
 
+    public String getStudentName() {
+        return studentName;
+    }
+
     public void setId(String id) {
         super.setId(id);
     }
@@ -94,5 +100,9 @@ public class Assignment extends BaseEntity {
 
     public void setStudent(String student) {
         this.student = student;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 }
