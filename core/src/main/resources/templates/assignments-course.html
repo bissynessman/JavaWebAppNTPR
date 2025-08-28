@@ -57,7 +57,7 @@
                 <td th:text="${assignment.title}"></td>
                 <td><span th:text="${assignment.id}"></span></td>
                 <td><span th:text="${assignment.task}"></span></td>
-                <td><span th:text="${assignment.grade} + '%'"></span></td>
+                <td><span th:text="${assignment.grade != null ? assignment.grade + '%' : ''}"></span></td>
                 <td><span th:text="${assignment.studentName}"></span></td>
                 <td><a th:href="@{/assignment/{id}(id=${assignment.id}, professor=${professor})}" class="btn btnB" th:text="#{assignment.grade-it}"></a></td>
             </tr>
