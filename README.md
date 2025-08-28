@@ -92,7 +92,7 @@ Each module has its own `pom.xml` and can be run independently.
 - API Ninjas
   - [https://api.api-ninjas.com/v1/worldtime](https://api.api-ninjas.com/v1/worldtime)
 - Sapling AI
-  - [https://api.sapling.ai/api/v1/aidetect]([https://api.sapling.ai/api/v1/aidetect)
+  - [https://api.sapling.ai/api/v1/aidetect](https://api.sapling.ai/api/v1/aidetect)
 
 ---
 
