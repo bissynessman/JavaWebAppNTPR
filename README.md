@@ -13,9 +13,10 @@ A Spring Boot multi-module project consisting of three related applications in o
 1. [Project Structure](#project-structure)
 2. [Features](#features)
 3. [Technologies](#technologies)
-4. [Prerequisites](#prerequisites)
-5. [Configuration](#configuration)
-6. [Notes](#notes)
+4. [Public APIs](#public-apis)
+5. [Prerequisites](#prerequisites)
+6. [Configuration](#configuration)
+7. [Notes](#notes)
 
 ---
 
@@ -52,6 +53,7 @@ Each module has its own `pom.xml` and can be run independently.
       - Download generated PDFs along with their detached signature as a .zip archive
     - Professor overview
       - Assignment creation and grading
+        - AI writing detection
     - Administrative actions
       - Professor authorization
       - User account manipulation
@@ -82,6 +84,15 @@ Each module has its own `pom.xml` and can be run independently.
 - Tkinter
 - curl
 - OpenSSL
+
+---
+
+## Public APIs
+
+- API Ninjas
+  - [https://api.api-ninjas.com/v1/worldtime](https://api.api-ninjas.com/v1/worldtime)
+- Sapling AI
+  - [https://api.sapling.ai/api/v1/aidetect]([https://api.sapling.ai/api/v1/aidetect)
 
 ---
 
