@@ -50,7 +50,7 @@ Each module has its own `pom.xml` and can be run independently.
     - Login/Signup
     - Student overview
       - Assignment turn-in
-      - Download generated PDFs along with their detached signature as a .zip archive
+      - Download generated grade reports in PDF format along with their detached digital signature as a .zip archive
     - Professor overview
       - Assignment creation and grading
         - AI writing detection
