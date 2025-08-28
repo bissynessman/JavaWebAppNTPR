@@ -7,12 +7,15 @@ import tvz.ntpr.core.entity.Assignment;
 import tvz.ntpr.core.entity.Course;
 import tvz.ntpr.core.entity.User;
 import tvz.ntpr.core.enums.Role;
+import tvz.ntpr.core.helper.DetectionResult;
 import tvz.ntpr.core.helper.Messages;
+import tvz.ntpr.core.rest.AiDetectionService;
 import tvz.ntpr.core.security.AuthenticationService;
 import tvz.ntpr.core.service.AssignmentService;
 import tvz.ntpr.core.service.CourseService;
 
 import java.util.List;
+import java.util.Map;
 
 import static tvz.ntpr.core.config.Urls.*;
 import static tvz.ntpr.core.utils.ModelInitialization.initialize;
@@ -24,15 +27,18 @@ public class AssignmentsController {
     private final AssignmentService assignmentService;
     private final CourseService courseService;
     private final AuthenticationService authenticationService;
+    private final AiDetectionService aiDetectionService;
     private final Messages messages;
 
     public AssignmentsController(AssignmentService assignmentService,
                                  CourseService courseService,
                                  AuthenticationService authenticationService,
+                                 AiDetectionService aiDetectionService,
                                  Messages messages) {
         this.assignmentService = assignmentService;
         this.courseService = courseService;
         this.authenticationService = authenticationService;
+        this.aiDetectionService = aiDetectionService;
         this.messages = messages;
     }
 
@@ -96,6 +102,19 @@ public class AssignmentsController {
         model.addAttribute("success", messages.getMessage("assignment.update-success"));
         model.addAttribute("professor", professor);
         initModel(model, assignmentId);
+        return "assignment";
+    }
+
+    @GetMapping(URL_ASSIGNMENT_DETECT)
+    public String detect(@PathVariable String assignmentId, Model model) {
+        model.addAttribute("professor", true);
+        authenticationService.refresh();
+        initModel(model, assignmentId);
+        Assignment assignment = (Assignment) model.getAttribute("assignment");
+        DetectionResult result = aiDetectionService.check(assignment.getContent());
+        Map<String, Object> interpretation = aiDetectionService.interpret(result);
+        model.addAttribute("detectionResult", interpretation.get("classification"));
+        model.addAttribute("detectionLevel", interpretation.get("classificationLevel"));
         return "assignment";
     }
 

@@ -238,3 +238,32 @@ h3 {
     display: flex;
     justify-content: flex-end;
 }
+
+.result-card {
+    display: inline-block;
+    width: fit-content;
+    text-align: center;
+    font-size: large;
+    margin-top: 5px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    padding: 8px 12px;
+}
+
+.result-card:hover {
+    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+}
+
+.fit-content {
+    width: fit-content;
+}
+
+.detect-cell {
+    width: 15%;
+    text-align: center;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+

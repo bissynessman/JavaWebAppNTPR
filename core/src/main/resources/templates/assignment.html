@@ -37,8 +37,17 @@
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td class="horizontal">
+                            <td class="detect-cell">
+                                <a th:href="@{/assignment/detect/{id}(id=${assignment.id})}" class="btn btnB" th:text="#{assignment.detect}"></a>
+                                <div th:if="${detectionResult != null}" class="card result-card">
+                                    <div class="card-body fit-content">
+                                        <div th:style="'color: ' + ${detectionLevel} + ';'">
+                                            <span th:text="${detectionResult}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="horizontal" width="100%">
                                 <a th:href="@{/assignment/course/{id}(id=${assignment.course})}" class="btn btnR" th:text="#{assignment.cancel}"></a>
                                 <button type="submit" class="btn btnB" th:text="#{assignment.submit}"></button>
                             </td>
