@@ -119,7 +119,7 @@ Typical configuration points:
     `server.port=8080`
 
 - A PKCS#12 keystore under `core/src/main/resources/other`.
-- A corresponding `cert.pem` file under `client/bin`.
+  - A corresponding `cert.pem` file under `client/bin` and `core/src/main/resources/other`.
 
 ---
 
