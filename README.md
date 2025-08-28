@@ -63,7 +63,7 @@ Each module has its own `pom.xml` and can be run independently.
   - Generate PDFs with detached digital signatures using a PKCS#12 keystore.
 - Client-side app
   - If ran by an implemented custom protocol prompts user to input a bandwidth limit and downloads files from a URL supplied by the protocol.
-  - If ran by user prompts them to select a PDF file and it's detached signature to verify validity.
+  - If ran by the user prompts them to select a PDF file and it's detached signature to verify validity.
 
 ---
 
