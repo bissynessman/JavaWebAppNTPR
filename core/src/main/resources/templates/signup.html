@@ -19,9 +19,7 @@
                     <div class="error-message">
                         <p th:text="${error}"></p>
                     </div>
-                    <div th:if="${error == 'Username already exists'}">
-                        <a th:href="@{/login}" th:text="#{login-instead}"></a>
-                    </div>
+                    <a th:href="@{/login}" th:text="#{login-instead}"></a>
                 </div>
             </div>
 

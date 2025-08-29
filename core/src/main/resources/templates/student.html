@@ -11,6 +11,7 @@
     <body>
         <div th:replace="~{fragments::dateTime}"></div>
         <div th:replace="~{fragments::languageSwitch}"></div>
+        <div th:replace="~{fragments::assignmentSidebar(${assignments})}"></div>
         <div class="download-btn">
             <form th:unless="${downloadUrl} != null" method="get" th:action="@{/student/download}">
                 <button type="submit">

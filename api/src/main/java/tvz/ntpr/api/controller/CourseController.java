@@ -31,7 +31,7 @@ public class CourseController {
         return courseService.getById(id);
     }
 
-    @GetMapping(URL_PROFESSOR_ID)
+    @GetMapping(PROFESSOR_FILTER)
     public List<Course> getGradesByStudent(@PathVariable String professorId) {
         return courseService.getByProfessorId(professorId);
     }

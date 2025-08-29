@@ -39,6 +39,7 @@ public class ProfessorController {
         return switch (action) {
             case "addGrade" -> "redirect:" + URL_GRADES;
             case "viewStudents" -> "redirect:" + URL_VIEW_STUDENTS;
+            case "viewAssignments" -> "redirect:" + URL_ASSIGNMENT;
             default -> {
                 initModel(model);
                 yield "professor";

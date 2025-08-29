@@ -27,12 +27,12 @@ public class GradeController {
         return gradeService.getById(id);
     }
 
-    @GetMapping(URL_STUDENT_ID)
+    @GetMapping(STUDENT_FILTER)
     public List<Grade> getGradesByStudent(@PathVariable String studentId) {
         return gradeService.getByStudentId(studentId);
     }
 
-    @GetMapping(URL_COURSE_ID)
+    @GetMapping(COURSE_FILTER)
     public List<Grade> getGradesByCourse(@PathVariable String courseId) {
         return gradeService.getByCourseId(courseId);
     }
