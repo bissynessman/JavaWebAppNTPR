@@ -50,7 +50,7 @@ Each module has its own `pom.xml` and can be run independently.
     - Login/Signup
     - Student overview
       - Assignment turn-in
-      - Download generated PDFs along with their detached signature as a .zip archive
+      - Download generated grade reports in PDF format along with their detached digital signature as a .zip archive
     - Professor overview
       - Assignment creation and grading
         - AI writing detection
@@ -63,7 +63,7 @@ Each module has its own `pom.xml` and can be run independently.
   - Generate PDFs with detached digital signatures using a PKCS#12 keystore.
 - Client-side app
   - If ran by an implemented custom protocol prompts user to input a bandwidth limit and downloads files from a URL supplied by the protocol.
-  - If ran by user prompts them to select a PDF file and it's detached signature to verify validity.
+  - If ran by the user prompts them to select a PDF file and it's detached signature to verify validity.
 
 ---
 
@@ -119,7 +119,7 @@ Typical configuration points:
     `server.port=8080`
 
 - A PKCS#12 keystore under `core/src/main/resources/other`.
-- A corresponding `cert.pem` file under `client/bin`.
+  - A corresponding `cert.pem` file under `client/bin` and `core/src/main/resources/other`.
 
 ---
 
