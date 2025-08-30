@@ -35,7 +35,7 @@ public class EmailJobScheduler {
         this.appProperties = appProperties;
     }
 
-    //    @Scheduled(cron = "0 * * * * ?")
+//    @Scheduled(cron = "0 * * * * ?")
     @Scheduled(cron = "#{appProperties.emailCron}")
     public void sendStudentReports() {
         List<Student> students = cronService.getAllStudents();
