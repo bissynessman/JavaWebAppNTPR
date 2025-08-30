@@ -19,8 +19,6 @@ import tvz.ntpr.core.service.ReportService;
 import tvz.ntpr.core.service.StudentService;
 
 import java.io.File;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.List;
 
@@ -74,7 +72,7 @@ public class StudentController {
         String studentId = user.getUserUuid();
 
         try {
-            File data = scrapeHtmlToPdfFile(appProperties.getApplicationUrl() + URL_STUDENT, studentId);
+            File data = scrapeHtmlToPdf(appProperties.getApplicationUrl() + URL_STUDENT, studentId);
             File signature = createDetachedSignature(data);
 
             if (verifySignature(data, signature) == 0) {
