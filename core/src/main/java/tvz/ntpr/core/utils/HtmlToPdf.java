@@ -15,7 +15,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 import tvz.ntpr.core.rest.TimeApi;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +24,7 @@ import java.time.ZoneOffset;
 public class HtmlToPdf {
     private static final TimeApi TIME_API = new TimeApi();
 
-    public static File scrapeHtmlToPdfFile(String url, String userUuid) throws Exception {
+    public static File scrapeHtmlToPdf(String url, String userUuid) throws Exception {
         Path studentReportsDirectory = Paths.get("target", "generated", "student_reports");
         String timestamp = String.valueOf(TIME_API.getCurrentTime().toEpochSecond(ZoneOffset.UTC));
         File output = Paths.get(
@@ -53,36 +52,6 @@ public class HtmlToPdf {
         pdfDocument.close();
 
         return output;
-    }
-
-    public static byte[] scrapeHtmlToPdfByteArray(String url, String studentId) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        try {
-            org.jsoup.nodes.Document htmlDoc = Jsoup.connect(url + "/" + studentId).get();
-            String title = htmlDoc.title();
-
-            PdfFont bold = PdfFontFactory.createFont(
-                    StandardFonts.HELVETICA_BOLD,
-                    PdfEncodings.WINANSI,
-                    PdfFontFactory.EmbeddingStrategy.PREFER_EMBEDDED);
-
-            PdfWriter writer = new PdfWriter(outputStream);
-            PdfDocument pdfDoc = new PdfDocument(writer);
-            Document pdfDocument = new Document(pdfDoc);
-
-            pdfDocument.add(new Paragraph(title).setFont(bold).setFontSize(18).setTextAlignment(TextAlignment.CENTER));
-
-            Elements bodyChildren = htmlDoc.body().children();
-            for (Element element : bodyChildren) {
-                convertHtmlElementToPdf(element, pdfDocument);
-            }
-
-            pdfDocument.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return outputStream.toByteArray();
     }
 
     private static void convertHtmlElementToPdf(Element element, Document pdfDocument) throws Exception {
