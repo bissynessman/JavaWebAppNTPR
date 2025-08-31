@@ -50,7 +50,7 @@ public class EmailJobScheduler {
                 emailService.sendEmail(studentEmail,
                         messages.getMessage("student-report.subject"),
                         messages.getMessage("student-report.text"),
-                        List.of(pdfData));
+                        pdfData);
             } catch (Exception e) {
                 e.printStackTrace();
             }

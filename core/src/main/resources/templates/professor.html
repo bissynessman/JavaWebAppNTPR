@@ -11,6 +11,14 @@
     <body>
         <div th:replace="~{fragments::dateTime}"></div>
         <div th:replace="~{fragments::languageSwitch}"></div>
+        <div class="email-btn">
+            <button id="emailButton">
+                <a th:href="@{/mail}">
+                    <span class="button_top" th:text="#{email.send-email}"></span>
+                </a>
+            </button>
+        </div>
+
         <div class="container mt-5">
             <h1 class="mb-4" th:text="#{professor.info}"></h1>
 

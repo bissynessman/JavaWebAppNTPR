@@ -3,6 +3,7 @@ package tvz.ntpr.core.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tvz.ntpr.core.helper.JwtHolder;
+import tvz.ntpr.core.helper.LoginRequest;
 import tvz.ntpr.core.helper.Messages;
 import tvz.ntpr.core.enums.Role;
 import tvz.ntpr.core.entity.User;
@@ -41,7 +42,7 @@ public class LoginController {
     }
 
     @PostMapping
-    public String processLogin(Model model, RedirectAttributes redirectAttributes, User userLogin) {
+    public String processLogin(Model model, RedirectAttributes redirectAttributes, LoginRequest userLogin) {
         try {
             authenticationService.login(userLogin.getUsername(), userLogin.getPassword());
         } catch (Exception e) {
@@ -66,6 +67,6 @@ public class LoginController {
 
     void initModel(Model model) {
         initialize(model, URL_LOGIN);
-        model.addAttribute("userLogin", User.builder().build());
+        model.addAttribute("userLogin", new LoginRequest());
     }
 }

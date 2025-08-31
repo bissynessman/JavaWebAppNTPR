@@ -19,6 +19,7 @@ public class Urls {
     public static final String URL_CHANGE_LANGUAGE = "/switch-language";
     public static final String URL_DELETE = "/delete";
     public static final String URL_DOWNLOAD = "/download";
+    public static final String URL_MAIL = "/mail";
 
     public static final String URL_ERROR = "/error";
 }
