@@ -12,6 +12,13 @@
         <div th:replace="~{fragments::dateTime}"></div>
         <div th:replace="~{fragments::languageSwitch}"></div>
         <div th:replace="~{fragments::assignmentSidebar(${assignments})}"></div>
+        <div class="email-btn">
+            <button id="emailButton">
+                <a th:href="@{/mail}">
+                    <span class="button_top" th:text="#{email.send-email}"></span>
+                </a>
+            </button>
+        </div>
         <div class="download-btn">
             <form th:unless="${downloadUrl} != null" method="get" th:action="@{/student/download}">
                 <button type="submit">
@@ -24,6 +31,7 @@
                 </a>
             </button>
         </div>
+
         <div class="container mt-5">
             <h1 class="mb-4" th:text="#{student.info}"></h1>
             <div th:replace="~{fragments::success}"></div>

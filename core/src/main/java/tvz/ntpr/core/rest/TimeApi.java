@@ -1,5 +1,6 @@
 package tvz.ntpr.core.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpEntity;
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -28,7 +30,6 @@ public class TimeApi {
 
         HttpEntity<String> request = new HttpEntity<>(headers);
 
-        LocalDateTime result = LocalDateTime.now();
         try {
             ResponseEntity<String> response = restTemplate.exchange(API_URL, HttpMethod.GET, request, String.class);
 
@@ -37,13 +38,12 @@ public class TimeApi {
 
             if (map != null) {
                 String dateTime = map.get(DATETIME_RESULT).replace(" ", "T");
-
-                result = LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME);
+                return LocalDateTime.parse(dateTime, DateTimeFormatter.ISO_DATE_TIME);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
 
-        return result;
+        return LocalDateTime.now();
     }
 }
