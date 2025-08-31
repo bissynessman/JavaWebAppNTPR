@@ -163,3 +163,13 @@ img {
 .email-btn a {
     text-decoration: none;
 }
+
+#home-container {
+    position: absolute;
+    top: 100px;
+    left: 20px;
+}
+
+#home-container a {
+    text-decoration: none;
+}
