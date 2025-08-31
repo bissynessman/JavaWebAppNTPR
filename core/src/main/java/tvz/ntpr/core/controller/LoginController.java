@@ -51,13 +51,13 @@ public class LoginController {
         if (jwtHolder.getAccessToken() == null)
             model.addAttribute("error", messages.getMessage("error.invalid-username-password"));
         else {
-            User user = userService.getByUsername(userLogin.getUsername());
-            redirectAttributes.addFlashAttribute("userLogin", user);
-            if (user.getRole().equals(Role.ADMIN))
+            User currentUser = userService.getByUsername(userLogin.getUsername());
+            redirectAttributes.addFlashAttribute("userLogin", currentUser);
+            if (currentUser.getRole().equals(Role.ADMIN))
                 return "redirect:" + URL_ADMIN;
-            else if (user.getRole().equals(Role.PROFESSOR))
+            else if (currentUser.getRole().equals(Role.PROFESSOR))
                 return "redirect:" + URL_PROFESSOR;
-            else if (user.getRole().equals(Role.STUDENT))
+            else if (currentUser.getRole().equals(Role.STUDENT))
                 return "redirect:" + URL_STUDENT;
         }
 
