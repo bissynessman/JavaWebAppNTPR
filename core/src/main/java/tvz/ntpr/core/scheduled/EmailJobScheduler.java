@@ -3,10 +3,12 @@ package tvz.ntpr.core.scheduled;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tvz.ntpr.core.config.AppProperties;
+import tvz.ntpr.core.helper.Mail;
 import tvz.ntpr.core.helper.Messages;
 import tvz.ntpr.core.entity.Student;
 import tvz.ntpr.core.security.AuthenticationService;
 import tvz.ntpr.core.service.CronService;
+import tvz.ntpr.core.utils.AttachmentUtils;
 import tvz.ntpr.core.utils.EmailService;
 
 import java.io.File;
@@ -17,6 +19,8 @@ import static tvz.ntpr.core.utils.HtmlToPdf.scrapeHtmlToPdf;
 
 @Service
 public class EmailJobScheduler {
+    private static final String FROM = "Automatic service";
+
     private final EmailService emailService;
     private final CronService cronService;
     private final Messages messages;
@@ -45,12 +49,15 @@ public class EmailJobScheduler {
             try {
                 File pdfData = scrapeHtmlToPdf(appProperties.getApplicationUrl() + URL_STUDENT, student.getId());
                 String studentEmail = cronService.getEmailByUserId(student.getId());
-//                String studentEmail = "tvz.java.web.app@gmail.com";
-
-                emailService.sendEmail(studentEmail,
+                Mail mail = new Mail(
+                        FROM,
+                        studentEmail,
                         messages.getMessage("student-report.subject"),
                         messages.getMessage("student-report.text"),
-                        pdfData);
+                        AttachmentUtils.fromFile(pdfData)
+                );
+
+                emailService.sendEmail(mail);
             } catch (Exception e) {
                 e.printStackTrace();
             }

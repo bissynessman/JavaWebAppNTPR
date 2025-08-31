@@ -17,13 +17,13 @@
             <div th:replace="~{fragments::success}"></div>
             <div th:replace="~{fragments::error}"></div>
             <hr/>
-            <form method="POST" th:action="@{/mail(sender=${sender})}" th:object="${mail}" enctype="multipart/form-data">
+            <form method="POST" th:action="@{/mail(from=${from})}" enctype="multipart/form-data">
                 <table class="table table-striped">
                     <tbody>
                         <tr>
                             <td><label for="to" th:text="#{email.to} + ': '"></label></td>
                             <td>
-                                <select id="to" th:field="*{to}" required>
+                                <select id="to" name="to" required>
                                     <option th:text="#{select-recipient}" th:value="${null}"></option>
                                     <option th:each="user : ${usersList}"
                                             th:text="${user.username}"
@@ -34,17 +34,17 @@
                         <tr>
                             <td><label for="subject" th:text="#{email.subject} + ': '"></label></td>
                             <td class="horizontal">
-                                <input type="text" id="subject" th:field="*{subject}" required/>
+                                <input type="text" id="subject" name="subject" required/>
                             </td>
                         </tr>
                         <tr>
                             <td><label for="body" th:text="#{email.body} + ': '"></label></td>
-                            <td colspan="2"><textarea id="body" class="email" th:field="*{body}" required></textarea></td>
+                            <td colspan="2"><textarea id="body" class="email" name="body" required></textarea></td>
                         </tr>
                         <tr>
                             <td><label for="attachments" th:text="#{email.attachments} + ': '"></label></td>
                             <td>
-                                <input id="attachments" type="file" th:field="*{attachments}" multiple/>
+                                <input id="attachments" type="file" name="attachments" multiple/>
                                 <span>(<25MB)</span>
                             </td>
                         </tr>
