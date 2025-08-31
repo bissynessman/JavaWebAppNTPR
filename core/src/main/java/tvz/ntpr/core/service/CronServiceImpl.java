@@ -14,11 +14,11 @@ import java.util.List;
 @Service
 @Primary
 public class CronServiceImpl implements CronService {
-    private static final String API_URL = DatabaseApi.CRON_API;
+    @Autowired
+    private DatabaseApi databaseApi;
 
     private final RestTemplate restTemplate;
 
-    @Autowired
     public CronServiceImpl(@Qualifier("cronRestTemplate") RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -29,7 +29,7 @@ public class CronServiceImpl implements CronService {
         try{
             students = JsonParser.parseIntoList(
                     restTemplate.getForEntity(
-                            API_URL + "/students",
+                            databaseApi.getCronApi() + "/students",
                             String.class).getBody(),
                     Student.class);
         } catch (Exception e) {
@@ -42,7 +42,7 @@ public class CronServiceImpl implements CronService {
     public String getEmailByUserId(String userId) {
         String email = null;
         try {
-            email = restTemplate.getForEntity(API_URL + "/email/" + userId, String.class).getBody();
+            email = restTemplate.getForEntity(databaseApi.getCronApi() + "/email/" + userId, String.class).getBody();
         } catch (Exception e) {
             e.printStackTrace();
         }

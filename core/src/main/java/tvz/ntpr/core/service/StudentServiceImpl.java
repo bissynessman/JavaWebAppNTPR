@@ -15,7 +15,8 @@ import java.util.List;
 @Primary
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
-    private static final String API_URL = DatabaseApi.STUDENTS_API;
+    @Autowired
+    private DatabaseApi databaseApi;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -26,7 +27,7 @@ public class StudentServiceImpl implements StudentService {
         try{
             students = JsonParser.parseIntoList(
                     restTemplate.getForEntity(
-                            API_URL,
+                            databaseApi.getStudentsApi(),
                             String.class).getBody(),
                     Student.class);
         } catch (Exception e) {
@@ -41,7 +42,7 @@ public class StudentServiceImpl implements StudentService {
         try{
             student = JsonParser.parseIntoObject(
                     restTemplate.getForEntity(
-                            API_URL + "/" + id,
+                            databaseApi.getStudentsApi() + "/" + id,
                             String.class).getBody(),
                     Student.class);
         } catch (Exception e) {
@@ -52,17 +53,17 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public void saveStudent(Student student) {
-        restTemplate.postForEntity(API_URL, student, void.class);
+        restTemplate.postForEntity(databaseApi.getStudentsApi(), student, void.class);
     }
 
     @Override
     public void updateStudent(Student student) {
-        restTemplate.put(API_URL, student);
+        restTemplate.put(databaseApi.getStudentsApi(), student);
     }
 
     @Override
     public void deleteStudents(List<String> ids) {
         for (String id : ids)
-            restTemplate.delete(API_URL + "/" + id);
+            restTemplate.delete(databaseApi.getStudentsApi() + "/" + id);
     }
 }

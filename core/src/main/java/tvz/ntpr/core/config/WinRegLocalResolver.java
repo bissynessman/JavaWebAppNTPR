@@ -2,6 +2,12 @@ package tvz.ntpr.core.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +20,9 @@ import java.util.Locale;
 
 @Configuration
 public class WinRegLocalResolver implements LocaleResolver {
+    private static final String EN_LOCALE = "ENG";
+    private static final String HR_LOCALE = "HRV";
+
     @Bean
     public LocaleResolver localeResolver() {
         return new WinRegLocalResolver();
@@ -30,16 +39,24 @@ public class WinRegLocalResolver implements LocaleResolver {
 
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
-        String lang = readRegistryValue(CHANGE_LANGUAGE_REGISTRY_PATH, LANGUAGE_VALUE_NAME);
+        String lang;
 
-        if ("HRV".equals(lang))
+        if (isWindows())
+            lang = readRegistryValue(CHANGE_LANGUAGE_REGISTRY_PATH, LANGUAGE_VALUE_NAME);
+        else
+            lang = readLocaleFromFile();
+
+        if (HR_LOCALE.equals(lang))
             return new Locale("hr");
         return Locale.ENGLISH;
     }
 
     @Override
     public void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale) {
-        String lang = locale.getLanguage().equals("hr") ? "HRV" : "ENG";
-        writeRegistryValue(CHANGE_LANGUAGE_REGISTRY_PATH, LANGUAGE_VALUE_NAME, lang);
+        String lang = locale.getLanguage().equals("hr") ? HR_LOCALE : EN_LOCALE;
+        if (isWindows())
+            writeRegistryValue(CHANGE_LANGUAGE_REGISTRY_PATH, LANGUAGE_VALUE_NAME, lang);
+        else
+            writeLocaleToFile(lang);
     }
 }

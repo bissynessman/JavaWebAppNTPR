@@ -15,7 +15,8 @@ import java.util.List;
 @Primary
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private static final String API_URL = DatabaseApi.USERS_API;
+    @Autowired
+    private DatabaseApi databaseApi;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
         try{
             users = JsonParser.parseIntoList(
                     restTemplate.getForEntity(
-                            API_URL,
+                            databaseApi.getUsersApi(),
                             String.class).getBody(),
                     User.class);
         } catch (Exception e) {
@@ -41,7 +42,7 @@ public class UserServiceImpl implements UserService {
         try{
             users = JsonParser.parseIntoObject(
                     restTemplate.getForEntity(
-                            API_URL + "/username/" + username,
+                            databaseApi.getUsersApi() + "/username/" + username,
                             String.class).getBody(),
                     User.class);
         } catch (Exception e) {
@@ -56,7 +57,7 @@ public class UserServiceImpl implements UserService {
         try {
             user = JsonParser.parseIntoObject(
                     restTemplate.getForEntity(
-                            API_URL + "/" + id,
+                            databaseApi.getUsersApi() + "/" + id,
                             String.class).getBody(),
                     User.class);
         } catch (Exception e) {
@@ -67,17 +68,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
-        restTemplate.postForEntity(API_URL, user, void.class);
+        restTemplate.postForEntity(databaseApi.getUsersApi(), user, void.class);
     }
 
     @Override
     public void updateUser(User user) {
-        restTemplate.put(API_URL, user);
+        restTemplate.put(databaseApi.getUsersApi(), user);
     }
 
     @Override
     public void deleteUser(List<String> ids) {
         for (String id : ids)
-            restTemplate.delete(API_URL + "/" + id);
+            restTemplate.delete(databaseApi.getUsersApi() + "/" + id);
     }
 }

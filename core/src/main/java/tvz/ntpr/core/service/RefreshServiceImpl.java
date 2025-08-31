@@ -1,5 +1,6 @@
 package tvz.ntpr.core.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,8 @@ import tvz.ntpr.core.rest.DatabaseApi;
 @Service
 @Primary
 public class RefreshServiceImpl implements RefreshService {
-    private static final String API_URL = DatabaseApi.AUTH_API;
+    @Autowired
+    private DatabaseApi databaseApi;
 
     private final RestTemplate restTemplate;
 
@@ -20,21 +22,21 @@ public class RefreshServiceImpl implements RefreshService {
 
     @Override
     public String getRefreshToken(LoginRequest loginRequest) {
-        return restTemplate.postForEntity(API_URL, loginRequest, String.class).getBody();
+        return restTemplate.postForEntity(databaseApi.getAuthApi(), loginRequest, String.class).getBody();
     }
 
     @Override
     public String getRefreshTokenForSignup(String username) {
-        return restTemplate.postForEntity(API_URL + "/signup", username, String.class).getBody();
+        return restTemplate.postForEntity(databaseApi.getAuthApi() + "/signup", username, String.class).getBody();
     }
 
     @Override
     public String getAccessToken(String refreshToken) {
-        return restTemplate.postForEntity(API_URL + "/refresh", refreshToken, String.class).getBody();
+        return restTemplate.postForEntity(databaseApi.getAuthApi() + "/refresh", refreshToken, String.class).getBody();
     }
 
     @Override
     public String getAccessTokenForCron() {
-        return restTemplate.postForEntity(API_URL + "/cron", null, String.class).getBody();
+        return restTemplate.postForEntity(databaseApi.getAuthApi() + "/cron", null, String.class).getBody();
     }
 }
