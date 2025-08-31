@@ -38,7 +38,7 @@
                                     <option selected style="display: none;" value=""
                                             th:text="#{select-major}"></option>
                                     <option th:each="major : ${T(tvz.ntpr.core.enums.Major).values()}"
-                                            th:value="${major}" th:text="${major.name}"></option>
+                                            th:value="${major}" th:text="#{${major.messagesKey}}"></option>
                                 </select>
                             </td>
                         </tr>
