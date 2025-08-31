@@ -57,6 +57,7 @@ Each module has its own `pom.xml` and can be run independently.
   - Use Cron scheduler for periodic job execution.
   - Generate PDFs with detached digital signatures using a PKCS#12 keystore.
     - Download generated PDFs along with their detached signature as a .zip archive
+  - Send e-mails with attachments to users
 - Client-side app
   - If ran by an implemented custom protocol prompts user to input a bandwidth limit and downloads files from a URL supplied by the protocol.
   - If ran by user prompts them to select a PDF file and it's detached signature to verify validity.
