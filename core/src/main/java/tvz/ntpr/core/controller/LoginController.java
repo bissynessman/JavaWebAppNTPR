@@ -3,6 +3,7 @@ package tvz.ntpr.core.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tvz.ntpr.core.helper.JwtHolder;
+import tvz.ntpr.core.helper.LoginRequest;
 import tvz.ntpr.core.helper.Messages;
 import tvz.ntpr.core.enums.Role;
 import tvz.ntpr.core.entity.User;
@@ -41,7 +42,7 @@ public class LoginController {
     }
 
     @PostMapping
-    public String processLogin(Model model, RedirectAttributes redirectAttributes, User userLogin) {
+    public String processLogin(Model model, RedirectAttributes redirectAttributes, LoginRequest userLogin) {
         try {
             authenticationService.login(userLogin.getUsername(), userLogin.getPassword());
         } catch (Exception e) {
@@ -50,13 +51,13 @@ public class LoginController {
         if (jwtHolder.getAccessToken() == null)
             model.addAttribute("error", messages.getMessage("error.invalid-username-password"));
         else {
-            User user = userService.getByUsername(userLogin.getUsername());
-            redirectAttributes.addFlashAttribute("userLogin", user);
-            if (user.getRole().equals(Role.ADMIN))
+            User currentUser = userService.getByUsername(userLogin.getUsername());
+            redirectAttributes.addFlashAttribute("userLogin", currentUser);
+            if (currentUser.getRole().equals(Role.ADMIN))
                 return "redirect:" + URL_ADMIN;
-            else if (user.getRole().equals(Role.PROFESSOR))
+            else if (currentUser.getRole().equals(Role.PROFESSOR))
                 return "redirect:" + URL_PROFESSOR;
-            else if (user.getRole().equals(Role.STUDENT))
+            else if (currentUser.getRole().equals(Role.STUDENT))
                 return "redirect:" + URL_STUDENT;
         }
 
@@ -66,6 +67,6 @@ public class LoginController {
 
     void initModel(Model model) {
         initialize(model, URL_LOGIN);
-        model.addAttribute("userLogin", User.builder().build());
+        model.addAttribute("userLogin", new LoginRequest());
     }
 }
