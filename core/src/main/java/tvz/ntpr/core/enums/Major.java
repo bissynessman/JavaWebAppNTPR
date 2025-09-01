@@ -3,9 +3,9 @@ package tvz.ntpr.core.enums;
 import lombok.Getter;
 
 @Getter
-public enum Major {
-    COMPUTER_SCIENCE("Computer scienece"),
-    SOFTWARE_ENGINEERING("Software engineering"),
+public enum Major implements MessagesKey {
+    COMPUTER_SCIENCE("Computer Science"),
+    SOFTWARE_ENGINEERING("Software Engineering"),
     ENGINEERING("Engineering"),
     CONSTRUCTION("Construction");
 
@@ -13,5 +13,10 @@ public enum Major {
 
     Major(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String getMessagesKey() {
+        return "major." + this.name().toLowerCase().replace('_', '-');
     }
 }

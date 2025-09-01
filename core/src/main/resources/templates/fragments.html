@@ -7,9 +7,18 @@
     <body>
         <!--/*@thymesVar id="currentDate" type="java.lang.String"*/-->
         <!--/*@thymesVar id="currentTime" type="java.lang.String"*/-->
-        <div th:fragment="dateTime" id="time-container">
-            <div th:text="${currentDate}"></div>
-            <div th:text="${currentTime}"></div>
+        <div th:fragment="dateTime">
+            <div id="time-container">
+                <div th:text="${currentDate}"></div>
+                <div th:text="${currentTime}"></div>
+            </div>
+            <div id="home-container">
+                <button id="homeButton">
+                    <a th:href="@{/}">
+                        <span class="button_top" th:text="#{home}"></span>
+                    </a>
+                </button>
+            </div>
         </div>
 
         <!--/*@thymesVar id="language" type="java.lang.String"*/-->
