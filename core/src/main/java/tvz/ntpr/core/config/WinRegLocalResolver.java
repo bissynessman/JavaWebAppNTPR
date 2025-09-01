@@ -39,12 +39,7 @@ public class WinRegLocalResolver implements LocaleResolver {
 
     @Override
     public Locale resolveLocale(HttpServletRequest request) {
-        String lang;
-
-        if (isWindows())
-            lang = readRegistryValue(CHANGE_LANGUAGE_REGISTRY_PATH, LANGUAGE_VALUE_NAME);
-        else
-            lang = readLocaleFromFile();
+        String lang = readLang();
 
         if (HR_LOCALE.equals(lang))
             return new Locale("hr");
@@ -54,9 +49,7 @@ public class WinRegLocalResolver implements LocaleResolver {
     @Override
     public void setLocale(HttpServletRequest request, HttpServletResponse response, Locale locale) {
         String lang = locale.getLanguage().equals("hr") ? HR_LOCALE : EN_LOCALE;
-        if (isWindows())
-            writeRegistryValue(CHANGE_LANGUAGE_REGISTRY_PATH, LANGUAGE_VALUE_NAME, lang);
-        else
-            writeLocaleToFile(lang);
+
+        writeLang(lang);
     }
 }

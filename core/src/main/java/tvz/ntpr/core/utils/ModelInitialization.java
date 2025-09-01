@@ -20,11 +20,7 @@ public class ModelInitialization {
                 .split("T");
         model.addAttribute("currentDate", dateTime[0].trim());
         model.addAttribute("currentTime", dateTime[1].trim());
-        String lang;
-        if (isWindows())
-            lang = readRegistryValue(CHANGE_LANGUAGE_REGISTRY_PATH, LANGUAGE_VALUE_NAME);
-        else
-            lang = readLocaleFromFile();
+        String lang = readLang();
         model.addAttribute("language", lang);
         model.addAttribute("currentContextPath", currentContextPath);
     }
