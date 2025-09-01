@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import tvz.ntpr.core.comparator.GradeComparator;
 import tvz.ntpr.core.config.AppProperties;
 import tvz.ntpr.core.entity.Report;
 import tvz.ntpr.core.helper.Messages;
@@ -116,7 +117,9 @@ public class StudentController {
         initialize(model, URL_STUDENT);
         User userLogin = (User) model.getAttribute("userLogin");
         Student student = studentService.getStudentById(userLogin.getUserUuid());
-        List<Grade> grades = gradeService.getGradesByStudent(student.getId());
+        List<Grade> grades = gradeService.getGradesByStudent(student.getId()).stream()
+                .sorted(new GradeComparator())
+                .toList();
         for (Grade grade : grades)
             grade.setCourseName(courseService.getCourseById(grade.getCourse()).getName());
         model.addAttribute("student", student);
