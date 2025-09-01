@@ -14,7 +14,8 @@ import java.util.List;
 @Primary
 @RequiredArgsConstructor
 public class GradeServiceImpl implements GradeService {
-    private static final String API_URL = DatabaseApi.GRADES_API;
+    @Autowired
+    private DatabaseApi databaseApi;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -25,7 +26,7 @@ public class GradeServiceImpl implements GradeService {
         try {
             grades = JsonParser.parseIntoList(
                     restTemplate.getForEntity(
-                            API_URL,
+                            databaseApi.getGradesApi(),
                             String.class).getBody(),
                     Grade.class);
         } catch (Exception e) {
@@ -40,7 +41,7 @@ public class GradeServiceImpl implements GradeService {
         try {
             grades = JsonParser.parseIntoList(
                     restTemplate.getForEntity(
-                            API_URL + "/student/" + studentId,
+                            databaseApi.getGradesApi() + "/student/" + studentId,
                             String.class).getBody(),
                     Grade.class);
         } catch (Exception e) {
@@ -55,7 +56,7 @@ public class GradeServiceImpl implements GradeService {
         try {
             grades = JsonParser.parseIntoList(
                     restTemplate.getForEntity(
-                            API_URL + "/course/" + courseId,
+                            databaseApi.getGradesApi() + "/course/" + courseId,
                             String.class).getBody(),
                     Grade.class);
         } catch (Exception e) {
@@ -66,17 +67,17 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public void saveGrade(Grade grade) {
-        restTemplate.postForObject(API_URL, grade, Grade.class);
+        restTemplate.postForObject(databaseApi.getGradesApi(), grade, Grade.class);
     }
 
     @Override
     public void updateGrade(Grade grade) {
-        restTemplate.put(API_URL, grade);
+        restTemplate.put(databaseApi.getGradesApi(), grade);
     }
 
     @Override
     public void deleteGrades(List<String> ids) {
         for (String id : ids)
-            restTemplate.delete(API_URL + "/" + id);
+            restTemplate.delete(databaseApi.getGradesApi() + "/" + id);
     }
 }

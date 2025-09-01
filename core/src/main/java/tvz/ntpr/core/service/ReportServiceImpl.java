@@ -17,7 +17,8 @@ import java.nio.file.Files;
 @Primary
 @RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
-    private static final String API_URL = DatabaseApi.REPORTS_API;
+    @Autowired
+    private DatabaseApi databaseApi;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -28,7 +29,7 @@ public class ReportServiceImpl implements ReportService {
         try {
             report = JsonParser.parseIntoObject(
                     restTemplate.getForEntity(
-                            API_URL + "/" + reportId,
+                            databaseApi.getReportsApi() + "/" + reportId,
                             String.class).getBody(),
                     Report.class);
         } catch (Exception e) {
@@ -39,7 +40,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public void saveReport(ReportWrapper report) {
-        restTemplate.postForEntity(API_URL, report.getReport(), void.class);
+        restTemplate.postForEntity(databaseApi.getReportsApi(), report.getReport(), void.class);
         try {
             Files.deleteIfExists(report.getDataFile().toPath());
             Files.deleteIfExists(report.getSignatureFile().toPath());

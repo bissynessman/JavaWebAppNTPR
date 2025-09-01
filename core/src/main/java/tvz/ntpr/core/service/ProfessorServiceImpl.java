@@ -15,7 +15,8 @@ import java.util.List;
 @Primary
 @RequiredArgsConstructor
 public class ProfessorServiceImpl implements ProfessorService {
-    private static final String API_URL = DatabaseApi.PROFESSORS_API;
+    @Autowired
+    private DatabaseApi databaseApi;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -26,7 +27,7 @@ public class ProfessorServiceImpl implements ProfessorService {
         try {
             professors = JsonParser.parseIntoList(
                     restTemplate.getForEntity(
-                            API_URL,
+                            databaseApi.getProfessorsApi(),
                             String.class).getBody(),
                     Professor.class);
         } catch (Exception e) {
@@ -40,7 +41,7 @@ public class ProfessorServiceImpl implements ProfessorService {
         Professor professor = null;
         try {
             professor = JsonParser.parseIntoObject(
-                    restTemplate.getForEntity(API_URL + "/" + id,
+                    restTemplate.getForEntity(databaseApi.getProfessorsApi() + "/" + id,
                             String.class).getBody(),
                     Professor.class);
         } catch (Exception e) {
@@ -55,7 +56,7 @@ public class ProfessorServiceImpl implements ProfessorService {
         try {
             professors = JsonParser.parseIntoList(
                     restTemplate.getForEntity(
-                            API_URL + "/unauthorized",
+                            databaseApi.getProfessorsApi() + "/unauthorized",
                             String.class).getBody(),
                     Professor.class);
         } catch (Exception e) {
@@ -66,24 +67,24 @@ public class ProfessorServiceImpl implements ProfessorService {
 
     @Override
     public void saveProfessor(Professor professor) {
-        restTemplate.postForEntity(API_URL, professor, void.class);
+        restTemplate.postForEntity(databaseApi.getProfessorsApi(), professor, void.class);
     }
 
     @Override
     public void updateProfessor(Professor professor) {
-        restTemplate.put(API_URL, professor);
+        restTemplate.put(databaseApi.getProfessorsApi(), professor);
     }
 
     @Override
     public void authorizeProfessor(String id) {
         Professor professor = getProfessorById(id);
         professor.setAuthorized(true);
-        restTemplate.put(API_URL + "/authorize", professor);
+        restTemplate.put(databaseApi.getProfessorsApi() + "/authorize", professor);
     }
 
     @Override
     public void deleteProfessors(List<String> ids) {
         for (String id : ids)
-            restTemplate.delete(API_URL + "/" + id);
+            restTemplate.delete(databaseApi.getProfessorsApi() + "/" + id);
     }
 }

@@ -1,5 +1,6 @@
 package tvz.ntpr.core.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,7 @@ public class StudentController {
     private final CourseService courseService;
     private final AuthenticationService authenticationService;
     private final ReportService reportService;
+    private final DatabaseApi databaseApi;
     private final Messages messages;
     private final AppProperties appProperties;
 
@@ -47,6 +49,7 @@ public class StudentController {
                              CourseService courseService,
                              AuthenticationService authenticationService,
                              ReportService reportService,
+                             DatabaseApi databaseApi,
                              Messages messages,
                              AppProperties appProperties) {
         this.studentService = studentService;
@@ -54,6 +57,7 @@ public class StudentController {
         this.courseService = courseService;
         this.authenticationService = authenticationService;
         this.reportService = reportService;
+        this.databaseApi = databaseApi;
         this.messages = messages;
         this.appProperties = appProperties;
     }
@@ -85,7 +89,7 @@ public class StudentController {
 
                 reportService.saveReport(new ReportWrapper(report, data, signature));
                 String downloadUrl =
-                        NTPR_PROTOCOL_PREFIX + DatabaseApi.REPORTS_API + "/" + report.getStudent();
+                        NTPR_PROTOCOL_PREFIX + databaseApi.getReportsApi() + "/" + report.getStudent();
                 redirectAttributes.addFlashAttribute("downloadUrl", downloadUrl);
                 redirectAttributes.addFlashAttribute("success", messages.getMessage("success.generation"));
             } else {

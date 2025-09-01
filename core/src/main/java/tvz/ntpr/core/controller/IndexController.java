@@ -17,6 +17,8 @@ import static tvz.ntpr.core.config.Urls.*;
 
 @Controller
 public class IndexController {
+    private static final String DEFAULT_LOCALE = "ENG";
+
     private final LocaleResolver localeResolver;
 
     public IndexController(LocaleResolver localeResolver) {
@@ -33,7 +35,9 @@ public class IndexController {
     public String changeLanguage(@RequestParam("lang") String lang, @RequestParam("redirect") String redirect,
                                  RedirectAttributes redirectAttributes,
                                  HttpServletRequest request, HttpServletResponse response) {
-        Locale newLocale = "HRV".equalsIgnoreCase(lang) ? new Locale("hr") : Locale.ENGLISH;
+        Locale newLocale = DEFAULT_LOCALE.equalsIgnoreCase(lang)
+            ? Locale.ENGLISH
+            : new Locale("hr");
         localeResolver.setLocale(request, response, newLocale);
         redirectAttributes.addFlashAttribute("language", lang);
         return "redirect:" + redirect;
