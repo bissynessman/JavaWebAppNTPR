@@ -25,7 +25,8 @@ public class HtmlToPdf {
     private static final TimeApi TIME_API = new TimeApi();
 
     public static File scrapeHtmlToPdf(String url, String userUuid) throws Exception {
-        Path studentReportsDirectory = Paths.get("target", "generated", "student_reports");
+        Path jarDirectory = Paths.get(System.getProperty("java.class.path")).toAbsolutePath().getParent();
+        Path studentReportsDirectory = jarDirectory.resolve("app-generated\\student_reports");
         String timestamp = String.valueOf(TIME_API.getCurrentTime().toEpochSecond(ZoneOffset.UTC));
         File output = Paths.get(
                 studentReportsDirectory.toString(),"student_report(" + timestamp + ").pdf").toFile();
