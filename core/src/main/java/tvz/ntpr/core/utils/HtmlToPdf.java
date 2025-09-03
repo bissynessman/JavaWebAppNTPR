@@ -22,16 +22,18 @@ import java.nio.file.Paths;
 import java.time.ZoneOffset;
 
 public class HtmlToPdf {
+    private static final String OUTPUT_DIRECTORY = "app-generated\\student_reports";
+
     private static final TimeApi TIME_API = new TimeApi();
 
-    public static File scrapeHtmlToPdf(String url, String userUuid) throws Exception {
+    public static File scrapeHtmlToPdf(String url) throws Exception {
         Path jarDirectory = Paths.get(System.getProperty("java.class.path")).toAbsolutePath().getParent();
-        Path studentReportsDirectory = jarDirectory.resolve("app-generated\\student_reports");
+        Path studentReportsDirectory = jarDirectory.resolve(OUTPUT_DIRECTORY);
         String timestamp = String.valueOf(TIME_API.getCurrentTime().toEpochSecond(ZoneOffset.UTC));
-        File output = Paths.get(
-                studentReportsDirectory.toString(),"student_report(" + timestamp + ").pdf").toFile();
+        File output =
+                Paths.get(studentReportsDirectory.toString(), "student_report(" + timestamp + ").pdf").toFile();
         Files.createDirectories(studentReportsDirectory);
-        org.jsoup.nodes.Document htmlDoc = Jsoup.connect(url + "/" + userUuid).get();
+        org.jsoup.nodes.Document htmlDoc = Jsoup.connect(url).get();
         String title = htmlDoc.title();
 
         PdfFont bold = PdfFontFactory.createFont(
@@ -46,9 +48,8 @@ public class HtmlToPdf {
         pdfDocument.add(new Paragraph(title).setFont(bold).setFontSize(18).setTextAlignment(TextAlignment.CENTER));
 
         Elements bodyChildren = htmlDoc.body().children();
-        for (Element element : bodyChildren) {
+        for (Element element : bodyChildren)
             convertHtmlElementToPdf(element, pdfDocument);
-        }
 
         pdfDocument.close();
 

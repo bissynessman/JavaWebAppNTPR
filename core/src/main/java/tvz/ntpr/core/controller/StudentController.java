@@ -73,7 +73,7 @@ public class StudentController {
         String studentId = user.getUserUuid();
 
         try {
-            File data = scrapeHtmlToPdf(appProperties.getApplicationUrl() + URL_STUDENT, studentId);
+            File data = scrapeHtmlToPdf(appProperties.getApplicationUrl() + URL_STUDENT + "/" + studentId);
             File signature = createDetachedSignature(data);
 
             if (verifySignature(data, signature) == 0) {

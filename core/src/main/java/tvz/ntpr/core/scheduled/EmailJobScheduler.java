@@ -47,7 +47,7 @@ public class EmailJobScheduler {
         authenticationService.cron();
         for (Student student : students) {
             try {
-                File pdfData = scrapeHtmlToPdf(appProperties.getApplicationUrl() + URL_STUDENT, student.getId());
+                File pdfData = scrapeHtmlToPdf(appProperties.getApplicationUrl() + URL_STUDENT + "/" + student.getId());
                 String studentEmail = cronService.getEmailByUserId(student.getId());
                 Mail mail = new Mail(
                         FROM,
