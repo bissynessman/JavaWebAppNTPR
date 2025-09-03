@@ -35,11 +35,9 @@ public class ReportController {
         byte[] data = report.getData();
         byte[] signature = report.getSignature();
 
-        response.setContentType("application/zip");
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"student_report_"
-                        + LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
-                        + ".zip\"");
+        response.setHeader(HttpHeaders.CONTENT_TYPE, "application/zip");
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment");
+        response.setHeader("filename", filename);
 
         try (ZipOutputStream zos = new ZipOutputStream(response.getOutputStream())) {
             ZipEntry dataEntry = new ZipEntry(filename);
