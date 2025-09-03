@@ -1,14 +1,11 @@
 package tvz.ntpr.api.config;
 
 public class Urls {
+    public static final String URL_ASSIGNMENT = "/assignments";
+
     public static final String URL_COURSE = "/courses";
-    public static final String URL_PROFESSOR_ID = "/professor/{professorId}";
 
     public static final String URL_GRADE = "/grades";
-    public static final String URL_STUDENT_FILTER = "/student";
-    public static final String URL_COURSE_FILTER = "/course";
-    public static final String URL_STUDENT_ID = URL_STUDENT_FILTER + "/{studentId}";
-    public static final String URL_COURSE_ID = URL_COURSE_FILTER + "/{courseId}";
 
     public static final String URL_PROFESSOR = "/professors";
     public static final String URL_UNAUTHORIZED = "/unauthorized";
@@ -19,8 +16,12 @@ public class Urls {
     public static final String URL_STUDENT = "/students";
 
     public static final String URL_USER = "/users";
-    public static final String URL_USERNAME = "/username";
-    public static final String URL_USERNAME_VALUE = URL_USERNAME + "/{username}";
+
+    public static final String ASSIGNMENT_FILTER = "/assignment/{assignmentId}";
+    public static final String COURSE_FILTER = "/course/{courseId}";
+    public static final String PROFESSOR_FILTER = "/professor/{professorId}";
+    public static final String STUDENT_FILTER = "/student/{studentId}";
+    public static final String USERNAME_FILTER = "/username/{username}";
 
     public static final String URL_AUTH = "/auth";
     public static final String URL_SIGNUP = "/signup";

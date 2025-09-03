@@ -2,6 +2,8 @@ package tvz.ntpr.core.rest;
 
 public class DatabaseApi {
     public static final String BASE_API = "http://localhost:8081/api/v1/";
+
+    public static final String ASSIGNMENTS_API = BASE_API + "assignments";
     public static final String COURSES_API = BASE_API + "courses";
     public static final String GRADES_API = BASE_API + "grades";
     public static final String PROFESSORS_API = BASE_API + "professors";

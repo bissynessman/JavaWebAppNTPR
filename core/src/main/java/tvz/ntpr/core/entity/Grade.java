@@ -8,6 +8,7 @@ import java.util.UUID;
 public class Grade {
     private String id;
     private Integer grade;
+
     private String student;
     private String course;
     private String courseName;

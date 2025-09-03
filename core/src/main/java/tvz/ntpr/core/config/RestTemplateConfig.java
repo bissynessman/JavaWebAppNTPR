@@ -47,4 +47,9 @@ public class RestTemplateConfig {
 
         return restTemplate;
     }
+
+    @Bean
+    public RestTemplate apiRestTemplate() {
+        return new RestTemplate();
+    }
 }

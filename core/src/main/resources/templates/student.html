@@ -11,6 +11,7 @@
     <body>
         <div th:replace="~{fragments::dateTime}"></div>
         <div th:replace="~{fragments::languageSwitch}"></div>
+        <div th:replace="~{fragments::assignmentSidebar(${assignments})}"></div>
         <div class="email-btn">
             <button id="emailButton">
                 <a th:href="@{/mail}">

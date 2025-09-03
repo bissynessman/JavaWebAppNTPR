@@ -6,18 +6,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tvz.ntpr.core.comparator.GradeComparator;
 import tvz.ntpr.core.config.AppProperties;
-import tvz.ntpr.core.entity.Report;
+import tvz.ntpr.core.entity.*;
 import tvz.ntpr.core.helper.Messages;
-import tvz.ntpr.core.entity.Grade;
-import tvz.ntpr.core.entity.Student;
-import tvz.ntpr.core.entity.User;
 import tvz.ntpr.core.helper.ReportWrapper;
 import tvz.ntpr.core.rest.DatabaseApi;
 import tvz.ntpr.core.security.AuthenticationService;
-import tvz.ntpr.core.service.CourseService;
-import tvz.ntpr.core.service.GradeService;
-import tvz.ntpr.core.service.ReportService;
-import tvz.ntpr.core.service.StudentService;
+import tvz.ntpr.core.service.*;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -40,6 +34,7 @@ public class StudentController {
     private final CourseService courseService;
     private final AuthenticationService authenticationService;
     private final ReportService reportService;
+    private final AssignmentService assignmentService;
     private final Messages messages;
     private final AppProperties appProperties;
 
@@ -48,6 +43,7 @@ public class StudentController {
                              CourseService courseService,
                              AuthenticationService authenticationService,
                              ReportService reportService,
+                             AssignmentService assignmentService,
                              Messages messages,
                              AppProperties appProperties) {
         this.studentService = studentService;
@@ -55,6 +51,7 @@ public class StudentController {
         this.courseService = courseService;
         this.authenticationService = authenticationService;
         this.reportService = reportService;
+        this.assignmentService = assignmentService;
         this.messages = messages;
         this.appProperties = appProperties;
     }
@@ -122,7 +119,10 @@ public class StudentController {
                 .toList();
         for (Grade grade : grades)
             grade.setCourseName(courseService.getCourseById(grade.getCourse()).getName());
+        List<Assignment> assignments = assignmentService.getActiveForStudent(student.getId());
         model.addAttribute("student", student);
         model.addAttribute("grades", grades);
+        if (!assignments.isEmpty())
+            model.addAttribute("assignments", assignments);
     }
 }

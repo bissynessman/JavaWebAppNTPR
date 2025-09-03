@@ -13,9 +13,10 @@ A Spring Boot multi-module project consisting of three related applications in o
 1. [Project Structure](#project-structure)
 2. [Features](#features)
 3. [Technologies](#technologies)
-4. [Prerequisites](#prerequisites)
-5. [Configuration](#configuration)
-6. [Notes](#notes)
+4. [Public APIs](#public-apis)
+5. [Prerequisites](#prerequisites)
+6. [Configuration](#configuration)
+7. [Notes](#notes)
 
 ---
 
@@ -48,19 +49,22 @@ Each module has its own `pom.xml` and can be run independently.
   - Host web pages as user interfaces.
     - Login/Signup
     - Student overview
+      - Assignment turn-in
+      - Download generated grade reports in PDF format along with their detached digital signature as a .zip archive
     - Professor overview
+      - Assignment creation and grading
+        - AI writing detection
     - Administrative actions
       - Professor authorization
       - User account manipulation
       - New course input
-    - New Grade input
+    - Student grading
   - Use Cron scheduler for periodic job execution.
   - Generate PDFs with detached digital signatures using a PKCS#12 keystore.
-    - Download generated PDFs along with their detached signature as a .zip archive
   - Send e-mails with attachments to users
 - Client-side app
   - If ran by an implemented custom protocol prompts user to input a bandwidth limit and downloads files from a URL supplied by the protocol.
-  - If ran by user prompts them to select a PDF file and it's detached signature to verify validity.
+  - If ran by the user prompts them to select a PDF file and it's detached signature to verify validity.
 
 ---
 
@@ -81,6 +85,15 @@ Each module has its own `pom.xml` and can be run independently.
 - Tkinter
 - curl
 - OpenSSL
+
+---
+
+## Public APIs
+
+- API Ninjas
+  - [https://api.api-ninjas.com/v1/worldtime](https://api.api-ninjas.com/v1/worldtime)
+- Sapling AI
+  - [https://api.sapling.ai/api/v1/aidetect](https://api.sapling.ai/api/v1/aidetect)
 
 ---
 
@@ -107,7 +120,7 @@ Typical configuration points:
     `server.port=8080`
 
 - A PKCS#12 keystore under `core/src/main/resources/other`.
-- A corresponding `cert.pem` file under `client/bin`.
+  - A corresponding `cert.pem` file under `client/bin` and `core/src/main/resources/other`.
 
 ---
 

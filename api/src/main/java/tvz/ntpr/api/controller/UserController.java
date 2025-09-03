@@ -42,7 +42,7 @@ public class UserController {
         return userService.getById(id);
     }
 
-    @GetMapping(URL_USERNAME_VALUE)
+    @GetMapping(USERNAME_FILTER)
     public User getByUsername(@PathVariable String username) {
         return userService.getByUsername(username);
     }
