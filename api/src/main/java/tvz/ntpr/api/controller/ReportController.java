@@ -35,22 +35,20 @@ public class ReportController {
         byte[] data = report.getData();
         byte[] signature = report.getSignature();
 
-        response.setContentType("application/zip");
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"student_report_"
-                        + LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
-                        + ".zip\"");
+        response.setHeader(HttpHeaders.CONTENT_TYPE, "application/zip");
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment");
+        response.setHeader("filename", filename);
 
-        try (ZipOutputStream zos = new ZipOutputStream(response.getOutputStream())) {
+        try (ZipOutputStream os = new ZipOutputStream(response.getOutputStream())) {
             ZipEntry dataEntry = new ZipEntry(filename);
-            zos.putNextEntry(dataEntry);
-            zos.write(data);
-            zos.closeEntry();
+            os.putNextEntry(dataEntry);
+            os.write(data);
+            os.closeEntry();
 
             ZipEntry signatureEntry = new ZipEntry(filename + ".p7s");
-            zos.putNextEntry(signatureEntry);
-            zos.write(signature);
-            zos.closeEntry();
+            os.putNextEntry(signatureEntry);
+            os.write(signature);
+            os.closeEntry();
         }
     }
 

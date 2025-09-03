@@ -123,7 +123,7 @@ def main():
 		exit_code = verify_digital_signature(data_path, sig_path, cer_path)
 		sys.exit(exit_code)
 
-	ntpr.show_notification("Invalid usage!\nUsage: ntpr://download?url=...".encode('utf-8'))
+	ntpr.show_notification("Invalid usage!\nUsage:\nntpr_handler.exe ntpr://download?url=...".encode('utf-8'))
 	sys.exit(1)
 
 if __name__ == "__main__":
