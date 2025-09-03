@@ -70,8 +70,8 @@ Each module has its own `pom.xml` and can be run independently.
 
 ## Technologies
 
-- Spring Boot
 - Maven
+- Spring Boot
 - MySQL
 - H2
 - MyBatis
