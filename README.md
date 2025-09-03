@@ -71,17 +71,17 @@ Each module has its own `pom.xml` and can be run independently.
 ## Technologies
 
 - Spring Boot
-- Thymeleaf
 - Maven
-- iText
-- jUnit
-- jsoup
-- JSON Web Token
-- Lombok
 - MySQL
 - H2
 - MyBatis
+- JSON Web Token
+- Thymeleaf
 - Flyway
+- iText
+- jsoup
+- jUnit
+- Lombok
 - Tkinter
 - curl
 - OpenSSL
